@@ -162,12 +162,28 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Pan_amasado", "Panadería Pan amasado", 200.0)'>+</button>
+        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Pan_amasado", "Pan amasado", 200.0, "rapido")'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
         <div class='card-name'>Pan amasado</div>
         <div class='card-desc'>pan</div>
+        <div class='card-footer'>
+          <span class='card-price'>$200</span>
+          <span class='card-badge'>Ver</span>
+        </div>
+      </div>
+    </div>
+    <div class='card'>
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥖</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Dobladitas", "Dobladitas", 200.0, "rapido")'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Panadería</div>
+        <div class='card-name'>Dobladitas</div>
+        <div class='card-desc'>5 uds x $1.000</div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
           <span class='card-badge'>Ver</span>
@@ -187,7 +203,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🎂</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Queque", "Repostería Queque", 2000.0)'>+</button>
+        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Queque", "Queque", 2000.0, "rapido")'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Repostería</div>
@@ -212,7 +228,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Carne_pino", "Empanadas Carne pino", 1500.0)'>+</button>
+        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Carne_pino", "Carne pino", 1500.0, "Empanada")'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -228,7 +244,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Pollo_pino", "Empanadas Pollo pino", 1800.0)'>+</button>
+        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Pollo_pino", "Pollo pino", 1800.0, "Empanada")'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -307,8 +323,8 @@ const carrito = {};
 const WHATSAPP_NUMBER = '56990778025';
 const URL_SERVIDOR = 'https://servidor-pedidos-i0jg.onrender.com';
 
-function agregarAlCarrito(id, nombre, precio) {
-  if (!carrito[id]) carrito[id] = {nombre, cantidad:0, precio:parseFloat(precio)||0};
+function agregarAlCarrito(id, nombre, precio, categoria) {
+  if (!carrito[id]) carrito[id] = {nombre, cantidad:0, precio:parseFloat(precio)||0, categoria: categoria||''};
   carrito[id].cantidad++;
   actualizarCarrito();
 }
@@ -341,7 +357,7 @@ function actualizarCarrito() {
         <div class='carrito-item-qty'>
           <button onclick='quitarDelCarrito("${id}")'>−</button>
           <span>${it.cantidad}</span>
-          <button onclick='agregarAlCarrito("${id}","${it.nombre}",${it.precio})'>+</button>
+          <button onclick='agregarAlCarrito("${id}","${it.nombre}",${it.precio}, ",${it.categoria}")'>+</button>
         </div>
         <button class='carrito-item-remove' onclick='removerProducto("${id}")'>\u2715</button>
       </div>`;
@@ -389,7 +405,19 @@ function enviarPedido() {
   fetch(URL_SERVIDOR + '/api/pedidos', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({cliente: nombre, telefono, detalle, total})
+    body: JSON.stringify({
+      cliente: nombre,
+      telefono,
+      detalle,
+      total,
+      items: ids.map(id => ({
+        id,
+        nombre: carrito[id].nombre,
+        cantidad: carrito[id].cantidad,
+        precio: carrito[id].precio,
+        categoria: carrito[id].categoria
+      }))
+    })
   })
   .then(r => r.json())
   .then(data => {
