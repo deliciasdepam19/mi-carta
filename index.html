@@ -334,7 +334,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   </div>
 </div>
 
-<div id='authOverlay' class='auth-overlay active'>
+<div id='authOverlay' class='auth-overlay'>
   <div class='auth-panel'>
     <div style='font-size:40px;margin-bottom:16px'>🥖</div>
     <div class='auth-title'>Bienvenido</div>
@@ -411,6 +411,8 @@ function mostrarUsuario() {
     document.getElementById('userInitials').textContent =
       usuarioActual.nombre.split(' ').map(p=>p[0]).join('').substring(0,2).toUpperCase();
   }
+  // Si venía a confirmar un pedido, retomar el flujo automáticamente
+  if (Object.keys(carrito).length) abrirFormulario();
 }
 function cerrarSesion() {
   usuarioActual = null;
@@ -429,7 +431,6 @@ window.addEventListener('load', () => {
 });
 
 function agregarAlCarrito(id, nombre, precio, categoria) {
-  if (!usuarioActual) { document.getElementById('authOverlay').classList.add('active'); return; }
   if (!carrito[id]) carrito[id] = {nombre, cantidad:0, precio:parseFloat(precio)||0, categoria:categoria||''};
   carrito[id].cantidad++;
   actualizarCarrito();
@@ -471,13 +472,17 @@ function actualizarCarrito() {
 }
 function vaciarCarrito() { Object.keys(carrito).forEach(id => delete carrito[id]); actualizarCarrito(); }
 function abrirCarrito() {
-  if (!usuarioActual) { document.getElementById('authOverlay').classList.add('active'); return; }
   document.getElementById('carritoModal').classList.add('active');
 }
 function cerrarCarrito() { document.getElementById('carritoModal').classList.remove('active'); }
 
 function abrirFormulario() {
   if (!Object.keys(carrito).length) return;
+  if (!usuarioActual) {
+    cerrarCarrito();
+    document.getElementById('authOverlay').classList.add('active');
+    return;
+  }
   cerrarCarrito();
   document.getElementById('inputNombre').value = usuarioActual ? usuarioActual.nombre : '';
   document.getElementById('inputTelefono').value = '';
