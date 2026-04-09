@@ -4,6 +4,7 @@
 <meta charset='UTF-8'/>
 <meta name='viewport' content='width=device-width,initial-scale=1.0'/>
 <title>Delicias de Pam</title>
+<script src='https://accounts.google.com/gsi/client' async defer></script>
 <link rel='preconnect' href='https://fonts.googleapis.com'/>
 <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap' rel='stylesheet'/>
 <style>
@@ -131,6 +132,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .footer{text-align:center;padding:48px 24px;border-top:1px solid var(--border);margin-top:32px}
 .footer-brand{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold);margin-bottom:10px}
 .footer-text{font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase}
+.auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:5000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+.auth-overlay.active{display:flex}
+.auth-panel{background:var(--bg-card);border-radius:20px;width:90%;max-width:400px;padding:40px 32px;text-align:center;border:1px solid var(--border)}
+.auth-title{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);margin-bottom:8px}
+.auth-sub{font-size:.875rem;color:var(--text-muted);margin-bottom:28px;line-height:1.6}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:24px 0}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.auth-divider span{font-size:12px;color:var(--text-muted)}
+.user-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg-card2);border:1px solid var(--border);border-radius:24px;padding:6px 14px 6px 6px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:border-color .2s}
+.user-chip:hover{border-color:var(--gold)}
+.user-chip img{width:24px;height:24px;border-radius:50%;object-fit:cover}
+.user-chip-placeholder{width:24px;height:24px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bg)}
+.auth-bar{position:fixed;top:0;right:0;z-index:200;padding:10px 20px}
+.btn-logout{background:none;border:1px solid var(--border);color:var(--text-muted);font-size:12px;padding:4px 12px;border-radius:12px;cursor:pointer;transition:all .2s}
+.btn-logout:hover{border-color:var(--gold);color:var(--gold)}
 @media(max-width:600px){.hero{padding:56px 16px 40px}.grid{grid-template-columns:1fr}.nav{padding:14px}}
 </style>
 </head>
@@ -162,7 +178,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Dobladitas", "Dobladitas", 200.0, "rapido")'>+</button>
+        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Dobladitas","Dobladitas",200.0,"rapido")'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -178,7 +194,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Pan_amasado", "Pan amasado", 200.0, "rapido")'>+</button>
+        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Pan_amasado","Pan amasado",200.0,"rapido")'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -203,7 +219,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🎂</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Queque", "Queque", 2000.0, "rapido")'>+</button>
+        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Queque","Queque",2000.0,"rapido")'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Repostería</div>
@@ -228,7 +244,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Carne_pino", "Carne pino", 1500.0, "Empanada")'>+</button>
+        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Carne_pino","Carne pino",1500.0,"Empanada")'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -244,7 +260,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Pollo_pino", "Pollo pino", 1800.0, "Empanada")'>+</button>
+        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Pollo_pino","Pollo pino",1800.0,"Empanada")'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -272,7 +288,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <button class='carrito-close' onclick='cerrarCarrito()'>✕</button>
     </div>
     <div class='carrito-items' id='carritoItems'>
-      <div style='text-align:center;padding:40px;color:var(--text-muted)'>Carrito vacío</div>
+      <div style='text-align:center;padding:40px;color:var(--text-muted)'>Carrito vac\u00edo</div>
     </div>
     <div class='carrito-total'>
       <span>Total:</span>
@@ -291,7 +307,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='form-sub'>Solo necesitamos tu nombre para identificar tu pedido</div>
     <div class='form-group'>
       <label>Tu nombre *</label>
-      <input id='inputNombre' type='text' placeholder='Ej: María González' autocomplete='name'/>
+      <input id='inputNombre' type='text' placeholder='Ej: Mar&#237;a Gonz&#225;lez' autocomplete='name'/>
     </div>
     <div class='form-group'>
       <label>WhatsApp (opcional)</label>
@@ -318,13 +334,103 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   </div>
 </div>
 
+<div id='authOverlay' class='auth-overlay active'>
+  <div class='auth-panel'>
+    <div style='font-size:40px;margin-bottom:16px'>🥖</div>
+    <div class='auth-title'>Bienvenido</div>
+    <div class='auth-sub'>Inicia sesi&#243;n para realizar tu pedido y ver el estado de tus &#243;rdenes anteriores</div>
+    <div id='googleBtn'></div>
+    <div class='auth-divider'><span>&#191;Por qu&#233; pedimos esto?</span></div>
+    <p style='font-size:12px;color:var(--text-muted);line-height:1.6'>Solo usamos tu nombre y correo para identificar tu pedido. No enviamos correos ni compartimos tus datos.</p>
+  </div>
+</div>
+
+<div id='authBar' class='auth-bar' style='display:none'>
+  <div style='display:flex;align-items:center;gap:8px'>
+    <div id='userChip' class='user-chip'>
+      <div class='user-chip-placeholder' id='userInitials'>?</div>
+      <span id='userName'>Usuario</span>
+    </div>
+    <button class='btn-logout' onclick='cerrarSesion()'>Salir</button>
+  </div>
+</div>
+
 <script>
 const carrito = {};
 const WHATSAPP_NUMBER = '56990778025';
-const URL_SERVIDOR = 'https://servidor-pedidos-i0jg.onrender.com';
+const URL_SERVIDOR   = 'https://servidor-pedidos-i0jg.onrender.com';
+const GOOGLE_CLIENT_ID = '944587498451-hj67ru7fp56l0rjk6b9825qdo13oduge.apps.googleusercontent.com';
+let usuarioActual = null;
+
+function initGoogleAuth() {
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: onGoogleLogin,
+    auto_select: false,
+    cancel_on_tap_outside: false
+  });
+  google.accounts.id.renderButton(
+    document.getElementById('googleBtn'),
+    {type:'standard',theme:'filled_black',size:'large',text:'signin_with',shape:'pill',logo_alignment:'left',width:280}
+  );
+  const saved = sessionStorage.getItem('carta_user');
+  if (saved) {
+    try { usuarioActual = JSON.parse(saved); mostrarUsuario(); }
+    catch(e) { sessionStorage.removeItem('carta_user'); }
+  }
+}
+function parseJwt(token) {
+  try { return JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))); }
+  catch(e) { return null; }
+}
+function onGoogleLogin(response) {
+  const payload = parseJwt(response.credential);
+  if (!payload) return;
+  usuarioActual = {id:payload.sub,nombre:payload.name,email:payload.email,foto:payload.picture,token:response.credential};
+  sessionStorage.setItem('carta_user', JSON.stringify(usuarioActual));
+  registrarUsuario(usuarioActual);
+  mostrarUsuario();
+}
+function registrarUsuario(u) {
+  if (!URL_SERVIDOR || URL_SERVIDOR === '') return;
+  fetch(URL_SERVIDOR + '/api/usuarios', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({google_id:u.id,nombre:u.nombre,email:u.email})
+  }).catch(()=>{});
+}
+function mostrarUsuario() {
+  document.getElementById('authOverlay').classList.remove('active');
+  document.getElementById('authBar').style.display = 'block';
+  document.getElementById('userName').textContent = usuarioActual.nombre.split(' ')[0];
+  const chip = document.getElementById('userChip');
+  if (usuarioActual.foto) {
+    chip.querySelector('.user-chip-placeholder').outerHTML =
+      `<img src='${usuarioActual.foto}' referrerpolicy='no-referrer' alt='foto'>`;
+  } else {
+    document.getElementById('userInitials').textContent =
+      usuarioActual.nombre.split(' ').map(p=>p[0]).join('').substring(0,2).toUpperCase();
+  }
+}
+function cerrarSesion() {
+  usuarioActual = null;
+  sessionStorage.removeItem('carta_user');
+  document.getElementById('authBar').style.display = 'none';
+  document.getElementById('authOverlay').classList.add('active');
+  vaciarCarrito();
+  google.accounts.id.disableAutoSelect();
+}
+window.addEventListener('load', () => {
+  if (typeof google !== 'undefined') initGoogleAuth();
+  else {
+    const s = document.querySelector('script[src*="gsi"]');
+    if (s) s.addEventListener('load', initGoogleAuth);
+  }
+});
 
 function agregarAlCarrito(id, nombre, precio, categoria) {
-  if (!carrito[id]) carrito[id] = {nombre, cantidad:0, precio:parseFloat(precio)||0, categoria: categoria||''};
+  if (!usuarioActual) { document.getElementById('authOverlay').classList.add('active'); return; }
+  if (!carrito[id]) carrito[id] = {nombre, cantidad:0, precio:parseFloat(precio)||0, categoria:categoria||''};
   carrito[id].cantidad++;
   actualizarCarrito();
 }
@@ -334,10 +440,7 @@ function quitarDelCarrito(id) {
   if (carrito[id].cantidad <= 0) delete carrito[id];
   actualizarCarrito();
 }
-function removerProducto(id) {
-  delete carrito[id];
-  actualizarCarrito();
-}
+function removerProducto(id) { delete carrito[id]; actualizarCarrito(); }
 function actualizarCarrito() {
   const ids = Object.keys(carrito);
   const badge = document.getElementById('carrioBadge');
@@ -357,34 +460,31 @@ function actualizarCarrito() {
         <div class='carrito-item-qty'>
           <button onclick='quitarDelCarrito("${id}")'>−</button>
           <span>${it.cantidad}</span>
-          <button onclick='agregarAlCarrito("${id}","${it.nombre}",${it.precio}, ",${it.categoria}")'>+</button>
+          <button onclick='agregarAlCarrito("${id}","${it.nombre}",${it.precio},"${it.categoria}")'>+</button>
         </div>
-        <button class='carrito-item-remove' onclick='removerProducto("${id}")'>\u2715</button>
+        <button class='carrito-item-remove' onclick='removerProducto("${id}")'>✕</button>
       </div>`;
     }).join('');
   }
   const total = ids.reduce((s,id) => s + carrito[id].cantidad * carrito[id].precio, 0);
   document.getElementById('carritoTotal').textContent = '$' + total.toLocaleString('es-CL');
 }
-function vaciarCarrito() {
-  Object.keys(carrito).forEach(id => delete carrito[id]);
-  actualizarCarrito();
+function vaciarCarrito() { Object.keys(carrito).forEach(id => delete carrito[id]); actualizarCarrito(); }
+function abrirCarrito() {
+  if (!usuarioActual) { document.getElementById('authOverlay').classList.add('active'); return; }
+  document.getElementById('carritoModal').classList.add('active');
 }
-function abrirCarrito()  { document.getElementById('carritoModal').classList.add('active'); }
 function cerrarCarrito() { document.getElementById('carritoModal').classList.remove('active'); }
 
 function abrirFormulario() {
   if (!Object.keys(carrito).length) return;
   cerrarCarrito();
-  document.getElementById('inputNombre').value = '';
+  document.getElementById('inputNombre').value = usuarioActual ? usuarioActual.nombre : '';
   document.getElementById('inputTelefono').value = '';
   document.getElementById('formModal').classList.add('active');
-  setTimeout(() => document.getElementById('inputNombre').focus(), 100);
+  setTimeout(() => document.getElementById('inputTelefono').focus(), 100);
 }
-function cerrarFormulario() {
-  document.getElementById('formModal').classList.remove('active');
-}
-
+function cerrarFormulario() { document.getElementById('formModal').classList.remove('active'); }
 function enviarPedido() {
   const nombre = document.getElementById('inputNombre').value.trim();
   if (!nombre) {
@@ -396,57 +496,36 @@ function enviarPedido() {
   const telefono = document.getElementById('inputTelefono').value.trim() || '-';
   const ids = Object.keys(carrito);
   const detalle = ids.map(id => carrito[id].cantidad + 'x ' + carrito[id].nombre).join(' + ');
-  const total = ids.reduce((s,id) => s + carrito[id].cantidad * carrito[id].precio, 0);
-
+  const total   = ids.reduce((s,id) => s + carrito[id].cantidad * carrito[id].precio, 0);
   const btn = document.querySelector('.form-btn-ok');
-  btn.disabled = true;
-  btn.textContent = 'Enviando...';
-
+  btn.disabled = true; btn.textContent = 'Enviando...';
   fetch(URL_SERVIDOR + '/api/pedidos', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
-      cliente: nombre,
-      telefono,
-      detalle,
-      total,
-      items: ids.map(id => ({
-        id,
-        nombre: carrito[id].nombre,
-        cantidad: carrito[id].cantidad,
-        precio: carrito[id].precio,
-        categoria: carrito[id].categoria
-      }))
+      cliente: nombre, telefono, detalle, total,
+      google_id: usuarioActual?.id,
+      email: usuarioActual?.email,
+      items: ids.map(id => ({id, nombre:carrito[id].nombre, cantidad:carrito[id].cantidad, precio:carrito[id].precio, categoria:carrito[id].categoria}))
     })
   })
   .then(r => r.json())
   .then(data => {
-    btn.disabled = false;
-    btn.textContent = 'Confirmar pedido \u2713';
-    if (data.exito) {
-      cerrarFormulario();
-      mostrarExito(data.numero, nombre, telefono, detalle, total);
-      vaciarCarrito();
-    } else {
-      alert('Error: ' + (data.error || 'intenta de nuevo'));
-    }
+    btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713';
+    if (data.exito) { cerrarFormulario(); mostrarExito(data.numero, nombre, telefono, detalle, total); vaciarCarrito(); }
+    else alert('Error: ' + (data.error || 'intenta de nuevo'));
   })
-  .catch(err => {
-    btn.disabled = false;
-    btn.textContent = 'Confirmar pedido \u2713';
-    alert('Error de conexi\u00f3n: ' + err.message);
-  });
+  .catch(err => { btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713'; alert('Error de conexi\u00f3n: ' + err.message); });
 }
 
 function mostrarExito(numero, nombre, telefono, detalle, total) {
-  const numStr = String(numero).padStart(3, '0');
+  const numStr = String(numero).padStart(3,'0');
   document.getElementById('exitoNum').textContent = 'Pedido #' + numStr;
   document.getElementById('exitoDetalle').innerHTML =
     '<strong>Cliente:</strong> ' + nombre + '<br>' +
     (telefono !== '-' ? '<strong>Tel:</strong> ' + telefono + '<br>' : '') +
     '<strong>Pedido:</strong> ' + detalle + '<br>' +
     (total > 0 ? '<strong>Total:</strong> $' + total.toLocaleString('es-CL') : '');
-
   const msg = '\uD83E\uDD56 *Hola! Acabo de hacer un pedido:*\n\n'
     + '\uD83D\uDCCB *Pedido #' + numStr + '*\n'
     + '\uD83D\uDC64 *Nombre:* ' + nombre + '\n'
@@ -454,14 +533,10 @@ function mostrarExito(numero, nombre, telefono, detalle, total) {
     + '\uD83D\uDED2 *Detalle:* ' + detalle + '\n'
     + (total > 0 ? '\uD83D\uDCB0 *Total:* $' + total.toLocaleString('es-CL') + '\n' : '')
     + '\n\u00bfPueden confirmarme el pedido? \uD83D\uDE4F';
-
-  const waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
-  document.getElementById('btnWhatsApp').href = waUrl;
+  document.getElementById('btnWhatsApp').href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
   document.getElementById('exitoModal').classList.add('active');
 }
-function cerrarExito() {
-  document.getElementById('exitoModal').classList.remove('active');
-}
+function cerrarExito() { document.getElementById('exitoModal').classList.remove('active'); }
 
 ['carritoModal','formModal','exitoModal'].forEach(id => {
   document.getElementById(id).addEventListener('click', e => {
