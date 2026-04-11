@@ -180,11 +180,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Pastelería</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id='prod_Torta_Rusa' data-nombre='Torta Rusa' data-precio='3000.0' data-cat='rapido'>
+    <div class='card' data-id='prod_Torta_Rusa' data-nombre='Torta Rusa' data-precio='3000.0' data-cat='Pastelería'>
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='if(!window._pasteleriaAlertado){window._pasteleriaAlertado=true;mostrarAlertaPasteleria();}agregarDesdeCard(this)'>+</button>
+        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Pastelería</div>
@@ -205,7 +205,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Panaderia</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id='prod_Dobladitas' data-nombre='Dobladitas' data-precio='200.0' data-cat='rapido'>
+    <div class='card' data-id='prod_Dobladitas' data-nombre='Dobladitas' data-precio='200.0' data-cat='Panaderia'>
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -221,7 +221,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         </div>
       </div>
     </div>
-    <div class='card' data-id='prod_Pan_amasado' data-nombre='Pan amasado' data-precio='200.0' data-cat='rapido'>
+    <div class='card' data-id='prod_Pan_amasado' data-nombre='Pan amasado' data-precio='200.0' data-cat='Panaderia'>
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -246,7 +246,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Reposteria</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id='prod_Queque' data-nombre='Queque' data-precio='2000.0' data-cat='rapido'>
+    <div class='card' data-id='prod_Queque' data-nombre='Queque' data-precio='2000.0' data-cat='Reposteria'>
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🎂</div>
         <div class='card-img-overlay'></div>
@@ -271,7 +271,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Empanadas</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id='prod_Carne_pino' data-nombre='Carne pino' data-precio='1500.0' data-cat='Empanada'>
+    <div class='card' data-id='prod_Carne_pino' data-nombre='Carne pino' data-precio='1500.0' data-cat='Empanadas'>
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -287,7 +287,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         </div>
       </div>
     </div>
-    <div class='card' data-id='prod_Pollo_pino' data-nombre='Pollo pino' data-precio='1800.0' data-cat='Empanada'>
+    <div class='card' data-id='prod_Pollo_pino' data-nombre='Pollo pino' data-precio='1800.0' data-cat='Empanadas'>
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -392,6 +392,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 <script>
 const carrito = {};
 const _nombres = {};
+window._pasteleriaAlertado = false;
 const WHATSAPP_NUMBER = '56990778025';
 const URL_SERVIDOR   = 'https://servidor-pedidos-i0jg.onrender.com';
 const GOOGLE_CLIENT_ID = '944587498451-hj67ru7fp56l0rjk6b9825qdo13oduge.apps.googleusercontent.com';
@@ -474,11 +475,16 @@ window.addEventListener('load', () => {
 });
 
 function agregarDesdeCard(btn) {
-  const card = btn.closest('.card');
+  const card = btn.closest('[data-id]');
+  if (!card) return;
   const id = card.dataset.id;
   const nombre = card.dataset.nombre;
   const precio = card.dataset.precio;
   const cat = card.dataset.cat;
+  if (cat && cat.toLowerCase().includes('pasteler') && !window._pasteleriaAlertado) {
+    window._pasteleriaAlertado = true;
+    mostrarAlertaPasteleria();
+  }
   agregarAlCarrito(id, nombre, precio, cat);
 }
 function agregarAlCarrito(id, nombre, precio, categoria) {
@@ -487,10 +493,15 @@ function agregarAlCarrito(id, nombre, precio, categoria) {
   carrito[id].cantidad++;
   actualizarCarrito();
 }
+function sumarDesdeCarrito(id) {
+  if (!carrito[id]) return;
+  carrito[id].cantidad++;
+  actualizarCarrito();
+}
 function quitarDelCarrito(id) {
   if (!carrito[id]) return;
+  if (carrito[id].cantidad <= 1) return;
   carrito[id].cantidad--;
-  if (carrito[id].cantidad <= 0) delete carrito[id];
   actualizarCarrito();
 }
 function removerProducto(id) { delete carrito[id]; actualizarCarrito(); }
@@ -525,7 +536,7 @@ function actualizarCarrito() {
 function vaciarCarrito() { Object.keys(carrito).forEach(id => delete carrito[id]); window._pasteleriaAlertado=false; actualizarCarrito(); }
 function abrirCarrito() {
   document.getElementById('carritoModal').classList.add('active');
-  const tienePasteleria = Object.values(carrito).some(it => it.categoria === 'rapido');
+  const tienePasteleria = Object.values(carrito).some(it => it.categoria && it.categoria.toLowerCase().includes('pasteler'));
   if (tienePasteleria) mostrarAlertaPasteleria();
 }
 function cerrarCarrito() { document.getElementById('carritoModal').classList.remove('active'); }
