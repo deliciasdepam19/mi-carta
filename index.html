@@ -403,7 +403,7 @@ function actualizarCarrito() {
         <div class='carrito-item-qty'>
           <button onclick='quitarDelCarrito("${id}")'>−</button>
           <span>${it.cantidad}</span>
-          <button onclick='agregarAlCarrito("${id}","${it.nombre}",${it.precio},"${it.categoria}")'>+</button>
+          <button onclick='sumarDesdeCarrito("${id}")'>+</button>
         </div>
         <button class='carrito-item-remove' onclick='removerProducto("${id}")'>✕</button>
       </div>`;
