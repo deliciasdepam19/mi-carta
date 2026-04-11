@@ -133,8 +133,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .footer-brand{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold);margin-bottom:10px}
 .footer-text{font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase}
 .auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:5000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
-.auth-logo{margin-bottom:18px; text-align:center;}
-.auth-logo img{width:120px; height:auto; display:block; margin:0 auto;}
+.auth-logo{margin-bottom:18px;text-align:center;}
+.auth-logo img{width:120px;height:auto;display:block;margin:0 auto;}
 .auth-overlay.active{display:flex}
 .auth-panel{background:var(--bg-card);border-radius:20px;width:90%;max-width:400px;padding:40px 32px;text-align:center;border:1px solid var(--border);position:relative}
 .auth-title{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);margin-bottom:8px}
@@ -142,7 +142,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .auth-divider{display:flex;align-items:center;gap:12px;margin:24px 0}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .auth-divider span{font-size:12px;color:var(--text-muted)}
-#googleBtn{display:flex; justify-content:center; margin-top:16px;}.user-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg-card2);border:1px solid var(--border);border-radius:24px;padding:6px 14px 6px 6px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:border-color .2s}
+#googleBtn{display:flex;justify-content:center;margin-top:16px;}.user-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg-card2);border:1px solid var(--border);border-radius:24px;padding:6px 14px 6px 6px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:border-color .2s}
 .user-chip:hover{border-color:var(--gold)}
 .user-chip img{width:24px;height:24px;border-radius:50%;object-fit:cover}
 .user-chip-placeholder{width:24px;height:24px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bg)}
@@ -166,6 +166,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   <div class='hero-divider'><span>&#10022;</span></div>
 </div></div>
 
+<script>
+var _catalogoNombres = {
+  "prod_Torta_Rusa": "Torta Rusa",
+  "prod_Dobladitas": "Dobladitas",
+  "prod_Pan_amasado": "Pan amasado",
+  "prod_Queque": "Queque",
+  "prod_Carne_pino": "Carne pino",
+  "prod_Pollo_pino": "Pollo pino",
+};
+</script>
 <nav class='nav'>
   <a href='#pasteleria'>Pastelería</a>
   <a href='#panaderia'>Panaderia</a>
@@ -180,7 +190,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Pastelería</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Torta_Rusa" data-nombre="Torta Rusa" data-precio="30000" data-cat="rapido">
+    <div class='card' data-id="prod_Torta_Rusa" data-precio="30000" data-cat="rapido">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -191,7 +201,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <div class='card-name'>Torta Rusa</div>
         <div class='card-desc'>Torta Rusa con manjar</div>
         <div class='card-footer'>
-          <span class='card-price'>$3.000</span>
+          <span class='card-price'>$30.000</span>
           <span class='card-badge'>Ver</span>
         </div>
       </div>
@@ -205,7 +215,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Panaderia</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Dobladitas" data-nombre="Dobladitas" data-precio="2000" data-cat="rapido">
+    <div class='card' data-id="prod_Dobladitas" data-precio="2000" data-cat="rapido">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -216,12 +226,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <div class='card-name'>Dobladitas</div>
         <div class='card-desc'>5 uds x $1.000</div>
         <div class='card-footer'>
-          <span class='card-price'>$200</span>
+          <span class='card-price'>$2.000</span>
           <span class='card-badge'>Ver</span>
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pan_amasado" data-nombre="Pan amasado" data-precio="2000" data-cat="rapido">
+    <div class='card' data-id="prod_Pan_amasado" data-precio="2000" data-cat="rapido">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -232,7 +242,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <div class='card-name'>Pan amasado</div>
         <div class='card-desc'>pan</div>
         <div class='card-footer'>
-          <span class='card-price'>$200</span>
+          <span class='card-price'>$2.000</span>
           <span class='card-badge'>Ver</span>
         </div>
       </div>
@@ -246,7 +256,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Reposteria</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Queque" data-nombre="Queque" data-precio="20000" data-cat="rapido">
+    <div class='card' data-id="prod_Queque" data-precio="20000" data-cat="rapido">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🎂</div>
         <div class='card-img-overlay'></div>
@@ -257,7 +267,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <div class='card-name'>Queque</div>
         <div class='card-desc'>Sabor zanahoria</div>
         <div class='card-footer'>
-          <span class='card-price'>$2.000</span>
+          <span class='card-price'>$20.000</span>
           <span class='card-badge'>Ver</span>
         </div>
       </div>
@@ -271,7 +281,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Empanadas</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Carne_pino" data-nombre="Carne pino" data-precio="15000" data-cat="Empanada">
+    <div class='card' data-id="prod_Carne_pino" data-precio="15000" data-cat="Empanada">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -282,12 +292,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <div class='card-name'>Carne pino</div>
         <div class='card-desc'>carne</div>
         <div class='card-footer'>
-          <span class='card-price'>$1.500</span>
+          <span class='card-price'>$15.000</span>
           <span class='card-badge'>Ver</span>
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pollo_pino" data-nombre="Pollo pino" data-precio="18000" data-cat="Empanada">
+    <div class='card' data-id="prod_Pollo_pino" data-precio="18000" data-cat="Empanada">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -298,7 +308,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <div class='card-name'>Pollo pino</div>
         <div class='card-desc'>pollo</div>
         <div class='card-footer'>
-          <span class='card-price'>$1.800</span>
+          <span class='card-price'>$18.000</span>
           <span class='card-badge'>Ver</span>
         </div>
       </div>
@@ -343,7 +353,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <input id='inputNombre' type='text' placeholder='Ej: Mar&#237;a Gonz&#225;lez' autocomplete='name'/>
     </div>
     <div class='form-group'>
-      <label>Número Telefónico</label>
+      <label>N&#250;mero Telef&#243;nico</label>
       <input id='inputTelefono' type='tel' placeholder='Ej: 9 1234 5678' autocomplete='tel'/>
     </div>
     <div class='form-btns'>
@@ -390,12 +400,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 </div>
 
 <script>
-const carrito = {};
+var carrito = {};
 window._pasteleriaAlertado = false;
-const WHATSAPP_NUMBER = '56990778025';
-const URL_SERVIDOR   = 'https://servidor-pedidos-i0jg.onrender.com';
-const GOOGLE_CLIENT_ID = '944587498451-hj67ru7fp56l0rjk6b9825qdo13oduge.apps.googleusercontent.com';
-let usuarioActual = null;
+var WHATSAPP_NUMBER  = '56990778025';
+var URL_SERVIDOR     = 'https://servidor-pedidos-i0jg.onrender.com';
+var GOOGLE_CLIENT_ID = '944587498451-hj67ru7fp56l0rjk6b9825qdo13oduge.apps.googleusercontent.com';
+var usuarioActual    = null;
 
 function initGoogleAuth() {
   google.accounts.id.initialize({
@@ -408,7 +418,7 @@ function initGoogleAuth() {
     document.getElementById('googleBtn'),
     {type:'standard',theme:'filled_black',size:'large',text:'signin_with',shape:'pill',logo_alignment:'left',width:280}
   );
-  const saved = sessionStorage.getItem('carta_user');
+  var saved = sessionStorage.getItem('carta_user');
   if (saved) {
     try { usuarioActual = JSON.parse(saved); mostrarUsuario(); }
     catch(e) { sessionStorage.removeItem('carta_user'); }
@@ -419,7 +429,7 @@ function parseJwt(token) {
   catch(e) { return null; }
 }
 function onGoogleLogin(response) {
-  const payload = parseJwt(response.credential);
+  var payload = parseJwt(response.credential);
   if (!payload) return;
   usuarioActual = {id:payload.sub,nombre:payload.name,email:payload.email,foto:payload.picture,token:response.credential};
   sessionStorage.setItem('carta_user', JSON.stringify(usuarioActual));
@@ -432,21 +442,20 @@ function registrarUsuario(u) {
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify({google_id:u.id,nombre:u.nombre,email:u.email})
-  }).catch(()=>{});
+  }).catch(function(){});
 }
 function mostrarUsuario() {
   document.getElementById('authOverlay').classList.remove('active');
   document.getElementById('authBar').style.display = 'block';
   document.getElementById('userName').textContent = usuarioActual.nombre.split(' ')[0];
-  const chip = document.getElementById('userChip');
+  var chip = document.getElementById('userChip');
   if (usuarioActual.foto) {
     chip.querySelector('.user-chip-placeholder').outerHTML =
-      `<img src='${usuarioActual.foto}' referrerpolicy='no-referrer' alt='foto'>`;
+      '<img src="' + usuarioActual.foto + '" referrerpolicy="no-referrer" alt="foto">';
   } else {
     document.getElementById('userInitials').textContent =
-      usuarioActual.nombre.split(' ').map(p=>p[0]).join('').substring(0,2).toUpperCase();
+      usuarioActual.nombre.split(' ').map(function(p){return p[0];}).join('').substring(0,2).toUpperCase();
   }
-  // Si venía a confirmar un pedido, retomar el flujo automáticamente
   if (Object.keys(carrito).length) abrirFormulario();
 }
 function cerrarSesion() {
@@ -457,41 +466,44 @@ function cerrarSesion() {
   vaciarCarrito();
   google.accounts.id.disableAutoSelect();
 }
-function mostrarAlertaPasteleria() {
-  const t = document.getElementById('toastPasteleria');
-  t.classList.add('visible');
-  setTimeout(() => t.classList.remove('visible'), 4000);
-}
 function cerrarAuth() {
   document.getElementById('authOverlay').classList.remove('active');
 }
-window.addEventListener('load', () => {
+function mostrarAlertaPasteleria() {
+  var t = document.getElementById('toastPasteleria');
+  t.classList.add('visible');
+  setTimeout(function(){ t.classList.remove('visible'); }, 4000);
+}
+window.addEventListener('load', function() {
   if (typeof google !== 'undefined') initGoogleAuth();
   else {
-    const s = document.querySelector('script[src*="gsi"]');
+    var s = document.querySelector('script[src*="gsi"]');
     if (s) s.addEventListener('load', initGoogleAuth);
   }
 });
 
+function parsePrecio(p) {
+  if (!p) return 0;
+  return parseInt(String(p).replace(/[^0-9]/g,''), 10) || 0;
+}
 function agregarDesdeCard(btn) {
-  const card = btn.closest('[data-id]');
+  var card = btn.closest('[data-id]');
   if (!card) return;
-  const id = card.dataset.id;
-  const nombre = card.dataset.nombre;
-  const precio = card.dataset.precio;
-  const cat = card.dataset.cat;
-  if (cat && cat.toLowerCase().includes('pasteler') && !window._pasteleriaAlertado) {
+  var id     = card.dataset.id;
+  var nombre = (_catalogoNombres && _catalogoNombres[id]) ? _catalogoNombres[id] : id;
+  var precio = card.dataset.precio;
+  var cat    = card.dataset.cat;
+  if (cat && cat.toLowerCase().indexOf('pasteler') !== -1 && !window._pasteleriaAlertado) {
     window._pasteleriaAlertado = true;
     mostrarAlertaPasteleria();
   }
   agregarAlCarrito(id, nombre, precio, cat);
 }
-function parsePrecio(p) {
-  if (!p) return 0;
-  return parseInt(String(p).replace(/[^0-9]/g,''), 10) || 0;
-}
 function agregarAlCarrito(id, nombre, precio, categoria) {
   if (!carrito[id]) carrito[id] = {nombre:nombre, cantidad:0, precio:parsePrecio(precio), categoria:categoria||''};
+  carrito[id].cantidad++;
+  actualizarCarrito();
+}
 function sumarDesdeCarrito(id) {
   if (!carrito[id]) return;
   carrito[id].cantidad++;
@@ -505,16 +517,16 @@ function quitarDelCarrito(id) {
 }
 function removerProducto(id) { delete carrito[id]; actualizarCarrito(); }
 function actualizarCarrito() {
-  const ids = Object.keys(carrito);
-  const badge = document.getElementById('carrioBadge');
+  var ids   = Object.keys(carrito);
+  var badge = document.getElementById('carrioBadge');
   badge.style.display = ids.length ? 'flex' : 'none';
-  badge.textContent = ids.length;
-  const cont = document.getElementById('carritoItems');
+  badge.textContent   = ids.length;
+  var cont = document.getElementById('carritoItems');
   if (!ids.length) {
     cont.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted)">Carrito vac\u00edo</div>';
   } else {
-    cont.innerHTML = ids.map(pid => {
-      const it = carrito[pid];
+    cont.innerHTML = ids.map(function(pid) {
+      var it = carrito[pid];
       return '<div class="carrito-item">'
         + '<div class="carrito-item-info">'
         + '<div class="carrito-item-nombre">' + it.nombre + '</div>'
@@ -529,21 +541,23 @@ function actualizarCarrito() {
         + '</div>';
     }).join('');
   }
-  const total = ids.reduce((s,pid) => s + carrito[pid].cantidad * carrito[pid].precio, 0);
+  var total = ids.reduce(function(s,pid){ return s + carrito[pid].cantidad * carrito[pid].precio; }, 0);
   document.getElementById('carritoTotal').textContent = '$' + total.toLocaleString('es-CL');
 }
-function vaciarCarrito() { Object.keys(carrito).forEach(id => delete carrito[id]); window._pasteleriaAlertado=false; actualizarCarrito(); }
+function vaciarCarrito() {
+  Object.keys(carrito).forEach(function(id){ delete carrito[id]; });
+  window._pasteleriaAlertado = false;
+  actualizarCarrito();
+}
 function abrirCarrito() {
   document.getElementById('carritoModal').classList.add('active');
-  const tienePasteleria = Object.values(carrito).some(it => it.categoria && it.categoria.toLowerCase().includes('pasteler'));
+  var tienePasteleria = Object.values(carrito).some(function(it){
+    return it.categoria && it.categoria.toLowerCase().indexOf('pasteler') !== -1;
+  });
   if (tienePasteleria) mostrarAlertaPasteleria();
 }
 function cerrarCarrito() { document.getElementById('carritoModal').classList.remove('active'); }
-document.addEventListener('click', function(e) {
-  const btn = e.target.closest('[data-accion]');
-  if (!btn) return;
-  e.stopPropagation();
-});
+
 function abrirFormulario() {
   if (!Object.keys(carrito).length) return;
   if (!usuarioActual) {
@@ -552,54 +566,56 @@ function abrirFormulario() {
     return;
   }
   cerrarCarrito();
-  document.getElementById('inputNombre').value = usuarioActual ? usuarioActual.nombre : '';
+  document.getElementById('inputNombre').value   = usuarioActual.nombre;
   document.getElementById('inputTelefono').value = '';
   document.getElementById('formModal').classList.add('active');
-  setTimeout(() => document.getElementById('inputTelefono').focus(), 100);
+  setTimeout(function(){ document.getElementById('inputTelefono').focus(); }, 100);
 }
 function cerrarFormulario() { document.getElementById('formModal').classList.remove('active'); }
 function enviarPedido() {
-  const nombre = document.getElementById('inputNombre').value.trim();
+  var nombre = document.getElementById('inputNombre').value.trim();
   if (!nombre) {
     document.getElementById('inputNombre').focus();
     document.getElementById('inputNombre').style.borderColor = '#ff4444';
     return;
   }
   document.getElementById('inputNombre').style.borderColor = '';
-  const telefono = document.getElementById('inputTelefono').value.trim() || '-';
-  const ids = Object.keys(carrito);
-  const detalle = ids.map(id => carrito[id].cantidad + 'x ' + carrito[id].nombre).join(' + ');
-  const total   = ids.reduce((s,id) => s + carrito[id].cantidad * carrito[id].precio, 0);
-  const btn = document.querySelector('.form-btn-ok');
+  var telefono = document.getElementById('inputTelefono').value.trim() || '-';
+  var ids      = Object.keys(carrito);
+  var detalle  = ids.map(function(id){ return carrito[id].cantidad + 'x ' + carrito[id].nombre; }).join(' + ');
+  var total    = ids.reduce(function(s,id){ return s + carrito[id].cantidad * carrito[id].precio; }, 0);
+  var btn = document.querySelector('.form-btn-ok');
   btn.disabled = true; btn.textContent = 'Enviando...';
   fetch(URL_SERVIDOR + '/api/pedidos', {
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
-      cliente: nombre, telefono, detalle, total,
-      google_id: usuarioActual?.id,
-      email: usuarioActual?.email,
-      items: ids.map(id => ({id, nombre:carrito[id].nombre, cantidad:carrito[id].cantidad, precio:carrito[id].precio, categoria:carrito[id].categoria}))
+      cliente: nombre, telefono: telefono, detalle: detalle, total: total,
+      google_id: usuarioActual ? usuarioActual.id   : null,
+      email:     usuarioActual ? usuarioActual.email : null,
+      items: ids.map(function(id){
+        return {id:id, nombre:carrito[id].nombre, cantidad:carrito[id].cantidad, precio:carrito[id].precio, categoria:carrito[id].categoria};
+      })
     })
   })
-  .then(r => r.json())
-  .then(data => {
+  .then(function(r){ return r.json(); })
+  .then(function(data){
     btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713';
     if (data.exito) { cerrarFormulario(); mostrarExito(data.numero, nombre, telefono, detalle, total); vaciarCarrito(); }
     else alert('Error: ' + (data.error || 'intenta de nuevo'));
   })
-  .catch(err => { btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713'; alert('Error de conexi\u00f3n: ' + err.message); });
+  .catch(function(err){ btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713'; alert('Error de conexi\u00f3n: ' + err.message); });
 }
 
 function mostrarExito(numero, nombre, telefono, detalle, total) {
-  const numStr = String(numero).padStart(3,'0');
+  var numStr = String(numero).padStart(3,'0');
   document.getElementById('exitoNum').textContent = 'Pedido #' + numStr;
   document.getElementById('exitoDetalle').innerHTML =
     '<strong>Cliente:</strong> ' + nombre + '<br>' +
     (telefono !== '-' ? '<strong>Tel:</strong> ' + telefono + '<br>' : '') +
     '<strong>Pedido:</strong> ' + detalle + '<br>' +
     (total > 0 ? '<strong>Total:</strong> $' + total.toLocaleString('es-CL') : '');
-  const msg = '*Hola! Acabo de hacer un pedido:*\n\n'
+  var msg = '*Hola! Acabo de hacer un pedido:*\n\n'
     + '*Pedido #' + numStr + '*\n'
     + '*Nombre:* ' + nombre + '\n'
     + (telefono !== '-' ? '*Tel:* ' + telefono + '\n' : '')
@@ -611,8 +627,8 @@ function mostrarExito(numero, nombre, telefono, detalle, total) {
 }
 function cerrarExito() { document.getElementById('exitoModal').classList.remove('active'); }
 
-['carritoModal','formModal','exitoModal'].forEach(id => {
-  document.getElementById(id).addEventListener('click', e => {
+['carritoModal','formModal','exitoModal'].forEach(function(id) {
+  document.getElementById(id).addEventListener('click', function(e) {
     if (e.target.id === id) document.getElementById(id).classList.remove('active');
   });
 });
