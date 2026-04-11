@@ -167,131 +167,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 </div></div>
 
 <nav class='nav'>
-  <a href='#panaderia'>Panadería</a>
-  <a href='#reposteria'>Repostería</a>
-  <a href='#empanadas'>Empanadas</a>
   <a href='#pasteleria'>Pastelería</a>
 </nav>
 
 <div class='wrap'>
-<section class='section' id='panaderia'>
-  <div class='section-head'>
-    <div class='section-label'>Categor&#237;a</div>
-    <div class='section-title'>Panadería</div>
-  </div>
-  <div class='grid'>
-    <div class='card'>
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥖</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Dobladitas","Dobladitas",200.0,"rapido")'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Panadería</div>
-        <div class='card-name'>Dobladitas</div>
-        <div class='card-desc'>5 uds x $1.000</div>
-        <div class='card-footer'>
-          <span class='card-price'>$200</span>
-          <span class='card-badge'>Ver</span>
-        </div>
-      </div>
-    </div>
-    <div class='card'>
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥖</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Pan_amasado","Pan amasado",200.0,"rapido")'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Panadería</div>
-        <div class='card-name'>Pan amasado</div>
-        <div class='card-desc'>pan</div>
-        <div class='card-footer'>
-          <span class='card-price'>$200</span>
-          <span class='card-badge'>Ver</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class='section' id='reposteria'>
-  <div class='section-head'>
-    <div class='section-label'>Categor&#237;a</div>
-    <div class='section-title'>Repostería</div>
-  </div>
-  <div class='grid'>
-    <div class='card'>
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🎂</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Queque","Queque",2000.0,"rapido")'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Repostería</div>
-        <div class='card-name'>Queque</div>
-        <div class='card-desc'>Sabor zanahoria</div>
-        <div class='card-footer'>
-          <span class='card-price'>$2.000</span>
-          <span class='card-badge'>Ver</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class='section' id='empanadas'>
-  <div class='section-head'>
-    <div class='section-label'>Categor&#237;a</div>
-    <div class='section-title'>Empanadas</div>
-  </div>
-  <div class='grid'>
-    <div class='card'>
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥟</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Carne_pino","Carne pino",1500.0,"Empanada")'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Empanadas</div>
-        <div class='card-name'>Carne pino</div>
-        <div class='card-desc'>carne</div>
-        <div class='card-footer'>
-          <span class='card-price'>$1.500</span>
-          <span class='card-badge'>Ver</span>
-        </div>
-      </div>
-    </div>
-    <div class='card'>
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥟</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarAlCarrito("prod_Pollo_pino","Pollo pino",1800.0,"Empanada")'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Empanadas</div>
-        <div class='card-name'>Pollo pino</div>
-        <div class='card-desc'>pollo</div>
-        <div class='card-footer'>
-          <span class='card-price'>$1.800</span>
-          <span class='card-badge'>Ver</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class='section' id='pasteleria'>
   <div class='section-head'>
     <div class='section-label'>Categor&#237;a</div>
     <div class='section-title'>Pastelería</div>
   </div>
   <div class='grid'>
-    <div class='card'>
+    <div class='card' data-id='prod_Torta_Rusa' data-nombre='Torta Rusa' data-precio='3000.0' data-cat='rapido'>
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='if(!window._pasteleriaAlertado){window._pasteleriaAlertado=true;mostrarAlertaPasteleria();}agregarAlCarrito("prod_Torta_Rusa","Torta Rusa",3000.0,"rapido")'>+</button>
+        <button class='card-add-btn' onclick='if(!window._pasteleriaAlertado){window._pasteleriaAlertado=true;mostrarAlertaPasteleria();}agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Pastelería</div>
@@ -391,6 +281,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 <script>
 const carrito = {};
+const _nombres = {};
 const WHATSAPP_NUMBER = '56990778025';
 const URL_SERVIDOR   = 'https://servidor-pedidos-i0jg.onrender.com';
 const GOOGLE_CLIENT_ID = '944587498451-hj67ru7fp56l0rjk6b9825qdo13oduge.apps.googleusercontent.com';
@@ -472,8 +363,17 @@ window.addEventListener('load', () => {
   }
 });
 
+function agregarDesdeCard(btn) {
+  const card = btn.closest('.card');
+  const id = card.dataset.id;
+  const nombre = card.dataset.nombre;
+  const precio = card.dataset.precio;
+  const cat = card.dataset.cat;
+  agregarAlCarrito(id, nombre, precio, cat);
+}
 function agregarAlCarrito(id, nombre, precio, categoria) {
-  if (!carrito[id]) carrito[id] = {nombre, cantidad:0, precio:parseFloat(precio)||0, categoria:categoria||''};
+  if (_nombres[id]) nombre = _nombres[id];
+  if (!carrito[id]) { _nombres[id]=nombre; carrito[id] = {nombre, cantidad:0, precio:parseFloat(precio)||0, categoria:categoria||''}; }
   carrito[id].cantidad++;
   actualizarCarrito();
 }
