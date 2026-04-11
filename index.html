@@ -505,6 +505,15 @@ function quitarDelCarrito(id) {
   actualizarCarrito();
 }
 function removerProducto(id) { delete carrito[id]; actualizarCarrito(); }
+document.getElementById('carritoItems').addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-accion]');
+  if (!btn) return;
+  const pid = btn.dataset.pid;
+  const accion = btn.dataset.accion;
+  if (accion === 'sumar') sumarDesdeCarrito(pid);
+  else if (accion === 'restar') quitarDelCarrito(pid);
+  else if (accion === 'remover') removerProducto(pid);
+});
 function actualizarCarrito() {
   const ids = Object.keys(carrito);
   const badge = document.getElementById('carrioBadge');
@@ -516,17 +525,17 @@ function actualizarCarrito() {
   } else {
     cont.innerHTML = ids.map(id => {
       const it = carrito[id];
-      return `<div class='carrito-item'>
+      return `<div class='carrito-item' data-pid='${id}'>
         <div class='carrito-item-info'>
           <div class='carrito-item-nombre'>${it.nombre}</div>
           <div class='carrito-item-precio'>$${it.precio.toLocaleString('es-CL')}</div>
         </div>
         <div class='carrito-item-qty'>
-          <button onclick='quitarDelCarrito("${id}")'>−</button>
+          <button data-accion='restar' data-pid='${id}'>−</button>
           <span>${it.cantidad}</span>
-          <button onclick='sumarDesdeCarrito("${id}")'>+</button>
+          <button data-accion='sumar' data-pid='${id}'>+</button>
         </div>
-        <button class='carrito-item-remove' onclick='removerProducto("${id}")'>✕</button>
+        <button data-accion='remover' data-pid='${id}'>✕</button>
       </div>`;
     }).join('');
   }
