@@ -180,7 +180,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Pastelería</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id='prod_Torta_Rusa' data-nombre='Torta Rusa' data-precio='3000.0' data-cat='Pastelería'>
+    <div class='card' data-id="prod_Torta_Rusa" data-nombre="Torta Rusa" data-precio="3000.0" data-cat="Pastelería">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -205,7 +205,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Panaderia</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id='prod_Dobladitas' data-nombre='Dobladitas' data-precio='200.0' data-cat='Panaderia'>
+    <div class='card' data-id="prod_Dobladitas" data-nombre="Dobladitas" data-precio="200.0" data-cat="Panaderia">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -221,7 +221,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         </div>
       </div>
     </div>
-    <div class='card' data-id='prod_Pan_amasado' data-nombre='Pan amasado' data-precio='200.0' data-cat='Panaderia'>
+    <div class='card' data-id="prod_Pan_amasado" data-nombre="Pan amasado" data-precio="200.0" data-cat="Panaderia">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -246,7 +246,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Reposteria</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id='prod_Queque' data-nombre='Queque' data-precio='2000.0' data-cat='Reposteria'>
+    <div class='card' data-id="prod_Queque" data-nombre="Queque" data-precio="2000.0" data-cat="Reposteria">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🎂</div>
         <div class='card-img-overlay'></div>
@@ -271,7 +271,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class='section-title'>Empanadas</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id='prod_Carne_pino' data-nombre='Carne pino' data-precio='1500.0' data-cat='Empanadas'>
+    <div class='card' data-id="prod_Carne_pino" data-nombre="Carne pino" data-precio="1500.0" data-cat="Empanadas">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -287,7 +287,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         </div>
       </div>
     </div>
-    <div class='card' data-id='prod_Pollo_pino' data-nombre='Pollo pino' data-precio='1800.0' data-cat='Empanadas'>
+    <div class='card' data-id="prod_Pollo_pino" data-nombre="Pollo pino" data-precio="1800.0" data-cat="Empanadas">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -476,7 +476,8 @@ window.addEventListener('load', () => {
 
 function agregarDesdeCard(btn) {
   const card = btn.closest('[data-id]');
-  if (!card) return;
+  if (!card) { console.warn('agregarDesdeCard: no se encontro card'); return; }
+  console.log('card dataset:', card.dataset);
   const id = card.dataset.id;
   const nombre = card.dataset.nombre;
   const precio = card.dataset.precio;
@@ -505,9 +506,10 @@ function quitarDelCarrito(id) {
   actualizarCarrito();
 }
 function removerProducto(id) { delete carrito[id]; actualizarCarrito(); }
-document.getElementById('carritoItems').addEventListener('click', function(e) {
+document.addEventListener('click', function(e) {
   const btn = e.target.closest('[data-accion]');
   if (!btn) return;
+  e.stopPropagation();
   const pid = btn.dataset.pid;
   const accion = btn.dataset.accion;
   if (accion === 'sumar') sumarDesdeCarrito(pid);
@@ -535,7 +537,7 @@ function actualizarCarrito() {
           <span>${it.cantidad}</span>
           <button data-accion='sumar' data-pid='${id}'>+</button>
         </div>
-        <button data-accion='remover' data-pid='${id}'>✕</button>
+        <button class='carrito-item-remove' data-accion='remover' data-pid='${id}'>✕</button>
       </div>`;
     }).join('');
   }
