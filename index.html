@@ -170,6 +170,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   <a href='#panaderia'>Panadería</a>
   <a href='#reposteria'>Repostería</a>
   <a href='#empanadas'>Empanadas</a>
+  <a href='#pasteleria'>Pastelería</a>
 </nav>
 
 <div class='wrap'>
@@ -273,6 +274,31 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <div class='card-desc'>pollo</div>
         <div class='card-footer'>
           <span class='card-price'>$1.800</span>
+          <span class='card-badge'>Ver</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class='section' id='pasteleria'>
+  <div class='section-head'>
+    <div class='section-label'>Categor&#237;a</div>
+    <div class='section-title'>Pastelería</div>
+  </div>
+  <div class='grid'>
+    <div class='card'>
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥖</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='if(!window._pasteleriaAlertado){window._pasteleriaAlertado=true;mostrarAlertaPasteleria();}agregarAlCarrito("prod_Torta_Rusa","Torta Rusa",3000.0,"rapido")'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Pastelería</div>
+        <div class='card-name'>Torta Rusa</div>
+        <div class='card-desc'>Torta Rusa con manjar</div>
+        <div class='card-footer'>
+          <span class='card-price'>$3.000</span>
           <span class='card-badge'>Ver</span>
         </div>
       </div>
