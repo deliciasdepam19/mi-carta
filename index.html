@@ -418,20 +418,24 @@ function cargarStock() {
     .catch(function(){});
 }
 function aplicarStockEnCards() {
+  console.log('Stock cargado:', JSON.stringify(_stockData));
   document.querySelectorAll('.card').forEach(function(card) {
     var tieneStock = card.getAttribute('data-tiene-stock');
     if (tieneStock !== 'true') return;
     var nombreBd = card.getAttribute('data-nombre-bd');
     var badge    = card.querySelector('.card-stock-badge');
+    console.log('Card nombreBd:', nombreBd, '| badge:', badge ? badge.textContent : 'NO BADGE');
     if (!badge || !nombreBd) return;
     var stock = null;
     Object.keys(_stockData).forEach(function(k) {
       if (stock !== null) return;
+      console.log('Comparando key:', k, 'vs nombreBd:', nombreBd);
       if (k === nombreBd || k.indexOf(nombreBd) !== -1 || nombreBd.indexOf(k) !== -1) {
         stock = _stockData[k];
+        console.log('MATCH! stock=', stock);
       }
     });
-    if (stock === null) return;
+    if (stock === null) { console.log('Sin match para:', nombreBd); return; }
     if (stock > 0) {
       badge.textContent = 'Disponible';
       badge.className   = 'card-badge card-stock-badge card-badge-ok';
