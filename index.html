@@ -153,6 +153,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .toast-pasteleria{position:fixed;bottom:110px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);border:1px solid var(--gold);border-radius:12px;padding:14px 22px;color:var(--text);font-size:.875rem;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.6);max-width:340px;text-align:center;opacity:0;transition:all .35s;pointer-events:none}
 .toast-pasteleria.visible{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast-pasteleria span{color:var(--gold);font-weight:600}
+.card-badge-ok{background:#2ecc71;color:#09100f}
+.card-badge-agotado{background:rgba(255,80,80,.15);color:#ff5555;border:1px solid rgba(255,80,80,.3);padding:3px 10px}
 </style>
 </head>
 <body>
@@ -190,7 +192,7 @@ var _catalogoNombres = {
     <div class='section-title'>Pastelería</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Torta_Rusa" data-precio="3000" data-cat="rapido">
+    <div class='card' data-id="prod_Torta_Rusa" data-precio="3000" data-cat="rapido" data-tiene-stock="false" data-nombre-bd="torta_rusa">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -202,7 +204,7 @@ var _catalogoNombres = {
         <div class='card-desc'>Torta Rusa con manjar</div>
         <div class='card-footer'>
           <span class='card-price'>$3.000</span>
-          <span class='card-badge'>Ver</span>
+          <span class='card-badge' style='background:var(--gold-dim);color:var(--gold)'>Pedido</span>
         </div>
       </div>
     </div>
@@ -215,7 +217,7 @@ var _catalogoNombres = {
     <div class='section-title'>Panaderia</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Dobladitas" data-precio="200" data-cat="rapido">
+    <div class='card' data-id="prod_Dobladitas" data-precio="200" data-cat="rapido" data-tiene-stock="false" data-nombre-bd="dobladitas">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -227,11 +229,11 @@ var _catalogoNombres = {
         <div class='card-desc'>5 uds x $1.000</div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
-          <span class='card-badge'>Ver</span>
+          <span class='card-badge' style='background:var(--gold-dim);color:var(--gold)'>Pedido</span>
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pan_amasado" data-precio="200" data-cat="rapido">
+    <div class='card' data-id="prod_Pan_amasado" data-precio="200" data-cat="rapido" data-tiene-stock="false" data-nombre-bd="pan_amasado">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -243,7 +245,7 @@ var _catalogoNombres = {
         <div class='card-desc'>pan</div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
-          <span class='card-badge'>Ver</span>
+          <span class='card-badge' style='background:var(--gold-dim);color:var(--gold)'>Pedido</span>
         </div>
       </div>
     </div>
@@ -256,7 +258,7 @@ var _catalogoNombres = {
     <div class='section-title'>Reposteria</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Queque" data-precio="2000" data-cat="rapido">
+    <div class='card' data-id="prod_Queque" data-precio="2000" data-cat="rapido" data-tiene-stock="false" data-nombre-bd="queque">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🎂</div>
         <div class='card-img-overlay'></div>
@@ -268,7 +270,7 @@ var _catalogoNombres = {
         <div class='card-desc'>Sabor zanahoria</div>
         <div class='card-footer'>
           <span class='card-price'>$2.000</span>
-          <span class='card-badge'>Ver</span>
+          <span class='card-badge' style='background:var(--gold-dim);color:var(--gold)'>Pedido</span>
         </div>
       </div>
     </div>
@@ -281,7 +283,7 @@ var _catalogoNombres = {
     <div class='section-title'>Empanadas</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Carne_pino" data-precio="1500" data-cat="Empanada">
+    <div class='card' data-id="prod_Carne_pino" data-precio="1500" data-cat="Empanada" data-tiene-stock="true" data-nombre-bd="carne_pino">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -293,11 +295,11 @@ var _catalogoNombres = {
         <div class='card-desc'>carne</div>
         <div class='card-footer'>
           <span class='card-price'>$1.500</span>
-          <span class='card-badge'>Ver</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Carne_pino'>Ver</span>
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pollo_pino" data-precio="1800" data-cat="Empanada">
+    <div class='card' data-id="prod_Pollo_pino" data-precio="1800" data-cat="Empanada" data-tiene-stock="true" data-nombre-bd="pollo_pino">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -309,7 +311,7 @@ var _catalogoNombres = {
         <div class='card-desc'>pollo</div>
         <div class='card-footer'>
           <span class='card-price'>$1.800</span>
-          <span class='card-badge'>Ver</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Pollo_pino'>Ver</span>
         </div>
       </div>
     </div>
@@ -401,11 +403,48 @@ var _catalogoNombres = {
 
 <script>
 var carrito = {};
+var _stockData = {};
 window._pasteleriaAlertado = false;
 var WHATSAPP_NUMBER  = '56990778025';
 var URL_SERVIDOR     = 'https://servidor-pedidos-i0jg.onrender.com';
 var GOOGLE_CLIENT_ID = '944587498451-hj67ru7fp56l0rjk6b9825qdo13oduge.apps.googleusercontent.com';
 var usuarioActual    = null;
+
+function cargarStock() {
+  if (!URL_SERVIDOR || URL_SERVIDOR === '') return;
+  fetch(URL_SERVIDOR + '/api/stock')
+    .then(function(r){ return r.json(); })
+    .then(function(data){ _stockData = data; aplicarStockEnCards(); })
+    .catch(function(){});
+}
+function aplicarStockEnCards() {
+  document.querySelectorAll('[data-tiene-stock="true"]').forEach(function(card) {
+    var nombreBd = card.dataset.nombreBd;
+    var badge    = card.querySelector('.card-stock-badge');
+    if (!badge || !nombreBd) return;
+    var stock = null;
+    Object.keys(_stockData).forEach(function(k) {
+      if (stock !== null) return;
+      if (k === nombreBd || k.indexOf(nombreBd) !== -1 || nombreBd.indexOf(k) !== -1) {
+        stock = _stockData[k];
+      }
+    });
+    if (stock === null) return;
+    if (stock > 0) {
+      badge.textContent = 'Disponible';
+      badge.className   = 'card-badge card-stock-badge card-badge-ok';
+    } else {
+      badge.textContent = 'Sin stock';
+      badge.className   = 'card-badge card-stock-badge card-badge-agotado';
+      var btnAdd = card.querySelector('.card-add-btn');
+      if (btnAdd) {
+        btnAdd.disabled = true;
+        btnAdd.style.opacity = '0.3';
+        btnAdd.style.cursor  = 'not-allowed';
+      }
+    }
+  });
+}
 
 function initGoogleAuth() {
   google.accounts.id.initialize({
@@ -475,6 +514,7 @@ function mostrarAlertaPasteleria() {
   setTimeout(function(){ t.classList.remove('visible'); }, 4000);
 }
 window.addEventListener('load', function() {
+  cargarStock();
   if (typeof google !== 'undefined') initGoogleAuth();
   else {
     var s = document.querySelector('script[src*="gsi"]');
@@ -489,6 +529,7 @@ function parsePrecio(p) {
 function agregarDesdeCard(btn) {
   var card = btn.closest('[data-id]');
   if (!card) return;
+  if (btn.disabled) return;
   var id     = card.dataset.id;
   var nombre = (_catalogoNombres && _catalogoNombres[id]) ? _catalogoNombres[id] : id;
   var precio = card.dataset.precio;
@@ -618,6 +659,7 @@ function enviarPedido() {
       cerrarFormulario();
       mostrarExito(data.numero, nombre, telefono, detalle, total);
       vaciarCarrito();
+      cargarStock();
     } else {
       cerrarFormulario();
       mostrarErrorHorario(data.error || 'No se pudo procesar el pedido.');
@@ -625,6 +667,7 @@ function enviarPedido() {
   })
   .catch(function(err){ btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713'; alert('Error de conexi\u00f3n: ' + err.message); });
 }
+
 function mostrarExito(numero, nombre, telefono, detalle, total) {
   var numStr = String(numero).padStart(3,'0');
   document.getElementById('exitoNum').textContent = 'Pedido #' + numStr;
@@ -677,20 +720,7 @@ function cerrarErrorHorario() {
     + 'Confirmar por WhatsApp</a>'
     + '<button class="btn-cerrar-exito" onclick="cerrarExito()">Cerrar</button>';
 }
-function cerrarErrorHorario() {
-  var modal = document.getElementById('exitoModal');
-  modal.classList.remove('active');
-  var panel = modal.querySelector('.exito-panel');
-  panel.innerHTML =
-    '<div class="exito-icono">\u2705</div>'
-    + '<div class="exito-titulo">\u00a1Pedido recibido!</div>'
-    + '<div class="exito-num" id="exitoNum">Pedido #001</div>'
-    + '<div class="exito-detalle" id="exitoDetalle"></div>'
-    + '<a id="btnWhatsApp" class="btn-whatsapp" href="#" target="_blank">'
-    + '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>'
-    + 'Confirmar por WhatsApp</a>'
-    + '<button class="btn-cerrar-exito" onclick="cerrarExito()">Cerrar</button>';
-}
+
 ['carritoModal','formModal','exitoModal'].forEach(function(id) {
   document.getElementById(id).addEventListener('click', function(e) {
     if (e.target.id === id) document.getElementById(id).classList.remove('active');
