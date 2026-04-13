@@ -648,13 +648,34 @@ function cerrarExito() { document.getElementById('exitoModal').classList.remove(
 function mostrarErrorHorario(mensaje) {
   var modal = document.getElementById('exitoModal');
   var panel = modal.querySelector('.exito-panel');
+  panel.style.borderColor = 'rgba(255,107,107,.3)';
   panel.innerHTML =
-    '<div class="exito-icono" style="animation:none">\u23F0</div>'
-    + '<div class="exito-titulo" style="color:#ff6b6b">Fuera de horario</div>'
-    + '<div class="exito-num" style="color:var(--text-muted)">Pedido no disponible</div>'
-    + '<div class="exito-detalle" style="text-align:center">' + mensaje + '</div>'
-    + '<button class="btn-cerrar-exito" onclick="cerrarErrorHorario()">Entendido</button>';
+    '<div style="font-size:64px;margin-bottom:16px;animation:none">\u23F0</div>'
+    + '<div style="font-family:\'Playfair Display\',serif;font-size:1.8rem;font-weight:700;color:#ff6b6b;margin-bottom:8px">Fuera de horario</div>'
+    + '<div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px">Pedido no disponible</div>'
+    + '<div style="font-size:.9rem;color:var(--text-muted);background:var(--bg-card2);border:1px solid rgba(255,107,107,.2);border-radius:10px;padding:14px 16px;margin-bottom:24px;line-height:1.7;text-align:center">'
+    + mensaje
+    + '</div>'
+    + '<button style="width:100%;padding:13px;background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.3);border-radius:10px;color:#ff6b6b;cursor:pointer;font-size:14px;font-weight:600;font-family:\'Inter\',sans-serif;transition:background .2s" '
+    + 'onmouseover="this.style.background=\'rgba(255,107,107,.22)\'" '
+    + 'onmouseout="this.style.background=\'rgba(255,107,107,.12)\'" '
+    + 'onclick="cerrarErrorHorario()">Entendido</button>';
   modal.classList.add('active');
+}
+function cerrarErrorHorario() {
+  var modal = document.getElementById('exitoModal');
+  modal.classList.remove('active');
+  var panel = modal.querySelector('.exito-panel');
+  panel.style.borderColor = 'rgba(46,204,113,.3)';
+  panel.innerHTML =
+    '<div class="exito-icono">\u2705</div>'
+    + '<div class="exito-titulo">\u00a1Pedido recibido!</div>'
+    + '<div class="exito-num" id="exitoNum">Pedido #001</div>'
+    + '<div class="exito-detalle" id="exitoDetalle"></div>'
+    + '<a id="btnWhatsApp" class="btn-whatsapp" href="#" target="_blank">'
+    + '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>'
+    + 'Confirmar por WhatsApp</a>'
+    + '<button class="btn-cerrar-exito" onclick="cerrarExito()">Cerrar</button>';
 }
 function cerrarErrorHorario() {
   var modal = document.getElementById('exitoModal');
