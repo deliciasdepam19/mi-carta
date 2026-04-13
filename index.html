@@ -153,8 +153,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .toast-pasteleria{position:fixed;bottom:110px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);border:1px solid var(--gold);border-radius:12px;padding:14px 22px;color:var(--text);font-size:.875rem;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.6);max-width:340px;text-align:center;opacity:0;transition:all .35s;pointer-events:none}
 .toast-pasteleria.visible{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast-pasteleria span{color:var(--gold);font-weight:600}
-.card-badge-ok{background:#2ecc71;color:#09100f}
-.card-badge-agotado{background:rgba(255,80,80,.15);color:#ff5555;border:1px solid rgba(255,80,80,.3);padding:3px 10px}
+.card-badge-ok{background:#2ecc71 !important;color:#09100f !important}
+.card-badge-agotado{background:rgba(255,80,80,.15) !important;color:#ff5555 !important;border:1px solid rgba(255,80,80,.3) !important}
 </style>
 </head>
 <body>
@@ -192,7 +192,7 @@ var _catalogoNombres = {
     <div class='section-title'>Pastelería</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Torta_Rusa" data-precio="3000" data-cat="rapido" data-tiene-stock="false" data-nombre-bd="torta_rusa">
+    <div class='card' data-id="prod_Torta_Rusa" data-precio="3000" data-cat="rapido" data-tiene-stock="false'" data-nombre-bd="torta_rusa">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -217,7 +217,7 @@ var _catalogoNombres = {
     <div class='section-title'>Panaderia</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Dobladitas" data-precio="200" data-cat="rapido" data-tiene-stock="false" data-nombre-bd="dobladitas">
+    <div class='card' data-id="prod_Dobladitas" data-precio="200" data-cat="rapido" data-tiene-stock="false'" data-nombre-bd="dobladitas">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -233,7 +233,7 @@ var _catalogoNombres = {
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pan_amasado" data-precio="200" data-cat="rapido" data-tiene-stock="false" data-nombre-bd="pan_amasado">
+    <div class='card' data-id="prod_Pan_amasado" data-precio="200" data-cat="rapido" data-tiene-stock="false'" data-nombre-bd="pan_amasado">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -258,7 +258,7 @@ var _catalogoNombres = {
     <div class='section-title'>Reposteria</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Queque" data-precio="2000" data-cat="rapido" data-tiene-stock="false" data-nombre-bd="queque">
+    <div class='card' data-id="prod_Queque" data-precio="2000" data-cat="rapido" data-tiene-stock="false'" data-nombre-bd="queque">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🎂</div>
         <div class='card-img-overlay'></div>
@@ -283,7 +283,7 @@ var _catalogoNombres = {
     <div class='section-title'>Empanadas</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Carne_pino" data-precio="1500" data-cat="Empanada" data-tiene-stock="true" data-nombre-bd="carne_pino">
+    <div class='card' data-id="prod_Carne_pino" data-precio="1500" data-cat="Empanada" data-tiene-stock="true'" data-nombre-bd="carne_pino">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -299,7 +299,7 @@ var _catalogoNombres = {
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pollo_pino" data-precio="1800" data-cat="Empanada" data-tiene-stock="true" data-nombre-bd="pollo_pino">
+    <div class='card' data-id="prod_Pollo_pino" data-precio="1800" data-cat="Empanada" data-tiene-stock="true'" data-nombre-bd="pollo_pino">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -418,8 +418,10 @@ function cargarStock() {
     .catch(function(){});
 }
 function aplicarStockEnCards() {
-  document.querySelectorAll('[data-tiene-stock="true"]').forEach(function(card) {
-    var nombreBd = card.dataset.nombreBd;
+  document.querySelectorAll('.card').forEach(function(card) {
+    var tieneStock = card.getAttribute('data-tiene-stock');
+    if (tieneStock !== 'true') return;
+    var nombreBd = card.getAttribute('data-nombre-bd');
     var badge    = card.querySelector('.card-stock-badge');
     if (!badge || !nombreBd) return;
     var stock = null;
@@ -445,7 +447,6 @@ function aplicarStockEnCards() {
     }
   });
 }
-
 function initGoogleAuth() {
   google.accounts.id.initialize({
     client_id: GOOGLE_CLIENT_ID,
