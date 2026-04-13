@@ -584,6 +584,19 @@ function enviarPedido() {
   var ids      = Object.keys(carrito);
   var detalle  = ids.map(function(id){ return carrito[id].cantidad + 'x ' + carrito[id].nombre; }).join(' + ');
   var total    = ids.reduce(function(s,id){ return s + carrito[id].cantidad * carrito[id].precio; }, 0);
+  var ahora = new Date();
+  var hora  = ahora.getHours();
+  var tienePanaderia = ids.some(function(id){ return carrito[id].nombre.toLowerCase().indexOf('panader') !== -1; });
+  if (tienePanaderia && hora >= 18) {
+    cerrarFormulario();
+    mostrarErrorHorario('Los pedidos de Panader\u00eda solo se reciben hasta las 18:00 hrs.');
+    return;
+  }
+  if (!tienePanaderia && hora >= 22) {
+    cerrarFormulario();
+    mostrarErrorHorario('Los pedidos solo se reciben hasta las 22:00 hrs.');
+    return;
+  }
   var btn = document.querySelector('.form-btn-ok');
   btn.disabled = true; btn.textContent = 'Enviando...';
   fetch(URL_SERVIDOR + '/api/pedidos', {
@@ -601,12 +614,17 @@ function enviarPedido() {
   .then(function(r){ return r.json(); })
   .then(function(data){
     btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713';
-    if (data.exito) { cerrarFormulario(); mostrarExito(data.numero, nombre, telefono, detalle, total); vaciarCarrito(); }
-    else alert('Error: ' + (data.error || 'intenta de nuevo'));
+    if (data.exito) {
+      cerrarFormulario();
+      mostrarExito(data.numero, nombre, telefono, detalle, total);
+      vaciarCarrito();
+    } else {
+      cerrarFormulario();
+      mostrarErrorHorario(data.error || 'No se pudo procesar el pedido.');
+    }
   })
   .catch(function(err){ btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713'; alert('Error de conexi\u00f3n: ' + err.message); });
 }
-
 function mostrarExito(numero, nombre, telefono, detalle, total) {
   var numStr = String(numero).padStart(3,'0');
   document.getElementById('exitoNum').textContent = 'Pedido #' + numStr;
@@ -627,6 +645,31 @@ function mostrarExito(numero, nombre, telefono, detalle, total) {
 }
 function cerrarExito() { document.getElementById('exitoModal').classList.remove('active'); }
 
+function mostrarErrorHorario(mensaje) {
+  var modal = document.getElementById('exitoModal');
+  var panel = modal.querySelector('.exito-panel');
+  panel.innerHTML =
+    '<div class="exito-icono" style="animation:none">\u23F0</div>'
+    + '<div class="exito-titulo" style="color:#ff6b6b">Fuera de horario</div>'
+    + '<div class="exito-num" style="color:var(--text-muted)">Pedido no disponible</div>'
+    + '<div class="exito-detalle" style="text-align:center">' + mensaje + '</div>'
+    + '<button class="btn-cerrar-exito" onclick="cerrarErrorHorario()">Entendido</button>';
+  modal.classList.add('active');
+}
+function cerrarErrorHorario() {
+  var modal = document.getElementById('exitoModal');
+  modal.classList.remove('active');
+  var panel = modal.querySelector('.exito-panel');
+  panel.innerHTML =
+    '<div class="exito-icono">\u2705</div>'
+    + '<div class="exito-titulo">\u00a1Pedido recibido!</div>'
+    + '<div class="exito-num" id="exitoNum">Pedido #001</div>'
+    + '<div class="exito-detalle" id="exitoDetalle"></div>'
+    + '<a id="btnWhatsApp" class="btn-whatsapp" href="#" target="_blank">'
+    + '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>'
+    + 'Confirmar por WhatsApp</a>'
+    + '<button class="btn-cerrar-exito" onclick="cerrarExito()">Cerrar</button>';
+}
 ['carritoModal','formModal','exitoModal'].forEach(function(id) {
   document.getElementById(id).addEventListener('click', function(e) {
     if (e.target.id === id) document.getElementById(id).classList.remove('active');
