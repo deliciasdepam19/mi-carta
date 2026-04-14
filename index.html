@@ -510,6 +510,7 @@ function mostrarAlertaPasteleria() {
 }
 window.addEventListener('load', function() {
   cargarStock();
+  aplicarHorarioPanaderia();
   if (typeof google !== 'undefined') initGoogleAuth();
   else {
     var s = document.querySelector('script[src*="gsi"]');
@@ -716,6 +717,27 @@ function cerrarErrorHorario() {
     if (e.target.id === id) document.getElementById(id).classList.remove('active');
   });
 });
+function aplicarHorarioPanaderia() {
+  var hora = new Date().getHours();
+  var disponible = hora >= 12 && hora < 18;
+  document.querySelectorAll('.card').forEach(function(card) {
+    var catReal = card.getAttribute('data-cat-real') || '';
+    if (catReal.indexOf('panader') === -1) return;
+    var badge = card.querySelector('.card-badge');
+    if (!badge) return;
+    if (disponible) {
+      badge.textContent = 'Disponible';
+      badge.className   = 'card-badge card-badge-ok';
+      badge.style.background = '';
+      badge.style.color = '';
+    } else {
+      badge.textContent = 'Pedido';
+      badge.className   = 'card-badge';
+      badge.style.background = 'var(--gold-dim)';
+      badge.style.color = 'var(--gold)';
+    }
+  });
+}
 </script>
 <footer class='footer'>
   <div class='footer-brand'>&#10022;</div>
