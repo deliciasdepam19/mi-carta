@@ -663,14 +663,13 @@ function enviarPedido() {
 }
 function mostrarExito(numero, nombre, telefono, detalle, total) {
   var numStr = String(numero).padStart(3,'0');
-  document.getElementById('exitoNum').textContent = 'Pedido #' + numStr;
+  document.getElementById('exitoNum').style.display = 'none';
   document.getElementById('exitoDetalle').innerHTML =
     '<strong>Cliente:</strong> ' + nombre + '<br>' +
     (telefono !== '-' ? '<strong>Tel:</strong> ' + telefono + '<br>' : '') +
     '<strong>Pedido:</strong> ' + detalle + '<br>' +
     (total > 0 ? '<strong>Total:</strong> $' + total.toLocaleString('es-CL') : '');
   var msg = '*Hola! Acabo de hacer un pedido:*\n\n'
-    + '*Pedido #' + numStr + '*\n'
     + '*Nombre:* ' + nombre + '\n'
     + (telefono !== '-' ? '*Tel:* ' + telefono + '\n' : '')
     + '*Detalle:* ' + detalle + '\n'
