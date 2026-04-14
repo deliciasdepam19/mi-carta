@@ -295,11 +295,11 @@ var _catalogoNombres = {
         <div class='card-desc'>carne</div>
         <div class='card-footer'>
           <span class='card-price'>$1.500</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Carne_pino'>Ver</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Carne_pino'>...</span>
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pollo_pino" data-precio="1800" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="pollo_pino">
+    <div class='card' data-id="prod_Pollo_pino" data-precio="2000" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="pollo_pino">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -310,8 +310,8 @@ var _catalogoNombres = {
         <div class='card-name'>Pollo pino</div>
         <div class='card-desc'>pollo</div>
         <div class='card-footer'>
-          <span class='card-price'>$1.800</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Pollo_pino'>Ver</span>
+          <span class='card-price'>$2.000</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Pollo_pino'>...</span>
         </div>
       </div>
     </div>
@@ -622,14 +622,14 @@ function enviarPedido() {
   var ahora = new Date();
   var hora  = ahora.getHours();
   var tienePanaderia = ids.some(function(id){ return carrito[id].nombre.toLowerCase().indexOf('panader') !== -1; });
-  if (tienePanaderia && hora >= 18) {
+  if (tienePanaderia && (hora < 12 || hora >= 18)) {
     cerrarFormulario();
-    mostrarErrorHorario('Los pedidos de Panader\u00eda solo se reciben hasta las 18:00 hrs.');
+    mostrarErrorHorario('Los pedidos de Panader\u00eda se reciben entre las 12:00 y 18:00 hrs.');
     return;
   }
-  if (!tienePanaderia && hora >= 22) {
+  if (!tienePanaderia && (hora < 18 || hora >= 22)) {
     cerrarFormulario();
-    mostrarErrorHorario('Los pedidos solo se reciben hasta las 22:00 hrs.');
+    mostrarErrorHorario('Los pedidos solo se reciben entre las 18:00 y 22:00 hrs.');
     return;
   }
   var btn = document.querySelector('.form-btn-ok');
