@@ -142,7 +142,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .auth-divider{display:flex;align-items:center;gap:12px;margin:24px 0}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .auth-divider span{font-size:12px;color:var(--text-muted)}
-#googleBtn{display:flex;justify-content:center;margin-top:16px;}.user-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg-card2);border:1px solid var(--border);border-radius:24px;padding:6px 14px 6px 6px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:border-color .2s}
+#googleBtn{display:flex;justify-content:center;margin-top:16px;}
+.user-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg-card2);border:1px solid var(--border);border-radius:24px;padding:6px 14px 6px 6px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:border-color .2s}
 .user-chip:hover{border-color:var(--gold)}
 .user-chip img{width:24px;height:24px;border-radius:50%;object-fit:cover}
 .user-chip-placeholder{width:24px;height:24px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bg)}
@@ -155,6 +156,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .toast-pasteleria span{color:var(--gold);font-weight:600}
 .card-badge-ok{background:#2ecc71 !important;color:#09100f !important}
 .card-badge-agotado{background:rgba(255,80,80,.15) !important;color:#ff5555 !important;border:1px solid rgba(255,80,80,.3) !important}
+.card-panaderia-badge{background:var(--gold-dim);color:var(--gold)}
 </style>
 </head>
 <body>
@@ -204,7 +206,7 @@ var _catalogoNombres = {
         <div class='card-desc'>Torta Rusa con manjar</div>
         <div class='card-footer'>
           <span class='card-price'>$3.000</span>
-          <span class='card-badge' style='background:var(--gold-dim);color:var(--gold)'>Pedido</span>
+          <span class='card-badge card-panaderia-badge'>Pedido</span>
         </div>
       </div>
     </div>
@@ -229,7 +231,7 @@ var _catalogoNombres = {
         <div class='card-desc'>5 uds x $1.000</div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
-          <span class='card-badge' style='background:var(--gold-dim);color:var(--gold)'>Pedido</span>
+          <span class='card-badge card-panaderia-badge'>Pedido</span>
         </div>
       </div>
     </div>
@@ -245,7 +247,7 @@ var _catalogoNombres = {
         <div class='card-desc'>pan</div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
-          <span class='card-badge' style='background:var(--gold-dim);color:var(--gold)'>Pedido</span>
+          <span class='card-badge card-panaderia-badge'>Pedido</span>
         </div>
       </div>
     </div>
@@ -270,7 +272,7 @@ var _catalogoNombres = {
         <div class='card-desc'>Sabor zanahoria</div>
         <div class='card-footer'>
           <span class='card-price'>$2.000</span>
-          <span class='card-badge' style='background:var(--gold-dim);color:var(--gold)'>Pedido</span>
+          <span class='card-badge card-panaderia-badge'>Pedido</span>
         </div>
       </div>
     </div>
@@ -663,7 +665,6 @@ function enviarPedido() {
   .catch(function(err){ btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713'; alert('Error de conexi\u00f3n: ' + err.message); });
 }
 function mostrarExito(numero, nombre, telefono, detalle, total) {
-  var numStr = String(numero).padStart(3,'0');
   document.getElementById('exitoNum').style.display = 'none';
   document.getElementById('exitoDetalle').innerHTML =
     '<strong>Cliente:</strong> ' + nombre + '<br>' +
@@ -723,18 +724,14 @@ function aplicarHorarioPanaderia() {
   document.querySelectorAll('.card').forEach(function(card) {
     var catReal = card.getAttribute('data-cat-real') || '';
     if (catReal.indexOf('panader') === -1) return;
-    var badge = card.querySelector('.card-badge');
+    var badge = card.querySelector('.card-panaderia-badge');
     if (!badge) return;
     if (disponible) {
       badge.textContent = 'Disponible';
       badge.className   = 'card-badge card-badge-ok';
-      badge.style.background = '';
-      badge.style.color = '';
     } else {
       badge.textContent = 'Pedido';
-      badge.className   = 'card-badge';
-      badge.style.background = 'var(--gold-dim)';
-      badge.style.color = 'var(--gold)';
+      badge.className   = 'card-badge card-panaderia-badge';
     }
   });
 }
