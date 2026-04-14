@@ -413,11 +413,22 @@ var GOOGLE_CLIENT_ID = '944587498451-hj67ru7fp56l0rjk6b9825qdo13oduge.apps.googl
 var usuarioActual    = null;
 
 function cargarStock() {
-  if (!URL_SERVIDOR || URL_SERVIDOR === '') return;
+  if (!URL_SERVIDOR || URL_SERVIDOR === '') {
+    document.querySelectorAll('.card-stock-badge').forEach(function(b){
+      b.textContent = 'Disponible';
+      b.className = 'card-badge card-stock-badge card-badge-ok';
+    });
+    return;
+  }
   fetch(URL_SERVIDOR + '/api/stock')
     .then(function(r){ return r.json(); })
     .then(function(data){ _stockData = data; aplicarStockEnCards(); })
-    .catch(function(){});
+    .catch(function(){
+      document.querySelectorAll('.card-stock-badge').forEach(function(b){
+        b.textContent = 'Disponible';
+        b.className = 'card-badge card-stock-badge card-badge-ok';
+      });
+    });
 }
 function aplicarStockEnCards() {
   document.querySelectorAll('.card').forEach(function(card) {
