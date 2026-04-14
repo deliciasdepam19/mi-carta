@@ -192,7 +192,7 @@ var _catalogoNombres = {
     <div class='section-title'>Pastelería</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Torta_Rusa" data-precio="3000" data-cat="rapido" data-tiene-stock="false'" data-nombre-bd="torta_rusa">
+    <div class='card' data-id="prod_Torta_Rusa" data-precio="3000" data-cat="rapido" data-cat-real="pastelería" data-tiene-stock="false" data-nombre-bd="torta_rusa">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -217,7 +217,7 @@ var _catalogoNombres = {
     <div class='section-title'>Panaderia</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Dobladitas" data-precio="200" data-cat="rapido" data-tiene-stock="false'" data-nombre-bd="dobladitas">
+    <div class='card' data-id="prod_Dobladitas" data-precio="200" data-cat="rapido" data-cat-real="panaderia" data-tiene-stock="false" data-nombre-bd="dobladitas">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -233,7 +233,7 @@ var _catalogoNombres = {
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pan_amasado" data-precio="200" data-cat="rapido" data-tiene-stock="false'" data-nombre-bd="pan_amasado">
+    <div class='card' data-id="prod_Pan_amasado" data-precio="200" data-cat="rapido" data-cat-real="panaderia" data-tiene-stock="false" data-nombre-bd="pan_amasado">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -258,7 +258,7 @@ var _catalogoNombres = {
     <div class='section-title'>Reposteria</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Queque" data-precio="2000" data-cat="rapido" data-tiene-stock="false'" data-nombre-bd="queque">
+    <div class='card' data-id="prod_Queque" data-precio="2000" data-cat="rapido" data-cat-real="reposteria" data-tiene-stock="false" data-nombre-bd="queque">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🎂</div>
         <div class='card-img-overlay'></div>
@@ -283,7 +283,7 @@ var _catalogoNombres = {
     <div class='section-title'>Empanadas</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Carne_pino" data-precio="1500" data-cat="Empanada" data-tiene-stock="true'" data-nombre-bd="carne_pino">
+    <div class='card' data-id="prod_Carne_pino" data-precio="1500" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="carne_pino">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -299,7 +299,7 @@ var _catalogoNombres = {
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pollo_pino" data-precio="1800" data-cat="Empanada" data-tiene-stock="true'" data-nombre-bd="pollo_pino">
+    <div class='card' data-id="prod_Pollo_pino" data-precio="1800" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="pollo_pino">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -319,7 +319,7 @@ var _catalogoNombres = {
 </section>
 
 </div>
-<div id='toastPasteleria' class='toast-pasteleria'>&#x23F0; <span>Pastelería:</span> algunos productos se agendan con <span>3 días de anticipación</span></div>
+<div id='toastPasteleria' class='toast-pasteleria'>&#x23F0; <span>Paster&#237;a:</span> algunos productos se agendan con <span>3 d&#237;as de anticipaci&#243;n</span></div>
 
 <div id='carritoFlotante' class='carrito-flotante' onclick='abrirCarrito()'>
   <span>🛒</span>
@@ -333,7 +333,7 @@ var _catalogoNombres = {
       <button class='carrito-close' onclick='cerrarCarrito()'>✕</button>
     </div>
     <div class='carrito-items' id='carritoItems'>
-      <div style='text-align:center;padding:40px;color:var(--text-muted)'>Carrito vacío</div>
+      <div style='text-align:center;padding:40px;color:var(--text-muted)'>Carrito vac&#237;o</div>
     </div>
     <div class='carrito-total'>
       <span>Total:</span>
@@ -341,7 +341,7 @@ var _catalogoNombres = {
     </div>
     <div class='carrito-actions'>
       <button class='btn-vaciar' onclick='vaciarCarrito()'>Vaciar</button>
-      <button class='btn-pedir' onclick='abrirFormulario()'>Hacer Pedido →</button>
+      <button class='btn-pedir' onclick='abrirFormulario()'>Hacer Pedido &#8594;</button>
     </div>
   </div>
 </div>
@@ -360,15 +360,15 @@ var _catalogoNombres = {
     </div>
     <div class='form-btns'>
       <button class='form-btn-cancel' onclick='cerrarFormulario()'>Cancelar</button>
-      <button class='form-btn-ok' onclick='enviarPedido()'>Confirmar pedido ✓</button>
+      <button class='form-btn-ok' onclick='enviarPedido()'>Confirmar pedido &#10003;</button>
     </div>
   </div>
 </div>
 
 <div id='exitoModal' class='exito-modal'>
   <div class='exito-panel'>
-    <div class='exito-icono'>✅</div>
-    <div class='exito-titulo'>¡Pedido recibido!</div>
+    <div class='exito-icono'>&#9989;</div>
+    <div class='exito-titulo'>&#161;Pedido recibido!</div>
     <div class='exito-num' id='exitoNum'>Pedido #001</div>
     <div class='exito-detalle' id='exitoDetalle'></div>
     <a id='btnWhatsApp' class='btn-whatsapp' href='#' target='_blank'>
@@ -418,24 +418,20 @@ function cargarStock() {
     .catch(function(){});
 }
 function aplicarStockEnCards() {
-  console.log('Stock cargado:', JSON.stringify(_stockData));
   document.querySelectorAll('.card').forEach(function(card) {
     var tieneStock = card.getAttribute('data-tiene-stock');
     if (tieneStock !== 'true') return;
     var nombreBd = card.getAttribute('data-nombre-bd');
     var badge    = card.querySelector('.card-stock-badge');
-    console.log('Card nombreBd:', nombreBd, '| badge:', badge ? badge.textContent : 'NO BADGE');
     if (!badge || !nombreBd) return;
     var stock = null;
     Object.keys(_stockData).forEach(function(k) {
       if (stock !== null) return;
-      console.log('Comparando key:', k, 'vs nombreBd:', nombreBd);
       if (k === nombreBd || k.indexOf(nombreBd) !== -1 || nombreBd.indexOf(k) !== -1) {
         stock = _stockData[k];
-        console.log('MATCH! stock=', stock);
       }
     });
-    if (stock === null) { console.log('Sin match para:', nombreBd); return; }
+    if (stock === null) return;
     if (stock > 0) {
       badge.textContent = 'Disponible';
       badge.className   = 'card-badge card-stock-badge card-badge-ok';
@@ -443,11 +439,7 @@ function aplicarStockEnCards() {
       badge.textContent = 'Sin stock';
       badge.className   = 'card-badge card-stock-badge card-badge-agotado';
       var btnAdd = card.querySelector('.card-add-btn');
-      if (btnAdd) {
-        btnAdd.disabled = true;
-        btnAdd.style.opacity = '0.3';
-        btnAdd.style.cursor  = 'not-allowed';
-      }
+      if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
     }
   });
 }
@@ -510,9 +502,7 @@ function cerrarSesion() {
   vaciarCarrito();
   google.accounts.id.disableAutoSelect();
 }
-function cerrarAuth() {
-  document.getElementById('authOverlay').classList.remove('active');
-}
+function cerrarAuth() { document.getElementById('authOverlay').classList.remove('active'); }
 function mostrarAlertaPasteleria() {
   var t = document.getElementById('toastPasteleria');
   t.classList.add('visible');
@@ -526,7 +516,6 @@ window.addEventListener('load', function() {
     if (s) s.addEventListener('load', initGoogleAuth);
   }
 });
-
 function parsePrecio(p) {
   if (!p) return 0;
   return parseInt(String(p).replace(/[^0-9]/g,''), 10) || 0;
@@ -535,15 +524,16 @@ function agregarDesdeCard(btn) {
   var card = btn.closest('[data-id]');
   if (!card) return;
   if (btn.disabled) return;
-  var id     = card.dataset.id;
-  var nombre = (_catalogoNombres && _catalogoNombres[id]) ? _catalogoNombres[id] : id;
-  var precio = card.dataset.precio;
-  var cat    = card.dataset.cat;
-  if (cat && cat.toLowerCase().indexOf('pasteler') !== -1 && !window._pasteleriaAlertado) {
+  var id      = card.dataset.id;
+  var nombre  = (_catalogoNombres && _catalogoNombres[id]) ? _catalogoNombres[id] : id;
+  var precio  = card.dataset.precio;
+  var cat     = card.dataset.cat;
+  var catReal = card.dataset.catReal || cat;
+  if (catReal && catReal.toLowerCase().indexOf('pasteler') !== -1 && !window._pasteleriaAlertado) {
     window._pasteleriaAlertado = true;
     mostrarAlertaPasteleria();
   }
-  agregarAlCarrito(id, nombre, precio, cat);
+  agregarAlCarrito(id, nombre, precio, catReal);
 }
 function agregarAlCarrito(id, nombre, precio, categoria) {
   if (!carrito[id]) carrito[id] = {nombre:nombre, cantidad:0, precio:parsePrecio(precio), categoria:categoria||''};
@@ -603,7 +593,6 @@ function abrirCarrito() {
   if (tienePasteleria) mostrarAlertaPasteleria();
 }
 function cerrarCarrito() { document.getElementById('carritoModal').classList.remove('active'); }
-
 function abrirFormulario() {
   if (!Object.keys(carrito).length) return;
   if (!usuarioActual) {
@@ -672,7 +661,6 @@ function enviarPedido() {
   })
   .catch(function(err){ btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713'; alert('Error de conexi\u00f3n: ' + err.message); });
 }
-
 function mostrarExito(numero, nombre, telefono, detalle, total) {
   var numStr = String(numero).padStart(3,'0');
   document.getElementById('exitoNum').textContent = 'Pedido #' + numStr;
@@ -692,7 +680,6 @@ function mostrarExito(numero, nombre, telefono, detalle, total) {
   document.getElementById('exitoModal').classList.add('active');
 }
 function cerrarExito() { document.getElementById('exitoModal').classList.remove('active'); }
-
 function mostrarErrorHorario(mensaje) {
   var modal = document.getElementById('exitoModal');
   var panel = modal.querySelector('.exito-panel');
@@ -725,7 +712,6 @@ function cerrarErrorHorario() {
     + 'Confirmar por WhatsApp</a>'
     + '<button class="btn-cerrar-exito" onclick="cerrarExito()">Cerrar</button>';
 }
-
 ['carritoModal','formModal','exitoModal'].forEach(function(id) {
   document.getElementById(id).addEventListener('click', function(e) {
     if (e.target.id === id) document.getElementById(id).classList.remove('active');
