@@ -436,14 +436,6 @@ function cargarStock() {
     rows.forEach(function(row){
       _stockData[row.tipo.toLowerCase().replace(/[^a-z0-9]/g,'_')] = row.stock;
     });
-function obtenerHoraChile(){
-  var h = new Date().toLocaleString("en-US", {
-    timeZone: "America/Santiago",
-    hour: "2-digit",
-    hour12: false
-  });
-  return parseInt(h);
-}
     aplicarStockEnCards();
   })
   .catch(function(){
@@ -457,11 +449,9 @@ function aplicarStockEnCards() {
   document.querySelectorAll('.card').forEach(function(card) {
     var tieneStock = card.getAttribute('data-tiene-stock');
     if (tieneStock !== 'true') return;
-
     var nombreBd = card.getAttribute('data-nombre-bd');
     var badge    = card.querySelector('.card-stock-badge');
     if (!badge || !nombreBd) return;
-
     var stock = null;
     Object.keys(_stockData).forEach(function(k) {
       if (stock !== null) return;
@@ -469,30 +459,15 @@ function aplicarStockEnCards() {
         stock = _stockData[k];
       }
     });
-
     if (stock === null) return;
-
-    var cat = card.getAttribute('data-cat-real') || '';
-    var disponibleHorario = disponibilidadCategoria(cat);
-
-    if (stock > 0 && disponibleHorario) {
+    if (stock > 0) {
       badge.textContent = 'Disponible';
       badge.className   = 'card-badge card-stock-badge card-badge-ok';
-    } 
-    else if (!disponibleHorario) {
-      badge.textContent = 'Pedido';
-      badge.className   = 'card-badge card-stock-badge';
-    } 
-    else {
+    } else {
       badge.textContent = 'Sin stock';
       badge.className   = 'card-badge card-stock-badge card-badge-agotado';
-
       var btnAdd = card.querySelector('.card-add-btn');
-      if (btnAdd) {
-        btnAdd.disabled = true;
-        btnAdd.style.opacity = '0.3';
-        btnAdd.style.cursor = 'not-allowed';
-      }
+      if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
     }
   });
 }
@@ -700,30 +675,14 @@ var tienePanaderia = ids.some(function(id){
 console.log('Hora:', hora);
 console.log('Tiene panaderia:', tienePanaderia);
 ids.forEach(id => console.log('Categoria item:', carrito[id].categoria));
-var tienePanaderia = ids.some(function(id){ 
-  var cat = carrito[id].categoria ? normalizar(carrito[id].categoria) : '';
-  return cat === 'panaderia' || cat === 'reposteria' || cat === 'pasteleria';
-});
-var tieneEmpanadas = ids.some(function(id){ 
-  var cat = carrito[id].categoria ? normalizar(carrito[id].categoria) : '';
-  return cat === 'empanadas';
-});
-console.log('Hora:', hora);
-console.log('Tiene panaderia:', tienePanaderia);
-ids.forEach(id => console.log('Categoria item:', carrito[id].categoria));
-  if (tienePanaderia && tieneEmpanadas) {
-    cerrarFormulario();
-    mostrarErrorHorario('No puedes mezclar productos de Panader\u00eda y Empanadas en un mismo pedido.');
-    return;
-  }
   if (tienePanaderia && (hora < 12 || hora >= 18)) {
     cerrarFormulario();
     mostrarErrorHorario('Los pedidos de Panader\u00eda se reciben entre las 12:00 y 18:00 hrs.');
     return;
   }
-  if (tieneEmpanadas && (hora < 18 || hora >= 22)) {
+  if (!tienePanaderia && (hora < 18 || hora >= 22)) {
     cerrarFormulario();
-    mostrarErrorHorario('Los pedidos de empanadas se reciben entre las 18:00 y 22:00 hrs.');
+    mostrarErrorHorario('Los pedidos solo se reciben entre las 18:00 y 22:00 hrs.');
     return;
   }
   var btn = document.querySelector('.form-btn-ok');
@@ -810,38 +769,20 @@ function cerrarErrorHorario() {
     if (e.target.id === id) document.getElementById(id).classList.remove('active');
   });
 });
-function obtenerHoraChile(){
-  var h = new Date().toLocaleString("en-US", {
-    timeZone: "America/Santiago",
-    hour: "2-digit",
-    hour12: false
-  });
-  return parseInt(h);
-}
 function aplicarHorarioPanaderia() {
-  var hora = obtenerHoraChile();
-
+  var hora = new Date().getHours();
+  var disponible = hora >= 12 && hora < 18;
   document.querySelectorAll('.card').forEach(function(card) {
-    var catReal = normalizar(card.getAttribute('data-cat-real') || '');
-    var badge = card.querySelector('.card-stock-badge');
+    var catReal = card.getAttribute('data-cat-real') || '';
+    if (catReal.indexOf('panader') === -1) return;
+    var badge = card.querySelector('.card-panaderia-badge');
     if (!badge) return;
-
-    var disponible = false;
-
-    if (catReal === 'panaderia' || catReal === 'reposteria' || catReal === 'pasteleria') {
-      disponible = (hora >= 12 && hora < 18);
-    } else if (catReal === 'empanadas') {
-      disponible = (hora >= 18 && hora < 22);
-    } else {
-      return;
-    }
-
     if (disponible) {
       badge.textContent = 'Disponible';
-      badge.className = 'card-badge card-stock-badge card-badge-ok';
+      badge.className   = 'card-badge card-badge-ok';
     } else {
       badge.textContent = 'Pedido';
-      badge.className = 'card-badge card-stock-badge';
+      badge.className   = 'card-badge card-panaderia-badge';
     }
   });
 }
