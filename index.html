@@ -654,7 +654,12 @@ var hora = new Date().toLocaleString("en-US", {
   hour12: false
 });
 hora = parseInt(hora);
-  var hora  = ahora.getHours();
+  var hora = new Date().toLocaleString("en-US", {
+    timeZone: "America/Santiago",
+    hour: "2-digit",
+    hour12: false
+  });
+  hora = parseInt(hora);
 function normalizar(txt){
   return txt
     .toLowerCase()
