@@ -671,6 +671,10 @@ var tienePanaderia = ids.some(function(id){
   var cat = carrito[id].categoria ? normalizar(carrito[id].categoria) : '';
   return cat.includes('panader') || cat.includes('repost') || cat.includes('pasteler');
 });
+
+console.log('Hora:', hora);
+console.log('Tiene panaderia:', tienePanaderia);
+console.log('Categorias:', ids.map(id => carrito[id].categoria));
   if (tienePanaderia && (hora < 12 || hora >= 18)) {
     cerrarFormulario();
     mostrarErrorHorario('Los pedidos de Panader\u00eda se reciben entre las 12:00 y 18:00 hrs.');
