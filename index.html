@@ -326,7 +326,7 @@ var _catalogoNombres = {
 </section>
 
 </div>
-<div id='toastPasteleria' class='toast-pasteleria'>&#x23F0; <span>Paster&#237;a:</span> algunos productos se agendan con <span>3 d&#237;as de anticipaci&#243;n</span></div>
+<div id='toastPasteleria' class='toast-pasteleria'>&#x23F0; <span>Pasteler&#237;a:</span> algunos productos se agendan con <span>3 d&#237;as de anticipaci&#243;n</span></div>
 
 <div id='carritoFlotante' class='carrito-flotante' onclick='abrirCarrito()'>
   <span>🛒</span>
@@ -426,18 +426,18 @@ var SUPABASE_KEY     = 'sb_publishable_sEV-WAdy6D18biHTRXoQnA_sHy7rKZu';
 
 function getHoraSantiago() {
   try {
-    var fmt   = new Intl.DateTimeFormat('en-GB', {
+    var ahora = new Date();
+    var str = ahora.toLocaleString('en-US', {
       timeZone: 'America/Santiago',
-      hour: '2-digit',
+      hour: 'numeric',
       hour12: false
     });
-    var parts = fmt.formatToParts(new Date());
-    var hp    = parts.find(function(p){ return p.type === 'hour'; });
-    var hora  = hp ? parseInt(hp.value, 10) : NaN;
-    console.log('[getHoraSantiago] parts:', JSON.stringify(parts), '-> hora:', hora);
+    var hora = parseInt(str, 10);
+    if (hora === 24) hora = 0;
+    console.log('[getHoraSantiago] hora Santiago:', hora);
     return isNaN(hora) ? new Date().getHours() : hora;
   } catch(e) {
-    console.warn('[getHoraSantiago] fallback getHours()', e);
+    console.warn('[getHoraSantiago] fallback:', e);
     return new Date().getHours();
   }
 }
@@ -753,8 +753,11 @@ function enviarPedido() {
     return cat.indexOf('reposteri') !== -1 || cat.indexOf('pasteler') !== -1;
   });
   console.log('hora:', hora, 'panaderia:', tienePanaderia, 'empanadas:', tieneEmpanadas, 'anticipado:', tieneAnticipado);
+  ids.forEach(function(id){
+    console.log('item:', id, '| categoria:', carrito[id].categoria);
+  });
 
-  if (tienePanaderia && (hora < 12 || hora >= 18)) {
+  if (tienePanaderia && (hora < 12 || hora > 18)) {
     cerrarFormulario();
     mostrarErrorHorario('Los pedidos de Panader\u00eda se reciben entre las 12:00 y 18:00 hrs.');
     return;
