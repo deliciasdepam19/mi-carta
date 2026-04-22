@@ -436,6 +436,14 @@ function cargarStock() {
     rows.forEach(function(row){
       _stockData[row.tipo.toLowerCase().replace(/[^a-z0-9]/g,'_')] = row.stock;
     });
+function obtenerHoraChile(){
+  var h = new Date().toLocaleString("en-US", {
+    timeZone: "America/Santiago",
+    hour: "2-digit",
+    hour12: false
+  });
+  return parseInt(h);
+}
     aplicarStockEnCards();
   })
   .catch(function(){
@@ -445,13 +453,17 @@ function cargarStock() {
     });
   });
 }
+}
 function aplicarStockEnCards() {
   document.querySelectorAll('.card').forEach(function(card) {
     var tieneStock = card.getAttribute('data-tiene-stock');
     if (tieneStock !== 'true') return;
+
     var nombreBd = card.getAttribute('data-nombre-bd');
     var badge    = card.querySelector('.card-stock-badge');
+    var btnAdd   = card.querySelector('.card-add-btn');
     if (!badge || !nombreBd) return;
+
     var stock = null;
     Object.keys(_stockData).forEach(function(k) {
       if (stock !== null) return;
@@ -460,14 +472,39 @@ function aplicarStockEnCards() {
       }
     });
     if (stock === null) return;
-    if (stock > 0) {
+
+    var cat = card.getAttribute('data-cat-real') || '';
+    var disponibleHorario = disponibilidadCategoria(cat);
+
+    if (btnAdd) {
+      btnAdd.disabled = false;
+      btnAdd.style.opacity = '1';
+      btnAdd.style.cursor = 'pointer';
+    }
+
+    if (stock > 0 && disponibleHorario) {
       badge.textContent = 'Disponible';
       badge.className   = 'card-badge card-stock-badge card-badge-ok';
-    } else {
+    }
+    else if (!disponibleHorario) {
+      badge.textContent = textoTiempoRestante(cat);
+      badge.className   = 'card-badge card-stock-badge';
+
+      if (btnAdd) {
+        btnAdd.disabled = true;
+        btnAdd.style.opacity = '0.3';
+        btnAdd.style.cursor = 'not-allowed';
+      }
+    }
+    else {
       badge.textContent = 'Sin stock';
       badge.className   = 'card-badge card-stock-badge card-badge-agotado';
-      var btnAdd = card.querySelector('.card-add-btn');
-      if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
+
+      if (btnAdd) {
+        btnAdd.disabled = true;
+        btnAdd.style.opacity = '0.3';
+        btnAdd.style.cursor = 'not-allowed';
+      }
     }
   });
 }
@@ -538,12 +575,12 @@ function mostrarAlertaPasteleria() {
 }
 window.addEventListener('load', function() {
   cargarStock();
-  aplicarHorarioPanaderia();
   if (typeof google !== 'undefined') initGoogleAuth();
   else {
     var s = document.querySelector('script[src*="gsi"]');
     if (s) s.addEventListener('load', initGoogleAuth);
   }
+  setInterval(aplicarStockEnCards, 60000);
 });
 function parsePrecio(p) {
   if (!p) return 0;
@@ -661,7 +698,7 @@ hora = parseInt(hora);
   });
   hora = parseInt(hora);
 function normalizar(txt){
-  return txt
+  return (txt || '')
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
@@ -785,22 +822,48 @@ function cerrarErrorHorario() {
     if (e.target.id === id) document.getElementById(id).classList.remove('active');
   });
 });
-function aplicarHorarioPanaderia() {
-  var hora = new Date().getHours();
-  var disponible = hora >= 12 && hora < 18;
-  document.querySelectorAll('.card').forEach(function(card) {
-    var catReal = card.getAttribute('data-cat-real') || '';
-    if (catReal.indexOf('panader') === -1) return;
-    var badge = card.querySelector('.card-panaderia-badge');
-    if (!badge) return;
-    if (disponible) {
-      badge.textContent = 'Disponible';
-      badge.className   = 'card-badge card-badge-ok';
-    } else {
-      badge.textContent = 'Pedido';
-      badge.className   = 'card-badge card-panaderia-badge';
-    }
+function obtenerHoraChile(){
+  var h = new Date().toLocaleString("en-US", {
+    timeZone: "America/Santiago",
+    hour: "2-digit",
+    hour12: false
   });
+  return parseInt(h);
+}
+function disponibilidadCategoria(cat){
+  var hora = obtenerHoraChile();
+  cat = normalizar(cat || '');
+
+  if (cat === 'panaderia' || cat === 'reposteria' || cat === 'pasteleria') {
+    return hora >= 12 && hora < 18;
+  }
+
+  if (cat === 'empanadas') {
+    return hora >= 18 && hora < 22;
+  }
+
+  return true;
+}
+function textoTiempoRestante(cat){
+  var hora = obtenerHoraChile();
+  cat = normalizar(cat || '');
+
+  var inicio = null;
+
+  if (cat === 'panaderia' || cat === 'reposteria' || cat === 'pasteleria') {
+    inicio = 12;
+  } else if (cat === 'empanadas') {
+    inicio = 18;
+  } else {
+    return 'Disponible';
+  }
+
+  var diff = inicio - hora;
+
+  if (diff <= 0) diff += 24;
+
+  if (diff === 1) return 'Disponible en 1h';
+  return 'Disponible en ' + diff + 'h';
 }
 </script>
 <footer class='footer'>
