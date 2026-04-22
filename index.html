@@ -416,12 +416,21 @@ var SUPABASE_URL     = 'https://aglndzoytpcztoetwyu.supabase.co';
 var SUPABASE_KEY     = 'sb_publishable_sEV-WAdy6D18biHTRXoQnA_sHy7rKZu';
 
 function getHoraSantiago() {
-  var s = new Date().toLocaleString('en-US', {
-    timeZone: 'America/Santiago',
-    hour: '2-digit',
-    hour12: false
-  });
-  return parseInt(s.replace(/[^0-9]/g, ''), 10);
+  try {
+    var fmt   = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'America/Santiago',
+      hour: '2-digit',
+      hour12: false
+    });
+    var parts = fmt.formatToParts(new Date());
+    var hp    = parts.find(function(p){ return p.type === 'hour'; });
+    var hora  = hp ? parseInt(hp.value, 10) : NaN;
+    console.log('[getHoraSantiago] parts:', JSON.stringify(parts), '-> hora:', hora);
+    return isNaN(hora) ? new Date().getHours() : hora;
+  } catch(e) {
+    console.warn('[getHoraSantiago] fallback getHours()', e);
+    return new Date().getHours();
+  }
 }
 
 function normalizar(txt) {
