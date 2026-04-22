@@ -477,11 +477,25 @@ function cargarStock() {
 }
 
 function aplicarStockEnCards() {
+  var hora = getHoraSantiago();
+  var dentroHorarioEmpanadas = hora >= 18 && hora < 22;
+
   document.querySelectorAll('.card').forEach(function(card) {
     if (card.getAttribute('data-tiene-stock') !== 'true') return;
     var nombreBd = card.getAttribute('data-nombre-bd');
     var badge    = card.querySelector('.card-stock-badge');
     if (!badge || !nombreBd) return;
+    var btnAdd   = card.querySelector('.card-add-btn');
+
+    // Primero verificar horario
+    if (!dentroHorarioEmpanadas) {
+      badge.textContent = 'Pedido 18-22h';
+      badge.className   = 'card-badge card-stock-badge card-panaderia-badge';
+      if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
+      return;
+    }
+
+    // Dentro del horario: verificar stock
     var stock = null;
     Object.keys(_stockData).forEach(function(k) {
       if (stock !== null) return;
@@ -489,8 +503,8 @@ function aplicarStockEnCards() {
         stock = _stockData[k];
       }
     });
+
     if (stock === null) return;
-    var btnAdd = card.querySelector('.card-add-btn');
     if (stock > 0) {
       badge.textContent = 'Disponible';
       badge.className   = 'card-badge card-stock-badge card-badge-ok';
