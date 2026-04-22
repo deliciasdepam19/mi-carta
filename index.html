@@ -195,7 +195,7 @@ var _catalogoNombres = {
     <div class='section-title'>Pastelería</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Torta_Rusa" data-precio="3000" data-cat="rapido" data-cat-real="pasteleria" data-tiene-stock="false" data-nombre-bd="torta_rusa">
+    <div class='card' data-id="prod_Torta_Rusa" data-precio="3000" data-cat="rapido" data-cat-real="rapido" data-tiene-stock="false" data-nombre-bd="torta_rusa">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -220,7 +220,7 @@ var _catalogoNombres = {
     <div class='section-title'>Panadería</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Dobladitas" data-precio="200" data-cat="rapido" data-cat-real="panaderia" data-tiene-stock="false" data-nombre-bd="dobladitas">
+    <div class='card' data-id="prod_Dobladitas" data-precio="200" data-cat="rapido" data-cat-real="rapido" data-tiene-stock="false" data-nombre-bd="dobladitas">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -236,7 +236,7 @@ var _catalogoNombres = {
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pan_amasado" data-precio="200" data-cat="rapido" data-cat-real="panaderia" data-tiene-stock="false" data-nombre-bd="pan_amasado">
+    <div class='card' data-id="prod_Pan_amasado" data-precio="200" data-cat="rapido" data-cat-real="rapido" data-tiene-stock="false" data-nombre-bd="pan_amasado">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
@@ -261,7 +261,7 @@ var _catalogoNombres = {
     <div class='section-title'>Empanadas</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Pino_carne" data-precio="1500" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="pino_carne">
+    <div class='card' data-id="prod_Pino_carne" data-precio="1500" data-cat="Empanada" data-cat-real="empanada" data-tiene-stock="true" data-nombre-bd="pino_carne">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -277,7 +277,7 @@ var _catalogoNombres = {
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Pino_pollo" data-precio="1800" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="pino_pollo">
+    <div class='card' data-id="prod_Pino_pollo" data-precio="1800" data-cat="Empanada" data-cat-real="empanada" data-tiene-stock="true" data-nombre-bd="pino_pollo">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
@@ -302,7 +302,7 @@ var _catalogoNombres = {
     <div class='section-title'>Repostería</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Queque" data-precio="2000" data-cat="rapido" data-cat-real="reposteria" data-tiene-stock="false" data-nombre-bd="queque">
+    <div class='card' data-id="prod_Queque" data-precio="2000" data-cat="rapido" data-cat-real="rapido" data-tiene-stock="false" data-nombre-bd="queque">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🎂</div>
         <div class='card-img-overlay'></div>
@@ -669,12 +669,12 @@ function normalizar(txt){
 
 var tienePanaderia = ids.some(function(id){ 
   var cat = carrito[id].categoria ? normalizar(carrito[id].categoria) : '';
-  return cat.includes('panader') || cat.includes('repost') || cat.includes('pasteler');
+  return cat === 'panaderia' || cat === 'reposteria' || cat === 'pasteleria';
 });
 
 console.log('Hora:', hora);
 console.log('Tiene panaderia:', tienePanaderia);
-console.log('Categorias:', ids.map(id => carrito[id].categoria));
+ids.forEach(id => console.log('Categoria item:', carrito[id].categoria));
   if (tienePanaderia && (hora < 12 || hora >= 18)) {
     cerrarFormulario();
     mostrarErrorHorario('Los pedidos de Panader\u00eda se reciben entre las 12:00 y 18:00 hrs.');
