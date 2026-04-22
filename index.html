@@ -675,14 +675,30 @@ var tienePanaderia = ids.some(function(id){
 console.log('Hora:', hora);
 console.log('Tiene panaderia:', tienePanaderia);
 ids.forEach(id => console.log('Categoria item:', carrito[id].categoria));
+var tienePanaderia = ids.some(function(id){ 
+  var cat = carrito[id].categoria ? normalizar(carrito[id].categoria) : '';
+  return cat === 'panaderia' || cat === 'reposteria' || cat === 'pasteleria';
+});
+var tieneEmpanadas = ids.some(function(id){ 
+  var cat = carrito[id].categoria ? normalizar(carrito[id].categoria) : '';
+  return cat === 'empanadas';
+});
+console.log('Hora:', hora);
+console.log('Tiene panaderia:', tienePanaderia);
+ids.forEach(id => console.log('Categoria item:', carrito[id].categoria));
+  if (tienePanaderia && tieneEmpanadas) {
+    cerrarFormulario();
+    mostrarErrorHorario('No puedes mezclar productos de Panader\u00eda y Empanadas en un mismo pedido.');
+    return;
+  }
   if (tienePanaderia && (hora < 12 || hora >= 18)) {
     cerrarFormulario();
     mostrarErrorHorario('Los pedidos de Panader\u00eda se reciben entre las 12:00 y 18:00 hrs.');
     return;
   }
-  if (!tienePanaderia && (hora < 18 || hora >= 22)) {
+  if (tieneEmpanadas && (hora < 18 || hora >= 22)) {
     cerrarFormulario();
-    mostrarErrorHorario('Los pedidos solo se reciben entre las 18:00 y 22:00 hrs.');
+    mostrarErrorHorario('Los pedidos de empanadas se reciben entre las 18:00 y 22:00 hrs.');
     return;
   }
   var btn = document.querySelector('.form-btn-ok');
