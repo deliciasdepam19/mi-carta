@@ -450,10 +450,7 @@ function normalizar(txt) {
 
 function cargarStock() {
   if (!SUPABASE_URL || SUPABASE_URL === '') {
-    document.querySelectorAll('.card-stock-badge').forEach(function(b) {
-      b.textContent = 'Disponible';
-      b.className   = 'card-badge card-stock-badge card-badge-ok';
-    });
+    aplicarStockEnCards();
     return;
   }
   fetch(SUPABASE_URL + '/rest/v1/empanadas?select=tipo,stock', {
@@ -469,10 +466,7 @@ function cargarStock() {
     aplicarStockEnCards();
   })
   .catch(function() {
-    document.querySelectorAll('.card-stock-badge').forEach(function(b) {
-      b.textContent = 'Disponible';
-      b.className   = 'card-badge card-stock-badge card-badge-ok';
-    });
+    aplicarStockEnCards();
   });
 }
 
