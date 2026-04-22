@@ -520,7 +520,12 @@ function aplicarStockEnCards() {
         stock = _stockData[k];
       }
     });
-    if (stock === null) return;
+    if (stock === null) {
+      badge.textContent = 'Disponible';
+      badge.className   = 'card-badge card-stock-badge card-badge-ok';
+      if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
+      return;
+    }
     if (stock > 0) {
       badge.textContent = 'Disponible';
       badge.className   = 'card-badge card-stock-badge card-badge-ok';
