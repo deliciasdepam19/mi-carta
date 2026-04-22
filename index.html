@@ -158,6 +158,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .card-badge-ok{background:#2ecc71 !important;color:#09100f !important}
 .card-badge-agotado{background:rgba(255,80,80,.15) !important;color:#ff5555 !important;border:1px solid rgba(255,80,80,.3) !important}
 .card-panaderia-badge{background:var(--gold-dim);color:var(--gold)}
+.form-group input[type=date]{color-scheme:dark}
+.form-aviso{background:var(--gold-dim);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:.8rem;color:var(--gold-light);line-height:1.5;margin-bottom:4px}
+.form-aviso strong{color:var(--gold)}
+#grupoFecha{display:none}
 </style>
 </head>
 <body>
@@ -361,6 +365,11 @@ var _catalogoNombres = {
       <label>N&#250;mero Telef&#243;nico</label>
       <input id='inputTelefono' type='tel' placeholder='Ej: 9 1234 5678' autocomplete='tel'/>
     </div>
+    <div id='grupoFecha' class='form-group'>
+      <div class='form-aviso'>&#x23F0; <strong>Pedido anticipado:</strong> Remaster&#237;a y Pasteler&#237;a requieren <strong>m&#237;nimo 3 d&#237;as</strong> de anticipaci&#243;n para su preparaci&#243;n.</div>
+      <label>Fecha de entrega deseada *</label>
+      <input id='inputFecha' type='date'/>
+    </div>
     <div class='form-btns'>
       <button class='form-btn-cancel' onclick='cerrarFormulario()'>Cancelar</button>
       <button class='form-btn-ok' onclick='enviarPedido()'>Confirmar pedido &#10003;</button>
@@ -496,29 +505,34 @@ function aplicarStockEnCards() {
 
 function aplicarHorarioPanaderia() {
   var hora = getHoraSantiago();
-  var dispPanaderia  = hora >= 12 && hora < 18;
-  var dispPasteleria = hora >= 18 && hora < 22;
-  var dispResto      = hora >= 18 && hora < 22;
+  var dispPanaderia = hora >= 12 && hora < 18;
 
   document.querySelectorAll('.card').forEach(function(card) {
     if (card.getAttribute('data-tiene-stock') === 'true') return;
-    var catReal  = normalizar(card.getAttribute('data-cat-real') || '');
-    var badge    = card.querySelector('.card-panaderia-badge');
+    var catReal = normalizar(card.getAttribute('data-cat-real') || '');
+    var badge   = card.querySelector('.card-panaderia-badge');
     if (!badge) return;
-    var btnAdd   = card.querySelector('.card-add-btn');
+    var btnAdd  = card.querySelector('.card-add-btn');
 
-    var esPanaderia  = catReal.indexOf('panader') !== -1 || catReal.indexOf('reposteri') !== -1;
-    var esPasteleria = catReal.indexOf('pasteler') !== -1;
-    var disponible   = esPanaderia ? dispPanaderia : dispPasteleria;
+    var esPanaderia = catReal.indexOf('panader') !== -1;
+    var esReposPast = catReal.indexOf('reposteri') !== -1 || catReal.indexOf('pasteler') !== -1;
 
-    if (disponible) {
-      badge.textContent = 'Disponible';
+    if (esReposPast) {
+      // Repostería y pastelería: siempre disponible, se piden con anticipación
+      badge.textContent = 'Pedido anticipado';
       badge.className   = 'card-badge card-badge-ok';
       if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
-    } else {
-      badge.textContent = esPanaderia ? 'Pedido 12-18h' : 'Pedido 18-22h';
-      badge.className   = 'card-badge card-panaderia-badge';
-      if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
+    } else if (esPanaderia) {
+      // Panadería: disponible 12-18h
+      if (dispPanaderia) {
+        badge.textContent = 'Disponible';
+        badge.className   = 'card-badge card-badge-ok';
+        if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
+      } else {
+        badge.textContent = 'Pedido 12-18h';
+        badge.className   = 'card-badge card-panaderia-badge';
+        if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
+      }
     }
   });
 }
@@ -684,6 +698,30 @@ function abrirFormulario() {
   cerrarCarrito();
   document.getElementById('inputNombre').value   = usuarioActual.nombre;
   document.getElementById('inputTelefono').value = '';
+
+  // Mostrar campo de fecha solo si hay repostería o pastelería
+  var ids = Object.keys(carrito);
+  var tieneAnticipado = ids.some(function(id) {
+    var cat = normalizar(carrito[id].categoria || '');
+    return cat.indexOf('reposteri') !== -1 || cat.indexOf('pasteler') !== -1;
+  });
+  var grupoFecha = document.getElementById('grupoFecha');
+  var inputFecha = document.getElementById('inputFecha');
+  if (tieneAnticipado) {
+    // Fecha mínima = hoy + 3 días
+    var minDate = new Date();
+    minDate.setDate(minDate.getDate() + 3);
+    var yyyy = minDate.getFullYear();
+    var mm   = String(minDate.getMonth() + 1).padStart(2, '0');
+    var dd   = String(minDate.getDate()).padStart(2, '0');
+    inputFecha.min   = yyyy + '-' + mm + '-' + dd;
+    inputFecha.value = yyyy + '-' + mm + '-' + dd;
+    grupoFecha.style.display = 'block';
+  } else {
+    grupoFecha.style.display = 'none';
+    inputFecha.value = '';
+  }
+
   document.getElementById('formModal').classList.add('active');
   setTimeout(function(){ document.getElementById('inputTelefono').focus(); }, 100);
 }
@@ -701,30 +739,56 @@ function enviarPedido() {
   var ids      = Object.keys(carrito);
   var detalle  = ids.map(function(id){ return carrito[id].cantidad + 'x ' + carrito[id].nombre; }).join(' + ');
   var total    = ids.reduce(function(s,id){ return s + carrito[id].cantidad * carrito[id].precio; }, 0);
-
-  var hora = getHoraSantiago();
+  var hora     = getHoraSantiago();
   console.log('Hora Santiago:', hora);
 
   var tienePanaderia = ids.some(function(id) {
-    var cat = normalizar(carrito[id].categoria || '');
-    return cat.indexOf('panader') !== -1 || cat.indexOf('reposteri') !== -1;
+    return normalizar(carrito[id].categoria || '').indexOf('panader') !== -1;
   });
-  var tienePasteleria = ids.some(function(id) {
-    var cat = normalizar(carrito[id].categoria || '');
-    return cat.indexOf('pasteler') !== -1;
+  var tieneEmpanadas = ids.some(function(id) {
+    return normalizar(carrito[id].categoria || '').indexOf('empan') !== -1;
   });
-  console.log('tienePanaderia:', tienePanaderia, 'tienePasteleria:', tienePasteleria);
-  ids.forEach(function(id){ console.log('  cat:', carrito[id].categoria); });
+  var tieneAnticipado = ids.some(function(id) {
+    var cat = normalizar(carrito[id].categoria || '');
+    return cat.indexOf('reposteri') !== -1 || cat.indexOf('pasteler') !== -1;
+  });
+  console.log('hora:', hora, 'panaderia:', tienePanaderia, 'empanadas:', tieneEmpanadas, 'anticipado:', tieneAnticipado);
 
   if (tienePanaderia && (hora < 12 || hora >= 18)) {
     cerrarFormulario();
     mostrarErrorHorario('Los pedidos de Panader\u00eda se reciben entre las 12:00 y 18:00 hrs.');
     return;
   }
-  if (!tienePanaderia && (hora < 18 || hora >= 22)) {
+  if (tieneEmpanadas && (hora < 18 || hora >= 22)) {
     cerrarFormulario();
-    mostrarErrorHorario('Los pedidos solo se reciben entre las 18:00 y 22:00 hrs.');
+    mostrarErrorHorario('Los pedidos de Empanadas se reciben entre las 18:00 y 22:00 hrs.');
     return;
+  }
+  if (tieneAnticipado && (hora < 12 || hora >= 22)) {
+    cerrarFormulario();
+    mostrarErrorHorario('Los encargos de Remaster\u00eda y Pasteler\u00eda se reciben entre las 12:00 y 22:00 hrs.');
+    return;
+  }
+  var fechaEntrega = '';
+  if (tieneAnticipado) {
+    fechaEntrega = document.getElementById('inputFecha').value;
+    if (!fechaEntrega) {
+      document.getElementById('inputFecha').style.borderColor = '#ff4444';
+      document.getElementById('inputFecha').focus();
+      return;
+    }
+    document.getElementById('inputFecha').style.borderColor = '';
+    var minDate = new Date();
+    minDate.setDate(minDate.getDate() + 3);
+    minDate.setHours(0,0,0,0);
+    var selDate = new Date(fechaEntrega + 'T00:00:00');
+    if (selDate < minDate) {
+      document.getElementById('inputFecha').style.borderColor = '#ff4444';
+      mostrarErrorHorario('La fecha de entrega debe ser con al menos 3 d\u00edas de anticipaci\u00f3n.');
+      return;
+    }
+    var partes = fechaEntrega.split('-');
+    fechaEntrega = partes[2] + '/' + partes[1] + '/' + partes[0];
   }
 
   var btn = document.querySelector('.form-btn-ok');
@@ -733,10 +797,14 @@ function enviarPedido() {
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
-      cliente: nombre, telefono: telefono, detalle: detalle, total: total,
-      google_id: usuarioActual ? usuarioActual.id    : null,
-      correo:    usuarioActual ? usuarioActual.email : null,
-      nombre:    usuarioActual ? usuarioActual.nombre : null,
+      cliente:       nombre,
+      telefono:      telefono,
+      detalle:       detalle,
+      total:         total,
+      fecha_entrega: fechaEntrega || null,
+      google_id:     usuarioActual ? usuarioActual.id    : null,
+      correo:        usuarioActual ? usuarioActual.email : null,
+      nombre:        usuarioActual ? usuarioActual.nombre : null,
       items: ids.map(function(id){
         return {id:id, nombre:carrito[id].nombre, cantidad:carrito[id].cantidad, precio:carrito[id].precio, categoria:carrito[id].categoria};
       })
@@ -747,7 +815,7 @@ function enviarPedido() {
     btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713';
     if (data.exito) {
       cerrarFormulario();
-      mostrarExito(data.numero, nombre, telefono, detalle, total);
+      mostrarExito(data.numero, nombre, telefono, detalle, total, fechaEntrega);
       vaciarCarrito();
       cargarStock();
     } else {
@@ -762,17 +830,19 @@ function enviarPedido() {
   });
 }
 
-function mostrarExito(numero, nombre, telefono, detalle, total) {
+function mostrarExito(numero, nombre, telefono, detalle, total, fechaEntrega) {
   document.getElementById('exitoNum').style.display = 'none';
   document.getElementById('exitoDetalle').innerHTML =
     '<strong>Cliente:</strong> ' + nombre + '<br>' +
     (telefono !== '-' ? '<strong>Tel:</strong> ' + telefono + '<br>' : '') +
     '<strong>Pedido:</strong> ' + detalle + '<br>' +
+    (fechaEntrega ? '<strong>Entrega:</strong> ' + fechaEntrega + '<br>' : '') +
     (total > 0 ? '<strong>Total:</strong> $' + total.toLocaleString('es-CL') : '');
   var msg = '*Hola! Acabo de hacer un pedido:*\n\n'
     + '*Nombre:* ' + nombre + '\n'
     + (telefono !== '-' ? '*Tel:* ' + telefono + '\n' : '')
     + '*Detalle:* ' + detalle + '\n'
+    + (fechaEntrega ? '*Fecha de entrega deseada:* ' + fechaEntrega + '\n' : '')
     + (total > 0 ? '*Total:* $' + total.toLocaleString('es-CL') + '\n' : '')
     + '\n\u00bfPueden confirmarme el pedido?';
   document.getElementById('btnWhatsApp').href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
