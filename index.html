@@ -762,7 +762,7 @@ function enviarPedido() {
     mostrarErrorHorario('Los pedidos de Panader\u00eda se reciben entre las 12:00 y 18:00 hrs.');
     return;
   }
-  if (tieneEmpanadas && (hora < 18 || hora >= 22)) {
+  if (tieneEmpanadas && (hora < 18 || hora > 22)) {
     cerrarFormulario();
     mostrarErrorHorario('Los pedidos de Empanadas se reciben entre las 18:00 y 22:00 hrs.');
     return;
@@ -815,6 +815,7 @@ function enviarPedido() {
   })
   .then(function(r){ return r.json(); })
   .then(function(data){
+    console.log('Respuesta servidor:', JSON.stringify(data));
     btn.disabled = false; btn.textContent = 'Confirmar pedido \u2713';
     if (data.exito) {
       cerrarFormulario();
