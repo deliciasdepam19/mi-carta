@@ -470,6 +470,29 @@ function cargarStock() {
   });
 }
 
+function aplicarEstadoGlobal() {
+  var hora = getHoraSantiago();
+  var cerrado = hora < 12 || hora >= 22;
+  if (!cerrado) return false;
+
+  document.querySelectorAll('.card').forEach(function(card) {
+    var catReal    = normalizar(card.getAttribute('data-cat-real') || '');
+    var tieneStock = card.getAttribute('data-tiene-stock') === 'true';
+    var badge      = card.querySelector('.card-stock-badge, .card-panaderia-badge');
+    var btnAdd     = card.querySelector('.card-add-btn');
+    if (!badge) return;
+
+    // Repostería y pastelería nunca se cierran
+    var esAnticipado = catReal.indexOf('reposteri') !== -1 || catReal.indexOf('pasteler') !== -1;
+    if (esAnticipado) return;
+
+    badge.textContent = 'Cerrado';
+    badge.className   = 'card-badge card-badge-agotado';
+    if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
+  });
+  return true;
+}
+
 function aplicarStockEnCards() {
   var hora = getHoraSantiago();
   var dentroHorarioEmpanadas = hora >= 18 && hora < 22;
@@ -479,9 +502,10 @@ function aplicarStockEnCards() {
     var nombreBd = card.getAttribute('data-nombre-bd');
     var badge    = card.querySelector('.card-stock-badge');
     if (!badge || !nombreBd) return;
+    // Si ya fue marcado como Cerrado, no sobreescribir
+    if (badge.textContent === 'Cerrado') return;
     var btnAdd   = card.querySelector('.card-add-btn');
 
-    // Primero verificar horario
     if (!dentroHorarioEmpanadas) {
       badge.textContent = 'Pedido 18-22h';
       badge.className   = 'card-badge card-stock-badge card-panaderia-badge';
@@ -489,7 +513,6 @@ function aplicarStockEnCards() {
       return;
     }
 
-    // Dentro del horario: verificar stock
     var stock = null;
     Object.keys(_stockData).forEach(function(k) {
       if (stock !== null) return;
@@ -497,7 +520,6 @@ function aplicarStockEnCards() {
         stock = _stockData[k];
       }
     });
-
     if (stock === null) return;
     if (stock > 0) {
       badge.textContent = 'Disponible';
@@ -613,6 +635,7 @@ function mostrarAlertaPasteleria() {
 }
 
 window.addEventListener('load', function() {
+  aplicarEstadoGlobal();
   cargarStock();
   aplicarHorarioPanaderia();
   if (typeof google !== 'undefined') initGoogleAuth();
