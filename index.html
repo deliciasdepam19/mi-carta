@@ -359,11 +359,11 @@ var _catalogoNombres = {
     <div class='form-sub'>Solo necesitamos tu nombre para identificar tu pedido</div>
     <div class='form-group'>
       <label>Tu nombre *</label>
-      <input id='inputNombre' type='text' placeholder='Ej: Mar&#237;a Gonz&#225;lez' autocomplete='name'/>
+      <input id='inputNombre' type='text' placeholder='Ej: Mar&#237;a Gonz&#225;lez' autocomplete='name' maxlength='60'/>
     </div>
     <div class='form-group'>
       <label>N&#250;mero Telef&#243;nico</label>
-      <input id='inputTelefono' type='tel' placeholder='Ej: 9 1234 5678' autocomplete='tel'/>
+      <input id='inputTelefono' type='tel' placeholder='Ej: 9 1234 5678' autocomplete='tel' maxlength='9'/>
     </div>
     <div id='grupoFecha' class='form-group'>
       <div class='form-aviso'>&#x23F0; <strong>Pedido anticipado:</strong> Remaster&#237;a y Pasteler&#237;a requieren <strong>m&#237;nimo 3 d&#237;as</strong> de anticipaci&#243;n para su preparaci&#243;n.</div>
@@ -639,6 +639,18 @@ function mostrarAlertaPasteleria() {
   setTimeout(function(){ t.classList.remove('visible'); }, 4000);
 }
 
+function soloLetras(e) {
+  var char = String.fromCharCode(e.which || e.keyCode);
+  if (!/[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]/.test(char)) { e.preventDefault(); return false; }
+}
+function soloNumeros(e) {
+  var char = String.fromCharCode(e.which || e.keyCode);
+  if (!/[0-9]/.test(char)) { e.preventDefault(); return false; }
+}
+function sanitizar(txt) {
+  return txt.replace(/[<>"'%;()&+\-\/\\=]/g, '').trim();
+}
+
 window.addEventListener('load', function() {
   aplicarEstadoGlobal();
   cargarStock();
@@ -648,8 +660,18 @@ window.addEventListener('load', function() {
     var s = document.querySelector('script[src*="gsi"]');
     if (s) s.addEventListener('load', initGoogleAuth);
   }
+  var inputNombre = document.getElementById('inputNombre');
+  var inputTel    = document.getElementById('inputTelefono');
+  if (inputNombre) inputNombre.addEventListener('keypress', soloLetras);
+  if (inputTel)    inputTel.addEventListener('keypress', soloNumeros);
+  if (inputTel) inputTel.addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '').substring(0, 9);
+    this.style.borderColor = this.value.length === 9 || this.value.length === 0 ? '' : '#ff4444';
+  });
+  if (inputNombre) inputNombre.addEventListener('input', function() {
+    this.value = this.value.replace(/[^a-zA-Z\u00e0-\u00fc\u00c0-\u00dc\s]/g, '').substring(0, 60);
+  });
 });
-
 function parsePrecio(p) {
   if (!p) return 0;
   return parseInt(String(p).replace(/[^0-9]/g,''), 10) || 0;
@@ -764,14 +786,28 @@ function abrirFormulario() {
 function cerrarFormulario() { document.getElementById('formModal').classList.remove('active'); }
 
 function enviarPedido() {
-  var nombre = document.getElementById('inputNombre').value.trim();
-  if (!nombre) {
-    document.getElementById('inputNombre').focus();
-    document.getElementById('inputNombre').style.borderColor = '#ff4444';
+  var nombre = sanitizar(document.getElementById('inputNombre').value);
+  nombre = nombre.replace(/[^a-zA-Z\u00e0-\u00fc\u00c0-\u00dc\s]/g, '').trim();
+  var telefono = document.getElementById('inputTelefono').value.replace(/[^0-9]/g,'').trim();
+  var errores = [];
+  if (!nombre) errores.push('inputNombre');
+  if (telefono.length !== 9) errores.push('inputTelefono');
+  if (errores.length > 0) {
+    ['inputNombre','inputTelefono'].forEach(function(id) {
+      document.getElementById(id).style.borderColor = '';
+    });
+    errores.forEach(function(id) {
+      document.getElementById(id).style.borderColor = '#ff4444';
+    });
+    document.getElementById(errores[0]).focus();
+    mostrarErrorHorario('Por favor completa todos los campos correctamente.<br>'
+      + (nombre ? '' : '\u2022 Nombre es obligatorio.<br>')
+      + (telefono.length !== 9 ? '\u2022 Tel\u00e9fono debe tener 9 d\u00edgitos.' : ''));
     return;
   }
   document.getElementById('inputNombre').style.borderColor = '';
-  var telefono = document.getElementById('inputTelefono').value.trim() || '-';
+  document.getElementById('inputTelefono').style.borderColor = '';
+  telefono = telefono || '-';
   var ids      = Object.keys(carrito);
   var detalle  = ids.map(function(id){ return carrito[id].cantidad + 'x ' + carrito[id].nombre; }).join(' + ');
   var total    = ids.reduce(function(s,id){ return s + carrito[id].cantidad * carrito[id].precio; }, 0);
