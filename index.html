@@ -144,15 +144,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .auth-divider span{font-size:12px;color:var(--text-muted)}
 #googleBtn{display:flex;justify-content:center;margin-top:16px;}
-.user-chip{display:inline-flex;align-items:center;gap:6px;background:var(--bg-card2);border:1px solid var(--border);border-radius:24px;padding:5px 10px 5px 5px;font-size:12px;color:var(--text-muted);cursor:pointer;transition:border-color .2s;max-width:160px;overflow:hidden}
-.user-chip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100px}
+.user-chip{display:inline-flex;align-items:center;gap:6px;background:none;border:none;border-radius:0;padding:0;font-size:13px;color:var(--text-muted);cursor:default;max-width:160px;overflow:hidden}
+.user-chip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100px;font-weight:500;color:var(--text)}
 .user-chip:hover{border-color:var(--gold)}
 .user-chip img{width:24px;height:24px;border-radius:50%;object-fit:cover}
 .user-chip-placeholder{width:24px;height:24px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bg)}
-.auth-bar{position:fixed;top:0;right:0;z-index:500;padding:8px 14px;background:rgba(9,16,15,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom-left-radius:12px;border:1px solid var(--border);border-top:none;border-right:none;max-width:calc(100vw - 20px);}
-.btn-logout{background:none;border:1px solid var(--border);color:var(--text-muted);font-size:11px;padding:4px 10px;border-radius:12px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.auth-bar{position:fixed;top:10px;right:14px;z-index:500;padding:0;background:none;border:none;max-width:calc(100vw - 20px);}
+.btn-logout{background:none;border:none;color:var(--text-muted);font-size:12px;padding:0 0 0 6px;cursor:pointer;transition:color .2s;white-space:nowrap;border-left:1px solid var(--border)}
+.btn-logout:hover{color:var(--gold)}
 .btn-logout:hover{border-color:var(--gold);color:var(--gold)}
-@media(max-width:600px){.hero{padding:56px 16px 40px}.grid{grid-template-columns:1fr}.nav{padding:14px}.auth-bar{padding:6px 10px}.user-chip{max-width:130px}.user-chip span{max-width:70px}.btn-logout{font-size:10px;padding:3px 8px}}
+@media(max-width:600px){.hero{padding:56px 16px 40px}.grid{grid-template-columns:1fr}.nav{padding:14px}.auth-bar{top:8px;right:10px}.user-chip{max-width:130px}.user-chip span{max-width:70px}.btn-logout{font-size:10px;padding:3px 8px}}
 .toast-pasteleria{position:fixed;bottom:110px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);border:1px solid var(--gold);border-radius:12px;padding:14px 22px;color:var(--text);font-size:.875rem;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.6);max-width:340px;text-align:center;opacity:0;transition:all .35s;pointer-events:none}
 .toast-pasteleria.visible{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast-pasteleria span{color:var(--gold);font-weight:600}
