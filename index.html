@@ -413,7 +413,8 @@ var _catalogoNombres = {
 </div>
 
 <script>
-var carrito = {};
+var _carritoGuardado = sessionStorage.getItem('carta_carrito');
+var carrito = _carritoGuardado ? JSON.parse(_carritoGuardado) : {};
 var _stockData = {};
 window._pasteleriaAlertado = false;
 var WHATSAPP_NUMBER  = '56990778025';
@@ -670,6 +671,8 @@ window.addEventListener('load', function() {
   if (inputNombre) inputNombre.addEventListener('input', function() {
     this.value = this.value.replace(/[^a-zA-Z\u00e0-\u00fc\u00c0-\u00dc\s]/g, '').substring(0, 60);
   });
+  // Restaurar badge del carrito si venía de redirect de Google
+  if (Object.keys(carrito).length > 0) actualizarCarrito();
 });
 function parsePrecio(p) {
   if (!p) return 0;
@@ -731,11 +734,13 @@ function actualizarCarrito() {
   }
   var total = ids.reduce(function(s,pid){ return s + carrito[pid].cantidad * carrito[pid].precio; }, 0);
   document.getElementById('carritoTotal').textContent = '$' + total.toLocaleString('es-CL');
+  try { sessionStorage.setItem('carta_carrito', JSON.stringify(carrito)); } catch(e) {}
 }
 function vaciarCarrito() {
   Object.keys(carrito).forEach(function(id){ delete carrito[id]; });
   window._pasteleriaAlertado = false;
   actualizarCarrito();
+  try { sessionStorage.removeItem('carta_carrito'); } catch(e) {}
 }
 function abrirCarrito() {
   document.getElementById('carritoModal').classList.add('active');
