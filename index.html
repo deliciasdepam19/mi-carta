@@ -553,18 +553,14 @@ function aplicarHorarioPanaderia() {
     var esReposPast = catReal.indexOf('reposteri') !== -1 || catReal.indexOf('pasteler') !== -1;
 
     if (esReposPast) {
-      // Repostería y pastelería: siempre disponible, se piden con anticipación
-      badge.textContent = 'Pedido anticipado';
-      badge.className   = 'card-badge card-badge-ok';
-      if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
-    } else if (esPanaderia) {
-      // Panadería: disponible 12-18h
-      if (dispPanaderia) {
-        badge.textContent = 'Disponible';
+      var hora = getHoraSantiago();
+      var dispRepost = hora >= 12 && hora < 22;
+      if (dispRepost) {
+        badge.textContent = 'Pedido anticipado';
         badge.className   = 'card-badge card-badge-ok';
         if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
       } else {
-        badge.textContent = 'Pedido 12-18h';
+        badge.textContent = 'Pedido 12-22h';
         badge.className   = 'card-badge card-panaderia-badge';
         if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
       }
