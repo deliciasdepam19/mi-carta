@@ -482,10 +482,6 @@ function aplicarEstadoGlobal() {
     var btnAdd     = card.querySelector('.card-add-btn');
     if (!badge) return;
 
-    // Repostería y pastelería nunca se cierran
-    var esAnticipado = catReal.indexOf('reposteri') !== -1 || catReal.indexOf('pasteler') !== -1;
-    if (esAnticipado) return;
-
     badge.textContent = 'Cerrado';
     badge.className   = 'card-badge card-badge-agotado';
     if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
@@ -553,21 +549,29 @@ function aplicarHorarioPanaderia() {
     var esReposPast = catReal.indexOf('reposteri') !== -1 || catReal.indexOf('pasteler') !== -1;
 
     if (esReposPast) {
-      var hora = getHoraSantiago();
       var dispRepost = hora >= 12 && hora < 22;
       if (dispRepost) {
         badge.textContent = 'Pedido anticipado';
         badge.className   = 'card-badge card-badge-ok';
         if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
       } else {
-        badge.textContent = 'Pedido 12-22h';
-        badge.className   = 'card-badge card-panaderia-badge';
+        badge.textContent = 'Cerrado';
+        badge.className   = 'card-badge card-badge-agotado';
+        if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
+      }
+    } else if (esPanaderia) {
+      if (dispPanaderia) {
+        badge.textContent = 'Disponible';
+        badge.className   = 'card-badge card-badge-ok';
+        if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
+      } else {
+        badge.textContent = 'Cerrado';
+        badge.className   = 'card-badge card-badge-agotado';
         if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
       }
     }
   });
 }
-
 function initGoogleAuth() {
   google.accounts.id.initialize({
     client_id: GOOGLE_CLIENT_ID,
