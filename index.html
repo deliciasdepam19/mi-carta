@@ -652,6 +652,7 @@ function sanitizar(txt) {
 }
 
 window.addEventListener('load', function() {
+  verificarEstadoWeb();
   aplicarEstadoGlobal();
   cargarStock();
   aplicarHorarioPanaderia();
@@ -985,6 +986,42 @@ function cerrarErrorHorario() {
     if (e.target.id === id) document.getElementById(id).classList.remove('active');
   });
 });
+function verificarEstadoWeb() {
+  if (!URL_SERVIDOR || URL_SERVIDOR === '') return;
+  fetch(URL_SERVIDOR + '/api/estado')
+     .then(function(r) {return r.json(); })
+     .then(function(data) {
+       if(!data.abierta) mostrarWebCerrada();
+   })
+   .catch(function() {});
+}
+function mostrarWebCerrada() {
+  document.querySelectorAll('.card-add-btn').forEach(function(btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0';
+    btn.style.cursor = 'not-allowed';
+   });
+   document.querySelectorAll('.card-badge, .card-stock-badge, .card-panaderia-badge')
+    .forEach(function(badge) {
+      badge.textContent = 'Cerrado';
+      badge.className = 'card-badge card-badge-agotado';
+   });
+  var btnPedir = document.querySelector('.btn-pedir');
+  if (btnPedir) {
+   btnPedir.disabled = true;
+   btnPedir.textContent = 'Pedidos cerrados';
+   btnPedir.style.background = '#555';
+   btnPedir.style.cursor = 'not-allowed';
+   }
+  var hero = document.querySelector('.hero .wrap');
+  if (hero && !document.getElementById('bannerCerrado')) {
+   var banner = document.createElement('div');
+   banner.id = 'bannerCerrado';
+   banner.style.cssText = 'margin:16px auto 0;max-width:420px;padding:14px 20px;background:rgba(220,50,50,.15);border:1px solid rgba(220,50,50,.4);border-radius:12px;color:#ff8080;font-size:.9rem;font-weight:500;text-align:center';
+   banner.textContent = '\u26D4 Pedidos cerrados por hoy — vuelve pronto';
+   hero.appendChild(banner);
+   }
+}
 </script>
 <footer class='footer'>
   <div class='footer-brand'>&#10022;</div>
