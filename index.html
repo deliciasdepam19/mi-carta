@@ -520,7 +520,7 @@ function aplicarStockEnCards() {
     var btnAdd   = card.querySelector('.card-add-btn');
 
     if (!dentroHorarioEmpanadas) {
-      badge.textContent = 'Pedido 18-22h';
+      badge.textContent = 'Desde 18:00H';
       badge.className   = 'card-badge card-stock-badge card-panaderia-badge';
       if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
       return;
@@ -544,7 +544,7 @@ function aplicarStockEnCards() {
       badge.className   = 'card-badge card-stock-badge card-badge-ok';
       if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
     } else {
-      badge.textContent = 'Sin stock';
+      badge.textContent = 'No disponible';
       badge.className   = 'card-badge card-stock-badge card-badge-agotado';
       if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
     }
