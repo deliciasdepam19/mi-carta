@@ -1,0 +1,75 @@
+{
+  "nombre": "Delicias de Pam",
+  "descripcion": "Especialidades caseras hechas con amor",
+  "logoBase64": "",
+  "categorias": [
+    {"nombre": "Empanadas"},
+    {"nombre": "Panadería"},
+    {"nombre": "Repostería"}
+  ],
+  "items": [
+    {
+      "nombre": "Empanada de Pino",
+      "descripcion": "Clásica empanada chilena rellena de carne, cebolla, huevo duro y aceituna",
+      "precio": "$2.500",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Empanada de Queso",
+      "descripcion": "Queso mantecoso derretido en masa crujiente",
+      "precio": "$2.500",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Empanada Napolitana",
+      "descripcion": "Carne, jamón, queso y tomate en masa artesanal",
+      "precio": "$3.000",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Empanada de Mariscos",
+      "descripcion": "Mezcla de mariscos frescos con queso crema",
+      "precio": "$3.500",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Pan Amasado",
+      "descripcion": "Pan tradicional chileno, dorado y esponjoso",
+      "precio": "$1.500",
+      "categoria": "Panadería",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Hallulla",
+      "descripcion": "Pan redondo y crujiente, ideal para sandwich",
+      "precio": "$1.200",
+      "categoria": "Panadería",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Dulces Chilenos",
+      "descripcion": "Variedad de dulces artesanales chilenos",
+      "precio": "$3.000",
+      "categoria": "Repostería",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Torta Mil Hojas",
+      "descripcion": "Tradicional torta chilena de mil hojas con manjar",
+      "precio": "$15.000",
+      "categoria": "Repostería",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Kuchen de Manzana",
+      "descripcion": "Kuchen alemán con manzanas frescas y canela",
+      "precio": "$8.000",
+      "categoria": "Repostería",
+      "imagenBase64": ""
+    }
+  ]
+}
