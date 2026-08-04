@@ -553,7 +553,7 @@ function aplicarStockEnCards() {
 
 function aplicarHorarioPanaderia() {
   var hora = getHoraSantiago();
-  var dispPanaderia = hora >= 12 && hora < 18;
+  var dispPanaderia = hora >= 12 && hora < 15;
 
   document.querySelectorAll('.card').forEach(function(card) {
     if (card.getAttribute('data-tiene-stock') === 'true') return;
@@ -851,9 +851,9 @@ function enviarPedido() {
     console.log('item:', id, '| categoria:', carrito[id].categoria);
   });
 
-  if (tienePanaderia && (hora < 12 || hora > 18)) {
+  if (tienePanaderia && (hora < 12 || hora >= 15)) {
     cerrarFormulario();
-    mostrarErrorHorario('Los pedidos de Panader\u00eda se reciben entre las 12:00 y 18:00 hrs.');
+    mostrarErrorHorario('Los pedidos de Panader\u00eda se reciben entre las 12:00 y 15:00 hrs.');
     return;
   }
   if (tieneEmpanadas && (hora < 18 || hora > 22)) {
