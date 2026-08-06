@@ -210,6 +210,7 @@ var _catalogoNombres = {
   "prod_Hallulla": "Hallulla",
   "prod_Hallulla_Grande": "Hallulla Grande",
   "prod_Integral": "Integral",
+  "prod_Arma_tu_empanada": "Arma tu empanada",
   "prod_Camar_n_Queso": "Camarón Queso",
   "prod_Carne_Queso": "Carne Queso",
   "prod_Mariscos": "Mariscos",
@@ -221,7 +222,6 @@ var _catalogoNombres = {
   "prod_Pollo_Queso": "Pollo Queso",
   "prod_Queso": "Queso",
   "prod_Queso_Champi_on_Cebollin": "Queso Champiñon Cebollin",
-  "prod_Arma_tu_empanada": "Arma tu empanada",
 };
 </script>
 <nav class='nav'>
@@ -351,6 +351,22 @@ var _catalogoNombres = {
     <div class='section-title'>Empanadas</div>
   </div>
   <div class='grid'>
+    <div class='card' data-id="prod_Arma_tu_empanada" data-precio="2000" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="arma_tu_empanada" data-arma='{&quot;grupos&quot;:[{&quot;titulo&quot;:&quot;Proteína&quot;,&quot;opciones&quot;:[&quot;Mechada&quot;,&quot;Pino&quot;,&quot;Pollo&quot;,&quot;Camarón&quot;]},{&quot;titulo&quot;:&quot;Opción 1&quot;,&quot;opciones&quot;:[&quot;Jamón&quot;,&quot;Cebollín&quot;,&quot;Aceituna&quot;,&quot;Choclo&quot;]},{&quot;titulo&quot;:&quot;Opción 2&quot;,&quot;opciones&quot;:[&quot;Tomate&quot;,&quot;Palmito&quot;,&quot;Champiñón&quot;,&quot;Cebolla Morada&quot;]}]}'>
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥟</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='abrirArmaModal(this)'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Empanadas</div>
+        <div class='card-name'>Arma tu empanada</div>
+        <div class='card-desc'>El queso viene incluido</div>
+        <div class='card-footer'>
+          <span class='card-price'>$2.000</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Arma_tu_empanada'>...</span>
+        </div>
+      </div>
+    </div>
     <div class='card' data-id="prod_Camar_n_Queso" data-precio="1800" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="camar_n_queso">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
@@ -524,22 +540,6 @@ var _catalogoNombres = {
         <div class='card-footer'>
           <span class='card-price'>$1.700</span>
           <span class='card-badge card-stock-badge' id='badge_prod_Queso_Champi_on_Cebollin'>...</span>
-        </div>
-      </div>
-    </div>
-    <div class='card' data-id="prod_Arma_tu_empanada" data-precio="2000" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="arma_tu_empanada" data-arma='{&quot;grupos&quot;:[{&quot;titulo&quot;:&quot;Proteína&quot;,&quot;opciones&quot;:[&quot;Mechada&quot;,&quot;Pino&quot;,&quot;Pollo&quot;,&quot;Camarón&quot;]},{&quot;titulo&quot;:&quot;Opción 1&quot;,&quot;opciones&quot;:[&quot;Jamón&quot;,&quot;Cebollín&quot;,&quot;Aceituna&quot;,&quot;Choclo&quot;]},{&quot;titulo&quot;:&quot;Opción 2&quot;,&quot;opciones&quot;:[&quot;Tomate&quot;,&quot;Palmito&quot;,&quot;Champiñón&quot;,&quot;Cebolla Morada&quot;]}]}'>
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥟</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='abrirArmaModal(this)'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Empanadas</div>
-        <div class='card-name'>Arma tu empanada</div>
-        <div class='card-desc'>El queso viene incluido</div>
-        <div class='card-footer'>
-          <span class='card-price'>$2.000</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Arma_tu_empanada'>...</span>
         </div>
       </div>
     </div>
