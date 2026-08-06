@@ -648,7 +648,7 @@ var _catalogoNombres = {
 var _carritoGuardado = sessionStorage.getItem('carta_carrito');
 var carrito = _carritoGuardado ? JSON.parse(_carritoGuardado) : {};
 var _stockData = {};
-var _webAbierta = false;
+var _webAbierta = true;
 window._pasteleriaAlertado = false;
 var WHATSAPP_NUMBER  = '56990778025';
 var URL_SERVIDOR     = 'https://servidor-pedidos-i0jg.onrender.com';
@@ -1227,7 +1227,7 @@ function verificarEstadoWeb() {
        if(!data.abierta) { _webAbierta = false; mostrarWebCerrada(); }
        else { _webAbierta = true; aplicarHorarioPanaderia(); cargarStock(); }
    })
-   .catch(function() { _webAbierta = false; mostrarWebCerrada(); });
+   .catch(function() { _webAbierta = true; aplicarHorarioPanaderia(); cargarStock(); });
 }
 function mostrarWebCerrada() {
   document.querySelectorAll('.card-add-btn').forEach(function(btn) {
