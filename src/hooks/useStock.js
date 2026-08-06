@@ -72,6 +72,7 @@ export function useStock(catalogo) {
       return { label: 'Disponible', available: true };
     }
 
+    // Otros / Pastelería / cualquier categoría nueva
     return { label: 'Disponible', available: true };
   }
 
