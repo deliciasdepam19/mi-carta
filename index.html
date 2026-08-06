@@ -163,6 +163,24 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .form-aviso{background:var(--gold-dim);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:.8rem;color:var(--gold-light);line-height:1.5;margin-bottom:4px}
 .form-aviso strong{color:var(--gold)}
 #grupoFecha{display:none}
+.arma-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:5000;display:none;align-items:center;justify-content:center;padding:20px}
+.arma-overlay.active{display:flex}
+.arma-panel{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto}
+.arma-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--gold);text-align:center;margin-bottom:4px}
+.arma-subtitle{font-size:.85rem;color:var(--text-muted);text-align:center;margin-bottom:20px}
+.arma-grupo{margin-bottom:18px}
+.arma-grupo-label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-weight:600}
+.arma-opcion{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;cursor:pointer;transition:all .2s}
+.arma-opcion:hover{border-color:var(--gold);background:var(--gold-dim)}
+.arma-opcion.selected{border-color:var(--gold);background:var(--gold-dim)}
+.arma-opcion input[type=radio]{accent-color:var(--gold);width:16px;height:16px}
+.arma-opcion span{font-size:.9rem;color:var(--text)}
+.arma-btns{display:flex;gap:10px;margin-top:20px}
+.arma-btn-cancel{flex:1;padding:12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--text-muted);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s}
+.arma-btn-cancel:hover{background:rgba(255,255,255,.1)}
+.arma-btn-ok{flex:1;padding:12px;background:var(--gold);border:none;border-radius:10px;color:#09100f;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s}
+.arma-btn-ok:hover{opacity:.85}
+.arma-btn-ok:disabled{opacity:.4;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -188,21 +206,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 var _catalogoNombres = {
   "prod_Amasado": "Amasado",
   "prod_Coliza": "Coliza",
+  "prod_Dobladita": "Dobladita",
   "prod_Hallulla": "Hallulla",
   "prod_Hallulla_Grande": "Hallulla Grande",
-  "prod_Dobladita": "Dobladita",
   "prod_Integral": "Integral",
-  "prod_Pino_Carne": "Pino Carne",
-  "prod_Mechada": "Mechada",
-  "prod_Pino_Pollo": "Pino Pollo",
-  "prod_Mariscos": "Mariscos",
-  "prod_Queso": "Queso",
   "prod_Camar_n_Queso": "Camarón Queso",
-  "prod_Napolitana": "Napolitana",
-  "prod_Mechada_Queso": "Mechada Queso",
   "prod_Carne_Queso": "Carne Queso",
+  "prod_Mariscos": "Mariscos",
+  "prod_Mechada": "Mechada",
+  "prod_Mechada_Queso": "Mechada Queso",
+  "prod_Napolitana": "Napolitana",
+  "prod_Pino_Carne": "Pino Carne",
+  "prod_Pino_Pollo": "Pino Pollo",
   "prod_Pollo_Queso": "Pollo Queso",
+  "prod_Queso": "Queso",
   "prod_Queso_Champi_on_Cebollin": "Queso Champiñon Cebollin",
+  "prod_Arma_tu_empanada": "Arma tu empanada",
 };
 </script>
 <nav class='nav'>
@@ -259,6 +278,22 @@ var _catalogoNombres = {
         </div>
       </div>
     </div>
+    <div class='card' data-id="prod_Dobladita" data-precio="200" data-cat="rapido" data-cat-real="panaderia" data-tiene-stock="false" data-nombre-bd="dobladita">
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥖</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Panadería</div>
+        <div class='card-name'>Dobladita</div>
+        <div class='card-desc'></div>
+        <div class='card-footer'>
+          <span class='card-price'>$200</span>
+          <span class='card-badge card-panaderia-badge'>Cargando...</span>
+        </div>
+      </div>
+    </div>
     <div class='card' data-id="prod_Hallulla" data-precio="250" data-cat="rapido" data-cat-real="panaderia" data-tiene-stock="false" data-nombre-bd="hallulla">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
@@ -291,22 +326,6 @@ var _catalogoNombres = {
         </div>
       </div>
     </div>
-    <div class='card' data-id="prod_Dobladita" data-precio="200" data-cat="rapido" data-cat-real="panaderia" data-tiene-stock="false" data-nombre-bd="dobladita">
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥖</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Panadería</div>
-        <div class='card-name'>Dobladita</div>
-        <div class='card-desc'></div>
-        <div class='card-footer'>
-          <span class='card-price'>$200</span>
-          <span class='card-badge card-panaderia-badge'>Cargando...</span>
-        </div>
-      </div>
-    </div>
     <div class='card' data-id="prod_Integral" data-precio="250" data-cat="rapido" data-cat-real="panaderia" data-tiene-stock="false" data-nombre-bd="integral">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
@@ -332,86 +351,6 @@ var _catalogoNombres = {
     <div class='section-title'>Empanadas</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Pino_Carne" data-precio="1400" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="pino_carne">
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥟</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Empanadas</div>
-        <div class='card-name'>Pino Carne</div>
-        <div class='card-desc'></div>
-        <div class='card-footer'>
-          <span class='card-price'>$1.400</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Pino_Carne'>...</span>
-        </div>
-      </div>
-    </div>
-    <div class='card' data-id="prod_Mechada" data-precio="2000" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="mechada">
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥟</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Empanadas</div>
-        <div class='card-name'>Mechada</div>
-        <div class='card-desc'></div>
-        <div class='card-footer'>
-          <span class='card-price'>$2.000</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Mechada'>...</span>
-        </div>
-      </div>
-    </div>
-    <div class='card' data-id="prod_Pino_Pollo" data-precio="1700" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="pino_pollo">
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥟</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Empanadas</div>
-        <div class='card-name'>Pino Pollo</div>
-        <div class='card-desc'></div>
-        <div class='card-footer'>
-          <span class='card-price'>$1.700</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Pino_Pollo'>...</span>
-        </div>
-      </div>
-    </div>
-    <div class='card' data-id="prod_Mariscos" data-precio="1700" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="mariscos">
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥟</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Empanadas</div>
-        <div class='card-name'>Mariscos</div>
-        <div class='card-desc'></div>
-        <div class='card-footer'>
-          <span class='card-price'>$1.700</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Mariscos'>...</span>
-        </div>
-      </div>
-    </div>
-    <div class='card' data-id="prod_Queso" data-precio="1300" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="queso">
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥟</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Empanadas</div>
-        <div class='card-name'>Queso</div>
-        <div class='card-desc'></div>
-        <div class='card-footer'>
-          <span class='card-price'>$1.300</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Queso'>...</span>
-        </div>
-      </div>
-    </div>
     <div class='card' data-id="prod_Camar_n_Queso" data-precio="1800" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="camar_n_queso">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
@@ -425,38 +364,6 @@ var _catalogoNombres = {
         <div class='card-footer'>
           <span class='card-price'>$1.800</span>
           <span class='card-badge card-stock-badge' id='badge_prod_Camar_n_Queso'>...</span>
-        </div>
-      </div>
-    </div>
-    <div class='card' data-id="prod_Napolitana" data-precio="1500" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="napolitana">
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥟</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Empanadas</div>
-        <div class='card-name'>Napolitana</div>
-        <div class='card-desc'></div>
-        <div class='card-footer'>
-          <span class='card-price'>$1.500</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Napolitana'>...</span>
-        </div>
-      </div>
-    </div>
-    <div class='card' data-id="prod_Mechada_Queso" data-precio="2200" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="mechada_queso">
-      <div class='card-img-wrap'>
-<div class='card-img-emoji'>🥟</div>
-        <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
-      </div>
-      <div class='card-body'>
-        <div class='card-cat'>Empanadas</div>
-        <div class='card-name'>Mechada Queso</div>
-        <div class='card-desc'></div>
-        <div class='card-footer'>
-          <span class='card-price'>$2.200</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Mechada_Queso'>...</span>
         </div>
       </div>
     </div>
@@ -476,6 +383,102 @@ var _catalogoNombres = {
         </div>
       </div>
     </div>
+    <div class='card' data-id="prod_Mariscos" data-precio="1700" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="mariscos">
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥟</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Empanadas</div>
+        <div class='card-name'>Mariscos</div>
+        <div class='card-desc'></div>
+        <div class='card-footer'>
+          <span class='card-price'>$1.700</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Mariscos'>...</span>
+        </div>
+      </div>
+    </div>
+    <div class='card' data-id="prod_Mechada" data-precio="2000" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="mechada">
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥟</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Empanadas</div>
+        <div class='card-name'>Mechada</div>
+        <div class='card-desc'></div>
+        <div class='card-footer'>
+          <span class='card-price'>$2.000</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Mechada'>...</span>
+        </div>
+      </div>
+    </div>
+    <div class='card' data-id="prod_Mechada_Queso" data-precio="2200" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="mechada_queso">
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥟</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Empanadas</div>
+        <div class='card-name'>Mechada Queso</div>
+        <div class='card-desc'></div>
+        <div class='card-footer'>
+          <span class='card-price'>$2.200</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Mechada_Queso'>...</span>
+        </div>
+      </div>
+    </div>
+    <div class='card' data-id="prod_Napolitana" data-precio="1500" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="napolitana">
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥟</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Empanadas</div>
+        <div class='card-name'>Napolitana</div>
+        <div class='card-desc'></div>
+        <div class='card-footer'>
+          <span class='card-price'>$1.500</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Napolitana'>...</span>
+        </div>
+      </div>
+    </div>
+    <div class='card' data-id="prod_Pino_Carne" data-precio="1400" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="pino_carne">
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥟</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Empanadas</div>
+        <div class='card-name'>Pino Carne</div>
+        <div class='card-desc'></div>
+        <div class='card-footer'>
+          <span class='card-price'>$1.400</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Pino_Carne'>...</span>
+        </div>
+      </div>
+    </div>
+    <div class='card' data-id="prod_Pino_Pollo" data-precio="1700" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="pino_pollo">
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥟</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Empanadas</div>
+        <div class='card-name'>Pino Pollo</div>
+        <div class='card-desc'></div>
+        <div class='card-footer'>
+          <span class='card-price'>$1.700</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Pino_Pollo'>...</span>
+        </div>
+      </div>
+    </div>
     <div class='card' data-id="prod_Pollo_Queso" data-precio="1800" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="pollo_queso">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
@@ -492,6 +495,22 @@ var _catalogoNombres = {
         </div>
       </div>
     </div>
+    <div class='card' data-id="prod_Queso" data-precio="1300" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="queso">
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥟</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Empanadas</div>
+        <div class='card-name'>Queso</div>
+        <div class='card-desc'></div>
+        <div class='card-footer'>
+          <span class='card-price'>$1.300</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Queso'>...</span>
+        </div>
+      </div>
+    </div>
     <div class='card' data-id="prod_Queso_Champi_on_Cebollin" data-precio="1700" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="queso_champi_on_cebollin">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
@@ -505,6 +524,22 @@ var _catalogoNombres = {
         <div class='card-footer'>
           <span class='card-price'>$1.700</span>
           <span class='card-badge card-stock-badge' id='badge_prod_Queso_Champi_on_Cebollin'>...</span>
+        </div>
+      </div>
+    </div>
+    <div class='card' data-id="prod_Arma_tu_empanada" data-precio="2000" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="arma_tu_empanada" data-arma='{&quot;grupos&quot;:[{&quot;titulo&quot;:&quot;Proteína&quot;,&quot;opciones&quot;:[&quot;Mechada&quot;,&quot;Pino&quot;,&quot;Pollo&quot;,&quot;Camarón&quot;]},{&quot;titulo&quot;:&quot;Opción 1&quot;,&quot;opciones&quot;:[&quot;Jamón&quot;,&quot;Cebollín&quot;,&quot;Aceituna&quot;,&quot;Choclo&quot;]},{&quot;titulo&quot;:&quot;Opción 2&quot;,&quot;opciones&quot;:[&quot;Tomate&quot;,&quot;Palmito&quot;,&quot;Champiñón&quot;,&quot;Cebolla Morada&quot;]}]}'>
+      <div class='card-img-wrap'>
+<div class='card-img-emoji'>🥟</div>
+        <div class='card-img-overlay'></div>
+        <button class='card-add-btn' onclick='abrirArmaModal(this)'>+</button>
+      </div>
+      <div class='card-body'>
+        <div class='card-cat'>Empanadas</div>
+        <div class='card-name'>Arma tu empanada</div>
+        <div class='card-desc'>El queso viene incluido</div>
+        <div class='card-footer'>
+          <span class='card-price'>$2.000</span>
+          <span class='card-badge card-stock-badge' id='badge_prod_Arma_tu_empanada'>...</span>
         </div>
       </div>
     </div>
@@ -594,6 +629,18 @@ var _catalogoNombres = {
     <div id='googleBtn'></div>
     <div class='auth-divider'><span>&#191;Por qu&#233; pedimos esto?</span></div>
     <p style='font-size:12px;color:var(--text-muted);line-height:1.6'>Solo usamos tu nombre y correo para identificar tu pedido. No enviamos correos ni compartimos tus datos.</p>
+  </div>
+</div>
+
+<div id='armaModal' class='arma-overlay'>
+  <div class='arma-panel'>
+    <div class='arma-title'>Arma tu Empanada</div>
+    <div class='arma-subtitle'>Eleg&#237; una opci&#243;n de cada grupo</div>
+    <div id='armaGrupos'></div>
+    <div class='arma-btns'>
+      <button class='arma-btn-cancel' onclick='cerrarArmaModal()'>Cancelar</button>
+      <button class='arma-btn-ok' id='armaBtnOk' disabled onclick='confirmarArma()'>Agregar &#8594;</button>
+    </div>
   </div>
 </div>
 
@@ -1000,7 +1047,7 @@ function enviarPedido() {
   document.getElementById('inputTelefono').style.borderColor = '';
   telefono = telefono || '-';
   var ids      = Object.keys(carrito);
-  var detalle  = ids.map(function(id){ return carrito[id].cantidad + 'x ' + carrito[id].nombre; }).join(' + ');
+  var detalle  = ids.map(function(id){ var it = carrito[id]; var s = it.cantidad + 'x ' + it.nombre; if (it.detalle) s += ' (-' + it.detalle + ')'; return s; }).join(' + ');
   var total    = ids.reduce(function(s,id){ return s + carrito[id].cantidad * carrito[id].precio; }, 0);
   var hora     = getHoraSantiago();
   console.log('Hora Santiago:', hora);
@@ -1208,6 +1255,65 @@ function mostrarWebCerrada() {
    banner.textContent = '\u26D4 Pedidos cerrados por hoy — vuelve pronto';
    hero.appendChild(banner);
    }
+}
+var _armaConfig = null;
+var _armaSeleccion = [];
+var _armaPrecio = 0;
+function abrirArmaModal(btn) {
+  var card = btn.closest('.card');
+  if (!card) return;
+  var configStr = card.getAttribute('data-arma');
+  if (!configStr) return;
+  try { _armaConfig = JSON.parse(configStr); } catch(e) { return; }
+  _armaPrecio = parseInt(card.getAttribute('data-precio') || '0', 10);
+  _armaSeleccion = [];
+  var cont = document.getElementById('armaGrupos');
+  cont.innerHTML = '';
+  _armaConfig.grupos.forEach(function(grupo, gi) {
+    _armaSeleccion.push(null);
+    var div = document.createElement('div');
+    div.className = 'arma-grupo';
+    div.innerHTML = '<div class="arma-grupo-label">' + grupo.titulo + '</div>';
+    grupo.opciones.forEach(function(op, oi) {
+      var id = 'arma_' + gi + '_' + oi;
+      var row = document.createElement('label');
+      row.className = 'arma-opcion';
+      row.innerHTML = '<input type="radio" name="arma_g' + gi + '" id="' + id + '" value="' + oi + '"/> <span>' + op + '</span>';
+      row.addEventListener('click', function() {
+        div.querySelectorAll('.arma-opcion').forEach(function(o) { o.classList.remove('selected'); });
+        row.classList.add('selected');
+        _armaSeleccion[gi] = oi;
+        document.getElementById('armaBtnOk').disabled = _armaSeleccion.indexOf(null) !== -1;
+      });
+      div.appendChild(row);
+    });
+    cont.appendChild(div);
+  });
+  document.getElementById('armaBtnOk').disabled = true;
+  document.getElementById('armaModal').classList.add('active');
+}
+function cerrarArmaModal() {
+  document.getElementById('armaModal').classList.remove('active');
+  _armaConfig = null;
+  _armaSeleccion = [];
+}
+function confirmarArma() {
+  if (!_armaConfig || _armaSeleccion.indexOf(null) !== -1) return;
+  var partes = [];
+  _armaSeleccion.forEach(function(oi, gi) {
+    partes.push(_armaConfig.grupos[gi].opciones[oi]);
+  });
+  var nombre = 'Arma tu Empanada';
+  var detalle = partes.join(', ');
+  var key = 'arma_' + partes.join('_').toLowerCase().replace(/[^a-z0-9]/g,'_');
+  if (carrito[key]) {
+    carrito[key].cantidad += 1;
+  } else {
+    carrito[key] = { nombre: nombre, detalle: detalle, precio: _armaPrecio, cantidad: 1 };
+  }
+  sessionStorage.setItem('carta_carrito', JSON.stringify(carrito));
+  renderCarrito();
+  cerrarArmaModal();
 }
 </script>
 <footer class='footer'>
