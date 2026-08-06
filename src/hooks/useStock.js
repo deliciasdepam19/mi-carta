@@ -4,6 +4,7 @@ import { SUPABASE_URL, SUPABASE_KEY } from '../config.js';
 export function useStock(catalogo) {
   const [stock, setStock] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  const [currentHour, setCurrentHour] = useState(new Date().getHours());
 
   useEffect(() => {
     if (!catalogo) return;
@@ -14,7 +15,7 @@ export function useStock(catalogo) {
     const panaderiaItems = catalogo.items.filter((i) => i.categoria === 'Panadería');
     const reposteriaItems = catalogo.items.filter((i) => i.categoria === 'Repostería');
 
-    const isPanaderiaOpen = hour >= 12 && hour < 18;
+    const isPanaderiaOpen = hour >= 12 && hour < 15;
     const isEmpanadasOpen = hour >= 18 && hour < 22;
     const isReposteriaOpen = hour >= 12 && hour < 22;
 
@@ -46,13 +47,20 @@ export function useStock(catalogo) {
       });
   }, [catalogo]);
 
+  // Actualiza la hora cada minuto para que el badge siempre muestre el estado actual
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHour(new Date().getHours());
+    }, 60_000);
+    return () => clearInterval(interval);
+  }, []);
+
   function getStockStatus(item) {
-    const now = new Date();
-    const hour = now.getHours();
+    const hour = currentHour;
 
     if (item.categoria === 'Panadería') {
       if (hour < 12) return { label: 'Desde 12:00H', available: false };
-      if (hour >= 18) return { label: 'Cerrado', available: false };
+      if (hour >= 15) return { label: 'Cerrado', available: false };
       return { label: 'Disponible', available: true };
     }
 

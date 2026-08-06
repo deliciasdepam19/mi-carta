@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { URL_SERVIDOR } from '../config.js';
 
 // Mapea el nombre de categoría tal como viene del catálogo → clave usada por /api/horarios
 const CATEGORIA_A_CLAVE = {
@@ -19,7 +20,7 @@ export function useHorarios() {
     let cancelled = false;
 
     const cargar = () => {
-      fetch('/api/horarios')
+      fetch(`${URL_SERVIDOR}/api/horarios`)
         .then((res) => {
           if (!res.ok) throw new Error('Failed to fetch horarios');
           return res.json();
