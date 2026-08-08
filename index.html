@@ -635,7 +635,7 @@ var _catalogoNombres = {
 <div id='armaModal' class='arma-overlay'>
   <div class='arma-panel'>
     <div class='arma-title'>Arma tu Empanada</div>
-    <div class='arma-subtitle'>Eleg&#237; una opci&#243;n de cada grupo</div>
+    <div class='arma-subtitle'>Elige una opci&#243;n de cada grupo</div>
     <div id='armaGrupos'></div>
     <div class='arma-btns'>
       <button class='arma-btn-cancel' onclick='cerrarArmaModal()'>Cancelar</button>
@@ -1312,7 +1312,7 @@ function confirmarArma() {
     carrito[key] = { nombre: nombre, detalle: detalle, precio: _armaPrecio, cantidad: 1 };
   }
   sessionStorage.setItem('carta_carrito', JSON.stringify(carrito));
-  renderCarrito();
+  actualizarCarrito();
   cerrarArmaModal();
 }
 </script>
