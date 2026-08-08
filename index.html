@@ -84,7 +84,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .carrito-items{padding:16px}
 .carrito-item{background:var(--bg-card2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 .carrito-item-info{flex:1}
-.carrito-item-nombre{color:var(--text);font-weight:600;margin-bottom:4px}
+.carrito-item-nombre{color:var(--text);font-weight:600;margin-bottom:2px}
+.carrito-item-detalle{color:var(--text-muted);font-size:12px;margin-bottom:4px;padding-left:8px;border-left:2px solid var(--border)}
 .carrito-item-precio{color:var(--gold-light);font-size:14px}
 .carrito-item-qty{display:flex;align-items:center;gap:8px}
 .carrito-item-qty button{background:var(--border);border:none;color:var(--gold);width:28px;height:28px;border-radius:6px;cursor:pointer;font-weight:bold}
@@ -952,9 +953,11 @@ function actualizarCarrito() {
   } else {
     cont.innerHTML = ids.map(function(pid) {
       var it = carrito[pid];
+      var detalleHtml = it.detalle ? '<div class="carrito-item-detalle">' + it.detalle + '</div>' : '';
       return '<div class="carrito-item">'
         + '<div class="carrito-item-info">'
         + '<div class="carrito-item-nombre">' + it.nombre + '</div>'
+        + detalleHtml
         + '<div class="carrito-item-precio">$' + it.precio.toLocaleString('es-CL') + '</div>'
         + '</div>'
         + '<div class="carrito-item-qty">'
@@ -1144,14 +1147,39 @@ function enviarPedido() {
   });
 }
 
+function formatearDetalleExito(detalle) {
+  if (!detalle) return '';
+  var items = detalle.split(/\s*\+\s*/);
+  return items.map(function(item) {
+    item = item.trim();
+    // "1x Arma tu Empanada (-Mechada, Jamón, Tomate)"
+    var m = item.match(/^(\d+)\s*x\s*(.+)$/);
+    if (m) {
+      var cant = m[1];
+      var resto = m[2].trim();
+      var opciones = null;
+      var parenIdx = resto.indexOf('(-');
+      if (parenIdx >= 0 && resto.endsWith(')')) {
+        opciones = resto.substring(parenIdx + 2, resto.length - 1).trim();
+        resto = resto.substring(0, parenIdx).trim();
+      }
+      var html = cant + 'x ' + resto;
+      if (opciones) {
+        html += '<br><span style="font-size:12px;color:#999;padding-left:12px;display:inline-block">\u2514 ' + opciones + '</span>';
+      }
+      return html;
+    }
+    return item;
+  }).join('<br>');
+}
 function mostrarExito(numero, nombre, telefono, detalle, total, fechaEntrega) {
   document.getElementById('exitoNum').style.display = 'none';
   document.getElementById('exitoDetalle').innerHTML =
     '<strong>Cliente:</strong> ' + nombre + '<br>' +
     (telefono !== '-' ? '<strong>Tel:</strong> ' + telefono + '<br>' : '') +
-    '<strong>Pedido:</strong> ' + detalle + '<br>' +
-    (fechaEntrega ? '<strong>Entrega:</strong> ' + fechaEntrega + '<br>' : '') +
-    (total > 0 ? '<strong>Total:</strong> $' + total.toLocaleString('es-CL') : '');
+    '<strong>Pedido:</strong> ' + formatearDetalleExito(detalle) +
+    (fechaEntrega ? '<br><strong>Entrega:</strong> ' + fechaEntrega : '') +
+    (total > 0 ? '<br><strong>Total:</strong> $' + total.toLocaleString('es-CL') : '');
   var msg = '*Hola! Acabo de hacer un pedido:*\n\n'
     + '*Nombre:* ' + nombre + '\n'
     + (telefono !== '-' ? '*Tel:* ' + telefono + '\n' : '')
