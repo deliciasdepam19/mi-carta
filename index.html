@@ -1122,7 +1122,10 @@ function enviarPedido() {
       correo:        usuarioActual ? usuarioActual.email : null,
       nombre:        usuarioActual ? usuarioActual.nombre : null,
       items: ids.map(function(id){
-        return {id:id, nombre:carrito[id].nombre, cantidad:carrito[id].cantidad, precio:carrito[id].precio, categoria:carrito[id].categoria};
+        var it = carrito[id];
+        var item = {id:id, nombre:it.nombre, cantidad:it.cantidad, precio:it.precio, categoria:it.categoria};
+        if (it.detalle) item.detalle = it.detalle;
+        return item;
       })
     })
   })
