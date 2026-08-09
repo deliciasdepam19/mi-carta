@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CartProvider, useCart } from './hooks/useCart.jsx';
 import { useCatalogo } from './hooks/useCatalogo.js';
 import { useAuth } from './hooks/useAuth.js';
@@ -10,11 +10,22 @@ import AuthOverlay from './components/AuthOverlay.jsx';
 import Toast from './components/Toast.jsx';
 import './App.css';
 
+const URL_SERVIDOR = import.meta.env.VITE_API_URL || '';
+
 function AppInner() {
   const { data, loading, error } = useCatalogo();
   const { user, login, logout, showOverlay, setShowOverlay } = useAuth();
   const { itemCount } = useCart();
   const [cartOpen, setCartOpen] = useState(false);
+  const [abierta, setAbierta] = useState(true);
+
+  useEffect(() => {
+    if (!URL_SERVIDOR) return;
+    fetch(URL_SERVIDOR + '/api/estado')
+      .then(r => r.json())
+      .then(d => setAbierta(d.abierta !== false))
+      .catch(() => setAbierta(true));
+  }, []);
 
   if (loading) {
     return (
@@ -63,7 +74,7 @@ function AppInner() {
         </div>
       </header>
 
-      <Hero data={data} />
+      <Hero data={data} abierta={abierta} />
       <Nav categorias={data?.categorias} />
 
       <main className="catalog">

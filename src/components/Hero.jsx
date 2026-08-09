@@ -1,4 +1,4 @@
-export default function Hero({ data }) {
+export default function Hero({ data, abierta }) {
   const today = new Date().toLocaleDateString('es-CL', {
     weekday: 'long',
     year: 'numeric',
@@ -74,6 +74,18 @@ export default function Hero({ data }) {
       margin: '0 auto 16px',
       opacity: 0.5,
     },
+    banner: {
+      margin: '16px auto 0',
+      maxWidth: 420,
+      padding: '14px 20px',
+      background: 'rgba(220,50,50,.15)',
+      border: '1px solid rgba(220,50,50,.4)',
+      borderRadius: 12,
+      color: '#ff8080',
+      fontSize: '.9rem',
+      fontWeight: 500,
+      textAlign: 'center',
+    },
   };
 
   return (
@@ -90,6 +102,9 @@ export default function Hero({ data }) {
         {data?.descripcion || 'Especialidades caseras hechas con amor'}
       </p>
       <p style={styles.date}>{today}</p>
+      {abierta === false && (
+        <div style={styles.banner}>&#x26D4; Local cerrado — vuelve pronto</div>
+      )}
     </section>
   );
 }
