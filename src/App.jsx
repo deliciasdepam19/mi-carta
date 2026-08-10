@@ -10,7 +10,7 @@ import AuthOverlay from './components/AuthOverlay.jsx';
 import Toast from './components/Toast.jsx';
 import './App.css';
 
-const URL_SERVIDOR = import.meta.env.VITE_API_URL || '';
+import { URL_SERVIDOR } from './config.js';
 
 function AppInner() {
   const { data, loading, error } = useCatalogo();

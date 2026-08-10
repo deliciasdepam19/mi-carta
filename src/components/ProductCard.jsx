@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { useCart } from '../hooks/useCart.jsx';
 
 export default function ProductCard({ item, stockStatus, fueraDeHorario, abierta }) {
   const { addItem, items } = useCart();
+  const [expanded, setExpanded] = useState(false);
 
   const inCart = items.find(
     (i) => i.nombre === item.nombre && i.categoria === item.categoria
   );
   const disabled = !stockStatus.available || fueraDeHorario;
+  const storeOpen = abierta !== false && !fueraDeHorario;
 
   const styles = {
     card: {
@@ -112,10 +115,27 @@ export default function ProductCard({ item, stockStatus, fueraDeHorario, abierta
       color: '#6a8f96',
       fontFamily: "'Inter', sans-serif",
     },
+    tapHint: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 4,
+      fontSize: 11,
+      color: '#4a6f75',
+      fontFamily: "'Inter', sans-serif",
+      cursor: storeOpen ? 'pointer' : 'default',
+      userSelect: 'none',
+    },
   };
 
   return (
-    <div style={styles.card}>
+    <div
+      style={{
+        ...styles.card,
+        cursor: storeOpen ? 'pointer' : 'default',
+        borderColor: expanded ? 'rgba(64,206,224,0.35)' : undefined,
+      }}
+      onClick={() => storeOpen && setExpanded((e) => !e)}
+    >
       <div style={styles.imageWrap}>
         {item.imagenBase64 ? (
           <img src={item.imagenBase64} alt={item.nombre} style={styles.image} loading="lazy" />
@@ -130,18 +150,24 @@ export default function ProductCard({ item, stockStatus, fueraDeHorario, abierta
         <p style={styles.desc}>{item.descripcion}</p>
         <div style={styles.footer}>
           <span style={styles.price}>{item.precio}</span>
-          {abierta !== false && !fueraDeHorario && (
-            <button
-              style={styles.button}
-              disabled={disabled}
-              onClick={() => addItem(item)}
-            >
-              {inCart ? (
-                <>&#10003; {inCart.cantidad}</>
-              ) : (
-                <>Agregar</>
-              )}
-            </button>
+          {storeOpen && (
+            expanded ? (
+              <button
+                style={styles.button}
+                disabled={disabled}
+                onClick={(e) => { e.stopPropagation(); addItem(item); }}
+              >
+                {inCart ? (
+                  <>&#10003; {inCart.cantidad}</>
+                ) : (
+                  <>Agregar</>
+                )}
+              </button>
+            ) : (
+              <span style={styles.tapHint}>
+                Tocá para ver opciones &#9662;
+              </span>
+            )
           )}
         </div>
       </div>
