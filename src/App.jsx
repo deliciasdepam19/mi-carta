@@ -84,6 +84,7 @@ function AppInner() {
             categoria={cat}
             items={data.items}
             catalogo={data}
+            abierta={abierta}
           />
         ))}
         {(!data?.categorias || data.categorias.length === 0) && (

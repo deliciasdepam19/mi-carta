@@ -2,7 +2,7 @@ import ProductCard from './ProductCard.jsx';
 import { useStock } from '../hooks/useStock.js';
 import { useHorarios } from '../hooks/useHorarios.js';
 
-export default function CategoriaSection({ categoria, items, catalogo }) {
+export default function CategoriaSection({ categoria, items, catalogo, abierta }) {
   const { getStockStatus } = useStock(catalogo);
   const { getEstadoCategoria } = useHorarios();
   const id = categoria.nombre.toLowerCase().replace(/\s+/g, '-');
@@ -10,9 +10,11 @@ export default function CategoriaSection({ categoria, items, catalogo }) {
   if (catItems.length === 0) return null;
 
   const estadoHorario = getEstadoCategoria(categoria.nombre);
+  // Si la tienda está cerrada globalmente, todo queda bloqueado.
   // Mientras no cargue /api/horarios, no bloqueamos (evita parpadeo); el backend
   // igual va a rechazar el pedido si de verdad está fuera de horario.
-  const fueraDeHorario = estadoHorario ? !estadoHorario.disponible : false;
+  const cerradaGlobalmente = abierta === false;
+  const fueraDeHorario = cerradaGlobalmente || (estadoHorario ? !estadoHorario.disponible : false);
 
   const styles = {
     section: {
@@ -79,9 +81,11 @@ export default function CategoriaSection({ categoria, items, catalogo }) {
 
       {fueraDeHorario && (
         <p style={styles.banner} role="status">
-          {estadoHorario.desde && estadoHorario.hasta
-            ? `Fuera de horario — disponible de ${estadoHorario.desde} a ${estadoHorario.hasta}`
-            : 'Pedidos cerrados por ahora'}
+          {cerradaGlobalmente
+            ? '\u26D4 Local cerrado \u2014 vuelve pronto'
+            : estadoHorario.desde && estadoHorario.hasta
+              ? `Fuera de horario — disponible de ${estadoHorario.desde} a ${estadoHorario.hasta}`
+              : 'Pedidos cerrados por ahora'}
         </p>
       )}
 
@@ -91,6 +95,8 @@ export default function CategoriaSection({ categoria, items, catalogo }) {
             key={`${item.nombre}-${idx}`}
             item={item}
             stockStatus={getStockStatus(item)}
+            fueraDeHorario={fueraDeHorario}
+            abierta={abierta}
           />
         ))}
       </div>

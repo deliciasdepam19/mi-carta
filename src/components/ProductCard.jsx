@@ -1,12 +1,12 @@
 import { useCart } from '../hooks/useCart.jsx';
 
-export default function ProductCard({ item, stockStatus }) {
+export default function ProductCard({ item, stockStatus, fueraDeHorario, abierta }) {
   const { addItem, items } = useCart();
 
   const inCart = items.find(
     (i) => i.nombre === item.nombre && i.categoria === item.categoria
   );
-  const disabled = !stockStatus.available;
+  const disabled = !stockStatus.available || fueraDeHorario;
 
   const styles = {
     card: {
@@ -130,17 +130,19 @@ export default function ProductCard({ item, stockStatus }) {
         <p style={styles.desc}>{item.descripcion}</p>
         <div style={styles.footer}>
           <span style={styles.price}>{item.precio}</span>
-          <button
-            style={styles.button}
-            disabled={disabled}
-            onClick={() => addItem(item)}
-          >
-            {inCart ? (
-              <>&#10003; {inCart.cantidad}</>
-            ) : (
-              <>Agregar</>
-            )}
-          </button>
+          {abierta !== false && !fueraDeHorario && (
+            <button
+              style={styles.button}
+              disabled={disabled}
+              onClick={() => addItem(item)}
+            >
+              {inCart ? (
+                <>&#10003; {inCart.cantidad}</>
+              ) : (
+                <>Agregar</>
+              )}
+            </button>
+          )}
         </div>
       </div>
     </div>
