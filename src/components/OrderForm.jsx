@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useCart } from '../hooks/useCart.jsx';
 import { URL_SERVIDOR } from '../config.js';
 
-export default function OrderForm({ onBack, onSuccess }) {
+export default function OrderForm({ onBack, onSuccess, abierta }) {
   const { items, totalFormatted } = useCart();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -11,6 +11,8 @@ export default function OrderForm({ onBack, onSuccess }) {
     telefono: '',
     fecha_entrega: '',
   });
+
+  const storeOpen = abierta !== false;
 
   const hasAnticipado = items.some((i) => i.categoria === 'Repostería');
 
@@ -25,6 +27,12 @@ export default function OrderForm({ onBack, onSuccess }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    if (!storeOpen) {
+      setError('El local está cerrado. No se pueden hacer pedidos en este momento.');
+      return;
+    }
+
     if (!form.cliente.trim() || !form.telefono.trim()) {
       setError('Nombre y teléfono son obligatorios');
       return;
@@ -58,9 +66,21 @@ export default function OrderForm({ onBack, onSuccess }) {
         body: JSON.stringify(body),
       });
 
-      if (!res.ok) throw new Error('Error al enviar pedido');
+      const data = await res.json().catch(() => null);
 
-      const data = await res.json();
+      if (!res.ok) {
+        // El backend devuelve el motivo real del rechazo
+        const errorMsg = data?.error
+          || (res.status === 403 ? 'Pedido fuera de horario permitido' : 'Error al enviar pedido');
+        setError(errorMsg);
+        return;
+      }
+
+      if (!data?.exito) {
+        setError(data?.error || 'El servidor no confirmó el pedido');
+        return;
+      }
+
       onSuccess({
         numero: data.id || data.numero || Math.floor(Math.random() * 9000 + 1000),
         items,
@@ -69,7 +89,7 @@ export default function OrderForm({ onBack, onSuccess }) {
         telefono: form.telefono.trim(),
       });
     } catch (err) {
-      setError(err.message || 'Error al enviar pedido');
+      setError('No se pudo conectar con el servidor. Intentá de nuevo.');
     } finally {
       setSubmitting(false);
     }
@@ -200,6 +220,22 @@ export default function OrderForm({ onBack, onSuccess }) {
       <div style={styles.modal}>
         <h2 style={styles.title}>Completar Pedido</h2>
 
+        {!storeOpen && (
+          <div style={{
+            background: 'rgba(255,100,100,0.1)',
+            border: '1px solid rgba(255,100,100,0.25)',
+            borderRadius: 10,
+            padding: '12px 14px',
+            marginBottom: 16,
+            fontFamily: "'Inter', sans-serif",
+            fontSize: 13,
+            color: '#ff8888',
+            textAlign: 'center',
+          }}>
+            &#x26D4; El local está cerrado. No se pueden hacer pedidos ahora.
+          </div>
+        )}
+
         <div style={styles.summary}>
           <div style={styles.summaryTitle}>Resumen</div>
           {items.map((item, idx) => (
@@ -259,7 +295,15 @@ export default function OrderForm({ onBack, onSuccess }) {
             <button type="button" style={styles.backBtn} onClick={onBack}>
               Volver
             </button>
-            <button type="submit" style={styles.submitBtn} disabled={submitting}>
+            <button
+              type="submit"
+              style={{
+                ...styles.submitBtn,
+                opacity: (!storeOpen || submitting) ? 0.5 : 1,
+                cursor: (!storeOpen || submitting) ? 'not-allowed' : 'pointer',
+              }}
+              disabled={submitting || !storeOpen}
+            >
               {submitting ? 'Enviando...' : 'Enviar Pedido'}
             </button>
           </div>

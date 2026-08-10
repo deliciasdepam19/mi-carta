@@ -105,7 +105,7 @@ function AppInner() {
         {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
       </button>
 
-      <CartModal isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      <CartModal isOpen={cartOpen} onClose={() => setCartOpen(false)} abierta={abierta} />
 
       <AuthOverlay show={showOverlay} onClose={() => setShowOverlay(false)} />
 

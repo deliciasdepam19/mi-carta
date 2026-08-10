@@ -3,10 +3,11 @@ import { useCart } from '../hooks/useCart.jsx';
 import OrderForm from './OrderForm.jsx';
 import SuccessModal from './SuccessModal.jsx';
 
-export default function CartModal({ isOpen, onClose }) {
+export default function CartModal({ isOpen, onClose, abierta }) {
   const { items, totalFormatted, removeItem, updateQuantity, clearCart } = useCart();
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [orderResult, setOrderResult] = useState(null);
+  const storeOpen = abierta !== false;
 
   if (!isOpen) return null;
 
@@ -193,6 +194,7 @@ export default function CartModal({ isOpen, onClose }) {
       <OrderForm
         onBack={() => setShowOrderForm(false)}
         onSuccess={(result) => setOrderResult(result)}
+        abierta={abierta}
       />
     );
   }
@@ -238,21 +240,24 @@ export default function CartModal({ isOpen, onClose }) {
                 </div>
                 <div style={styles.qtyControls}>
                   <button
-                    style={styles.qtyBtn}
+                    style={{...styles.qtyBtn, opacity: storeOpen ? 1 : 0.3, cursor: storeOpen ? 'pointer' : 'not-allowed'}}
+                    disabled={!storeOpen}
                     onClick={() => updateQuantity(item.nombre, item.categoria, item.cantidad - 1)}
                   >
                     &minus;
                   </button>
                   <span style={styles.qty}>{item.cantidad}</span>
                   <button
-                    style={styles.qtyBtn}
+                    style={{...styles.qtyBtn, opacity: storeOpen ? 1 : 0.3, cursor: storeOpen ? 'pointer' : 'not-allowed'}}
+                    disabled={!storeOpen}
                     onClick={() => updateQuantity(item.nombre, item.categoria, item.cantidad + 1)}
                   >
                     +
                   </button>
                 </div>
                 <button
-                  style={styles.removeBtn}
+                  style={{...styles.removeBtn, opacity: storeOpen ? 0.6 : 0.3, cursor: storeOpen ? 'pointer' : 'not-allowed'}}
+                  disabled={!storeOpen}
                   onClick={() => removeItem(item)}
                   title="Quitar"
                 >
@@ -265,6 +270,21 @@ export default function CartModal({ isOpen, onClose }) {
 
         {items.length > 0 && (
           <div style={styles.footer}>
+            {!storeOpen && (
+              <div style={{
+                background: 'rgba(255,100,100,0.1)',
+                border: '1px solid rgba(255,100,100,0.25)',
+                borderRadius: 10,
+                padding: '10px 14px',
+                marginBottom: 12,
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 13,
+                color: '#ff8888',
+                textAlign: 'center',
+              }}>
+                &#x26D4; Local cerrado — no se pueden hacer pedidos
+              </div>
+            )}
             <div style={styles.total}>
               <span style={styles.totalLabel}>Total</span>
               <span style={styles.totalValue}>{totalFormatted}</span>
@@ -273,7 +293,15 @@ export default function CartModal({ isOpen, onClose }) {
               <button style={styles.clearBtn} onClick={clearCart}>
                 Vaciar
               </button>
-              <button style={styles.orderBtn} onClick={() => setShowOrderForm(true)}>
+              <button
+                style={{
+                  ...styles.orderBtn,
+                  opacity: storeOpen ? 1 : 0.4,
+                  cursor: storeOpen ? 'pointer' : 'not-allowed',
+                }}
+                disabled={!storeOpen}
+                onClick={() => storeOpen && setShowOrderForm(true)}
+              >
                 Hacer Pedido
               </button>
             </div>
