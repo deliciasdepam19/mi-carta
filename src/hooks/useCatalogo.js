@@ -7,7 +7,7 @@ export function useCatalogo() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch('/catalogo.json')
+    fetch('catalogo.json')
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch catalogo');
         return res.json();
