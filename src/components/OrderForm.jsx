@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useCart } from '../hooks/useCart.jsx';
-import { URL_SERVIDOR } from '../config.js';
+import { URL_SERVIDOR, API_KEY } from '../config.js';
 
 export default function OrderForm({ onBack, onSuccess, abierta }) {
   const { items, totalFormatted } = useCart();
@@ -62,7 +62,10 @@ export default function OrderForm({ onBack, onSuccess, abierta }) {
     try {
       const res = await fetch(`${URL_SERVIDOR}/api/pedidos`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': API_KEY,
+        },
         body: JSON.stringify(body),
       });
 

@@ -1,4 +1,5 @@
 export const URL_SERVIDOR = 'https://servidor-pedidos-i0jg.onrender.com';
+export const API_KEY = 'delicias-kds-2026';
 
 export const SUPABASE_URL = 'https://bqklgslmctnylkpmnpte.supabase.co';
 export const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxa2xnc2xtY3RueWxrcG1ucHRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1MjExMDAsImV4cCI6MjA2NzA5NzEwMH0.GJgM_cH__PJApPBMMdZpvNGR6d92YQo9fGnZQNCLfHs';
