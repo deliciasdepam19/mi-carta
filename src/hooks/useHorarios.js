@@ -32,9 +32,12 @@ export function useHorarios() {
           }
         })
         .catch(() => {
-          // Si falla, no bloqueamos la UI: se asume disponible y el
-          // backend seguirá validando igual al momento de enviar el pedido.
-          if (!cancelled) setLoading(false);
+          // Si falla, asumimos CERRADO — el backend rechazará de todas formas
+          // y evitamos mostrar el botón "+" cuando no sabemos el estado.
+          if (!cancelled) {
+            setHorarios({ abierta: false });
+            setLoading(false);
+          }
         });
     };
 
@@ -49,7 +52,7 @@ export function useHorarios() {
 
   // Dado el nombre de categoría del catálogo, devuelve { disponible, desde, hasta } o null si aún no cargó
   const getEstadoCategoria = (nombreCategoria) => {
-    if (!horarios) return null;
+    if (!horarios) return { disponible: false, desde: null, hasta: null };
     if (horarios.abierta === false) {
       return { disponible: false, desde: null, hasta: null };
     }
