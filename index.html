@@ -1258,7 +1258,7 @@ function verificarEstadoWeb() {
        if(!data.abierta) { _webAbierta = false; mostrarWebCerrada(); }
        else { _webAbierta = true; aplicarHorarioPanaderia(); cargarStock(); }
    })
-   .catch(function() { _webAbierta = true; aplicarHorarioPanaderia(); cargarStock(); });
+   .catch(function() { _webAbierta = false; mostrarWebCerrada(); });
 }
 function mostrarWebCerrada() {
   document.querySelectorAll('.card-add-btn').forEach(function(btn) {
