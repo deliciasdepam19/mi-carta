@@ -1,74 +1,136 @@
 {
   "nombre": "Delicias de Pam",
-  "descripcion": "Especialidades caseras hechas con amor",
+  "descripcion": "Ofrecemos una selección de productos de panadería, repostería y pastelería artesanal, preparados diariamente con calidad, tradición y dedicación",
   "logoBase64": "",
   "categorias": [
     {"nombre": "Empanadas"},
-    {"nombre": "Panadería"},
-    {"nombre": "Repostería"}
+    {"nombre": "Panadería"}
   ],
   "items": [
     {
-      "nombre": "Empanada de Pino",
-      "descripcion": "Clásica empanada chilena rellena de carne, cebolla, huevo duro y aceituna",
-      "precio": "$2.500",
+      "nombre": "Arma tu empanada",
+      "descripcion": "El queso viene incluido",
+      "precio": "$2.000",
       "categoria": "Empanadas",
       "imagenBase64": ""
     },
     {
-      "nombre": "Empanada de Queso",
-      "descripcion": "Queso mantecoso derretido en masa crujiente",
-      "precio": "$2.500",
+      "nombre": "Camarón Queso",
+      "descripcion": "",
+      "precio": "$1.800",
       "categoria": "Empanadas",
       "imagenBase64": ""
     },
     {
-      "nombre": "Empanada Napolitana",
-      "descripcion": "Carne, jamón, queso y tomate en masa artesanal",
-      "precio": "$3.000",
-      "categoria": "Empanadas",
-      "imagenBase64": ""
-    },
-    {
-      "nombre": "Empanada de Mariscos",
-      "descripcion": "Mezcla de mariscos frescos con queso crema",
-      "precio": "$3.500",
-      "categoria": "Empanadas",
-      "imagenBase64": ""
-    },
-    {
-      "nombre": "Pan Amasado",
-      "descripcion": "Pan tradicional chileno, dorado y esponjoso",
+      "nombre": "Carne Queso",
+      "descripcion": "",
       "precio": "$1.500",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Mariscos",
+      "descripcion": "",
+      "precio": "$1.700",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Mechada",
+      "descripcion": "",
+      "precio": "$2.000",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Mechada Queso",
+      "descripcion": "",
+      "precio": "$2.200",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Napolitana",
+      "descripcion": "",
+      "precio": "$1.500",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Pino Carne",
+      "descripcion": "",
+      "precio": "$1.400",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Pino Pollo",
+      "descripcion": "",
+      "precio": "$1.700",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Pollo Queso",
+      "descripcion": "",
+      "precio": "$1.800",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Queso",
+      "descripcion": "",
+      "precio": "$1.300",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Queso Champiñon Cebollin",
+      "descripcion": "",
+      "precio": "$1.700",
+      "categoria": "Empanadas",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Amasado",
+      "descripcion": "",
+      "precio": "$200",
+      "categoria": "Panadería",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Coliza",
+      "descripcion": "",
+      "precio": "$200",
+      "categoria": "Panadería",
+      "imagenBase64": ""
+    },
+    {
+      "nombre": "Dobladita",
+      "descripcion": "",
+      "precio": "$200",
       "categoria": "Panadería",
       "imagenBase64": ""
     },
     {
       "nombre": "Hallulla",
-      "descripcion": "Pan redondo y crujiente, ideal para sandwich",
-      "precio": "$1.200",
+      "descripcion": "",
+      "precio": "$250",
       "categoria": "Panadería",
       "imagenBase64": ""
     },
     {
-      "nombre": "Dulces Chilenos",
-      "descripcion": "Variedad de dulces artesanales chilenos",
-      "precio": "$3.000",
-      "categoria": "Repostería",
+      "nombre": "Hallulla Grande",
+      "descripcion": "",
+      "precio": "$300",
+      "categoria": "Panadería",
       "imagenBase64": ""
     },
     {
-      "nombre": "Torta Mil Hojas",
-      "descripcion": "Tradicional torta chilena de mil hojas con manjar",
-      "precio": "$15.000",
-      "categoria": "Repostería",
-      "imagenBase64": ""
-    },
-    {
-      "nombre": "Kuchen de Manzana",
-      "descripcion": "Kuchen alemán con manzanas frescas y canela",
-      "precio": "$8.000",
-      "categoria": "Repostería",
+      "nombre": "Integral",
+      "descripcion": "",
+      "precio": "$250",
+      "categoria": "Panadería",
       "imagenBase64": ""
     }
   ]
