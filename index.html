@@ -84,8 +84,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .carrito-items{padding:16px}
 .carrito-item{background:var(--bg-card2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 .carrito-item-info{flex:1}
-.carrito-item-nombre{color:var(--text);font-weight:600;margin-bottom:2px}
-.carrito-item-detalle{color:var(--text-muted);font-size:12px;margin-bottom:4px;padding-left:8px;border-left:2px solid var(--border)}
+.carrito-item-nombre{color:var(--text);font-weight:600;margin-bottom:4px}
 .carrito-item-precio{color:var(--gold-light);font-size:14px}
 .carrito-item-qty{display:flex;align-items:center;gap:8px}
 .carrito-item-qty button{background:var(--border);border:none;color:var(--gold);width:28px;height:28px;border-radius:6px;cursor:pointer;font-weight:bold}
@@ -636,7 +635,7 @@ var _catalogoNombres = {
 <div id='armaModal' class='arma-overlay'>
   <div class='arma-panel'>
     <div class='arma-title'>Arma tu Empanada</div>
-    <div class='arma-subtitle'>Elige una opci&#243;n de cada grupo</div>
+    <div class='arma-subtitle'>Eleg&#237; una opci&#243;n de cada grupo</div>
     <div id='armaGrupos'></div>
     <div class='arma-btns'>
       <button class='arma-btn-cancel' onclick='cerrarArmaModal()'>Cancelar</button>
@@ -649,7 +648,7 @@ var _catalogoNombres = {
 var _carritoGuardado = sessionStorage.getItem('carta_carrito');
 var carrito = _carritoGuardado ? JSON.parse(_carritoGuardado) : {};
 var _stockData = {};
-var _webAbierta = true;
+var _webAbierta = false;
 window._pasteleriaAlertado = false;
 var WHATSAPP_NUMBER  = '56990778025';
 var URL_SERVIDOR     = 'https://servidor-pedidos-i0jg.onrender.com';
@@ -953,11 +952,9 @@ function actualizarCarrito() {
   } else {
     cont.innerHTML = ids.map(function(pid) {
       var it = carrito[pid];
-      var detalleHtml = it.detalle ? '<div class="carrito-item-detalle">' + it.detalle + '</div>' : '';
       return '<div class="carrito-item">'
         + '<div class="carrito-item-info">'
         + '<div class="carrito-item-nombre">' + it.nombre + '</div>'
-        + detalleHtml
         + '<div class="carrito-item-precio">$' + it.precio.toLocaleString('es-CL') + '</div>'
         + '</div>'
         + '<div class="carrito-item-qty">'
@@ -1122,10 +1119,7 @@ function enviarPedido() {
       correo:        usuarioActual ? usuarioActual.email : null,
       nombre:        usuarioActual ? usuarioActual.nombre : null,
       items: ids.map(function(id){
-        var it = carrito[id];
-        var item = {id:id, nombre:it.nombre, cantidad:it.cantidad, precio:it.precio, categoria:it.categoria};
-        if (it.detalle) item.detalle = it.detalle;
-        return item;
+        return {id:id, nombre:carrito[id].nombre, cantidad:carrito[id].cantidad, precio:carrito[id].precio, categoria:carrito[id].categoria};
       })
     })
   })
@@ -1150,39 +1144,14 @@ function enviarPedido() {
   });
 }
 
-function formatearDetalleExito(detalle) {
-  if (!detalle) return '';
-  var items = detalle.split(/\s*\+\s*/);
-  return items.map(function(item) {
-    item = item.trim();
-    // "1x Arma tu Empanada (-Mechada, Jamón, Tomate)"
-    var m = item.match(/^(\d+)\s*x\s*(.+)$/);
-    if (m) {
-      var cant = m[1];
-      var resto = m[2].trim();
-      var opciones = null;
-      var parenIdx = resto.indexOf('(-');
-      if (parenIdx >= 0 && resto.endsWith(')')) {
-        opciones = resto.substring(parenIdx + 2, resto.length - 1).trim();
-        resto = resto.substring(0, parenIdx).trim();
-      }
-      var html = cant + ' ' + resto;
-      if (opciones) {
-        html += '<br><span style="font-size:12px;color:#999;padding-left:12px;display:inline-block">\u2514 ' + opciones + '</span>';
-      }
-      return html;
-    }
-    return item;
-  }).join('<br>');
-}
 function mostrarExito(numero, nombre, telefono, detalle, total, fechaEntrega) {
   document.getElementById('exitoNum').style.display = 'none';
   document.getElementById('exitoDetalle').innerHTML =
     '<strong>Cliente:</strong> ' + nombre + '<br>' +
     (telefono !== '-' ? '<strong>Tel:</strong> ' + telefono + '<br>' : '') +
-    '<strong>Pedido:</strong> ' + formatearDetalleExito(detalle) +
-    (fechaEntrega ? '<br><strong>Entrega:</strong> ' + fechaEntrega : '') +
-    (total > 0 ? '<br><strong>Total:</strong> $' + total.toLocaleString('es-CL') : '');
+    '<strong>Pedido:</strong> ' + detalle + '<br>' +
+    (fechaEntrega ? '<strong>Entrega:</strong> ' + fechaEntrega + '<br>' : '') +
+    (total > 0 ? '<strong>Total:</strong> $' + total.toLocaleString('es-CL') : '');
   var msg = '*Hola! Acabo de hacer un pedido:*\n\n'
     + '*Nombre:* ' + nombre + '\n'
     + (telefono !== '-' ? '*Tel:* ' + telefono + '\n' : '')
@@ -1219,7 +1188,7 @@ function mostrarErrorHorario(mensaje) {
   panel.innerHTML =
     '<div style="font-size:64px;margin-bottom:16px;animation:none">\u23F0</div>'
     + '<div style="font-family:\'Playfair Display\',serif;font-size:1.8rem;font-weight:700;color:#ff6b6b;margin-bottom:8px">Fuera de horario</div>'
-    + '<div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px">La tienda esta cerrada</div>'
+    + '<div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px">Pedido no disponible</div>'
     + '<div style="font-size:.9rem;color:var(--text-muted);background:var(--bg-card2);border:1px solid rgba(255,107,107,.2);border-radius:10px;padding:14px 16px;margin-bottom:24px;line-height:1.7;text-align:center">'
     + mensaje
     + '</div>'
@@ -1283,7 +1252,7 @@ function mostrarWebCerrada() {
    var banner = document.createElement('div');
    banner.id = 'bannerCerrado';
    banner.style.cssText = 'margin:16px auto 0;max-width:420px;padding:14px 20px;background:rgba(220,50,50,.15);border:1px solid rgba(220,50,50,.4);border-radius:12px;color:#ff8080;font-size:.9rem;font-weight:500;text-align:center';
-    banner.textContent = '\u26D4 Local cerrado — vuelve pronto';
+   banner.textContent = '\u26D4 Pedidos cerrados por hoy — vuelve pronto';
    hero.appendChild(banner);
    }
 }
@@ -1343,7 +1312,7 @@ function confirmarArma() {
     carrito[key] = { nombre: nombre, detalle: detalle, precio: _armaPrecio, cantidad: 1 };
   }
   sessionStorage.setItem('carta_carrito', JSON.stringify(carrito));
-  actualizarCarrito();
+  renderCarrito();
   cerrarArmaModal();
 }
 </script>
