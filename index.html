@@ -65,10 +65,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border)}
 .card-price{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--gold-light)}
 .card-price-consult{font-size:.8rem;color:var(--text-muted);font-style:italic}
-.card-badge{font-size:10px;font-weight:600;letter-spacing:1px;color:var(--bg);background:var(--gold);padding:3px 10px;border-radius:12px;text-transform:uppercase}
+.card-badge{font-size:10px;font-weight:600;letter-spacing:1px;padding:4px 10px;border-radius:20px;text-transform:uppercase;position:absolute;top:10px;right:10px;z-index:1}
 .card-add-btn{position:absolute;bottom:12px;right:12px;background:var(--gold);border:none;color:var(--bg);width:36px;height:36px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:16px;transition:all .2s;opacity:0}
 .card:hover .card-add-btn{opacity:1;transform:scale(1.1)}
 .card-add-btn:hover{background:var(--gold-light)}
+.card-tap-hint{font-size:11px;color:#4a6f75;display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none}
+.card-tap-hint:hover{color:#40cee0}
 .empty{text-align:center;padding:48px 20px;border:2px dashed var(--border);border-radius:var(--radius);color:var(--text-muted);font-style:italic;font-size:.9rem}
 .carrito-flotante{position:fixed;bottom:30px;right:30px;z-index:1000;background:var(--gold);border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 24px rgba(64,206,224,.4);transition:all .3s}
 .carrito-flotante:hover{transform:scale(1.1);box-shadow:0 12px 32px rgba(64,206,224,.5)}
@@ -156,9 +158,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .toast-pasteleria{position:fixed;bottom:110px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);border:1px solid var(--gold);border-radius:12px;padding:14px 22px;color:var(--text);font-size:.875rem;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.6);max-width:340px;text-align:center;opacity:0;transition:all .35s;pointer-events:none}
 .toast-pasteleria.visible{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast-pasteleria span{color:var(--gold);font-weight:600}
-.card-badge-ok{background:#2ecc71 !important;color:#09100f !important}
-.card-badge-agotado{background:rgba(255,80,80,.15) !important;color:#ff5555 !important;border:1px solid rgba(255,80,80,.3) !important}
-.card-panaderia-badge{background:var(--gold-dim);color:var(--gold)}
+.card-badge-ok{background:rgba(64,206,224,0.2) !important;color:#40cee0 !important;border:1px solid rgba(64,206,224,0.3) !important}
+.card-badge-agotado{background:rgba(255,100,100,0.2) !important;color:#ff8888 !important;border:1px solid rgba(255,100,100,0.3) !important}
+.card-panaderia-badge{background:rgba(64,206,224,0.2);color:#40cee0;border:1px solid rgba(64,206,224,0.3)}
 .form-group input[type=date]{color-scheme:dark}
 .form-aviso{background:var(--gold-dim);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:.8rem;color:var(--gold-light);line-height:1.5;margin-bottom:4px}
 .form-aviso strong{color:var(--gold)}
@@ -250,7 +252,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-panaderia-badge'>Cargando...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -258,7 +261,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
-          <span class='card-badge card-panaderia-badge'>Cargando...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -266,7 +269,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-panaderia-badge'>Cargando...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -274,7 +278,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
-          <span class='card-badge card-panaderia-badge'>Cargando...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -282,7 +286,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-panaderia-badge'>Cargando...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -290,7 +295,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
-          <span class='card-badge card-panaderia-badge'>Cargando...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -298,7 +303,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-panaderia-badge'>Cargando...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -306,7 +312,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$250</span>
-          <span class='card-badge card-panaderia-badge'>Cargando...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -314,7 +320,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-panaderia-badge'>Cargando...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -322,7 +329,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$300</span>
-          <span class='card-badge card-panaderia-badge'>Cargando...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -330,7 +337,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-panaderia-badge'>Cargando...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -338,7 +346,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$250</span>
-          <span class='card-badge card-panaderia-badge'>Cargando...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -355,7 +363,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='abrirArmaModal(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Arma_tu_empanada'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();abrirArmaModal(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -363,7 +372,7 @@ var _catalogoNombres = {
         <div class='card-desc'>El queso viene incluido</div>
         <div class='card-footer'>
           <span class='card-price'>$2.000</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Arma_tu_empanada'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -371,7 +380,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Camar_n_Queso'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -379,7 +389,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.800</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Camar_n_Queso'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -387,7 +397,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Carne_Queso'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -395,7 +406,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.500</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Carne_Queso'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -403,7 +414,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Mariscos'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -411,7 +423,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.700</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Mariscos'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -419,7 +431,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Mechada'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -427,7 +440,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$2.000</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Mechada'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -435,7 +448,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Mechada_Queso'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -443,7 +457,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$2.200</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Mechada_Queso'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -451,7 +465,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Napolitana'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -459,7 +474,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.500</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Napolitana'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -467,7 +482,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Pino_Carne'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -475,7 +491,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.400</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Pino_Carne'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -483,7 +499,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Pino_Pollo'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -491,7 +508,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.700</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Pino_Pollo'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -499,7 +516,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Pollo_Queso'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -507,7 +525,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.800</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Pollo_Queso'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -515,7 +533,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Queso'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -523,7 +542,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.300</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Queso'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -531,7 +550,8 @@ var _catalogoNombres = {
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
-        <button class='card-add-btn' onclick='agregarDesdeCard(this)'>+</button>
+        <span class='card-badge card-stock-badge' id='badge_prod_Queso_Champi_on_Cebollin'>...</span>
+        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)' style='display:none'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -539,7 +559,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.700</span>
-          <span class='card-badge card-stock-badge' id='badge_prod_Queso_Champi_on_Cebollin'>...</span>
+          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
         </div>
       </div>
     </div>
@@ -681,6 +701,28 @@ function normalizar(txt) {
     .replace(/[\u0300-\u036f]/g, '');
 }
 
+function expandirCard(hint) {
+  var card = hint.closest('.card');
+  if (!card) return;
+  // Verificar si la tienda está abierta para esta categoría
+  var catReal    = normalizar(card.getAttribute('data-cat-real') || '');
+  var tieneStock = card.getAttribute('data-tiene-stock') === 'true';
+  var hora       = getHoraSantiago();
+  if (tieneStock && (hora < 18 || hora >= 22)) return;
+  if (catReal.indexOf('panader') !== -1 && (hora < 12 || hora >= 15)) return;
+  if ((catReal.indexOf('reposteri') !== -1 || catReal.indexOf('pasteler') !== -1) && (hora < 12 || hora >= 22)) return;
+  var btn = card.querySelector('.card-add-btn');
+  var tapHint = card.querySelector('.card-tap-hint');
+  if (btn) {
+    btn.style.display = 'flex';
+    btn.style.opacity = '1';
+    btn.style.cursor = '';
+    btn.disabled = false;
+  }
+  if (tapHint) tapHint.style.display = 'none';
+  card.setAttribute('data-expanded', 'true');
+}
+
 function cargarStock() {
   if (!SUPABASE_URL || SUPABASE_URL === '') {
     aplicarStockEnCards();
@@ -704,6 +746,8 @@ function cargarStock() {
 }
 
 function aplicarEstadoGlobal() {
+  // Si el servidor dice que la web está abierta, no forzar cerrado
+  if (_webAbierta) return false;
   var hora = getHoraSantiago();
   var cerrado = hora < 12 || hora >= 22;
   if (!cerrado) return false;
@@ -713,11 +757,14 @@ function aplicarEstadoGlobal() {
     var tieneStock = card.getAttribute('data-tiene-stock') === 'true';
     var badge      = card.querySelector('.card-stock-badge, .card-panaderia-badge');
     var btnAdd     = card.querySelector('.card-add-btn');
+    var tapHint    = card.querySelector('.card-tap-hint');
     if (!badge) return;
 
     badge.textContent = 'Cerrado';
     badge.className   = 'card-badge card-badge-agotado';
-    if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
+    if (btnAdd) { btnAdd.style.display = 'none'; btnAdd.disabled = true; }
+    if (tapHint) { tapHint.style.display = 'none'; }
+    card.setAttribute('data-expanded', 'false');
   });
   return true;
 }
@@ -734,11 +781,13 @@ function aplicarStockEnCards() {
     // Si ya fue marcado como Cerrado, no sobreescribir
     if (badge.textContent === 'Cerrado') return;
     var btnAdd   = card.querySelector('.card-add-btn');
+    var tapHint  = card.querySelector('.card-tap-hint');
 
     if (!dentroHorarioEmpanadas) {
       badge.textContent = 'Desde 18:00H';
       badge.className   = 'card-badge card-stock-badge card-panaderia-badge';
-      if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
+      if (btnAdd) { btnAdd.style.display = 'none'; btnAdd.disabled = true; }
+      if (tapHint) { tapHint.style.display = 'none'; }
       return;
     }
 
@@ -752,13 +801,15 @@ function aplicarStockEnCards() {
     if (stock === null) {
       badge.textContent = 'Disponible';
       badge.className   = 'card-badge card-stock-badge card-badge-ok';
-      if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
+      if (btnAdd) { btnAdd.style.display = 'none'; btnAdd.disabled = false; }
+      if (tapHint) { tapHint.style.display = 'flex'; }
       return;
     }
     if (stock > 0) {
       badge.textContent = 'Disponible';
       badge.className   = 'card-badge card-stock-badge card-badge-ok';
-      if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
+      if (btnAdd) { btnAdd.style.display = 'none'; btnAdd.disabled = false; }
+      if (tapHint) { tapHint.style.display = 'flex'; }
     } else {
       badge.textContent = 'No disponible';
       badge.className   = 'card-badge card-stock-badge card-badge-agotado';
@@ -777,6 +828,7 @@ function aplicarHorarioPanaderia() {
     var badge   = card.querySelector('.card-panaderia-badge');
     if (!badge) return;
     var btnAdd  = card.querySelector('.card-add-btn');
+    var tapHint = card.querySelector('.card-tap-hint');
 
     var esPanaderia = catReal.indexOf('panader') !== -1;
     var esReposPast = catReal.indexOf('reposteri') !== -1 || catReal.indexOf('pasteler') !== -1;
@@ -786,21 +838,25 @@ function aplicarHorarioPanaderia() {
       if (dispRepost) {
         badge.textContent = 'Pedido anticipado';
         badge.className   = 'card-badge card-badge-ok';
-        if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
+        if (btnAdd) { btnAdd.style.display = 'none'; btnAdd.disabled = false; }
+        if (tapHint) { tapHint.style.display = 'flex'; }
       } else {
         badge.textContent = 'Cerrado';
         badge.className   = 'card-badge card-badge-agotado';
-        if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
+        if (btnAdd) { btnAdd.style.display = 'none'; btnAdd.disabled = true; }
+        if (tapHint) { tapHint.style.display = 'none'; }
       }
     } else if (esPanaderia) {
       if (dispPanaderia) {
         badge.textContent = 'Disponible';
         badge.className   = 'card-badge card-badge-ok';
-        if (btnAdd) { btnAdd.disabled = false; btnAdd.style.opacity = ''; btnAdd.style.cursor = ''; }
+        if (btnAdd) { btnAdd.style.display = 'none'; btnAdd.disabled = false; }
+        if (tapHint) { tapHint.style.display = 'flex'; }
       } else {
         badge.textContent = 'Cerrado';
         badge.className   = 'card-badge card-badge-agotado';
-        if (btnAdd) { btnAdd.disabled = true; btnAdd.style.opacity = '0.3'; btnAdd.style.cursor = 'not-allowed'; }
+        if (btnAdd) { btnAdd.style.display = 'none'; btnAdd.disabled = true; }
+        if (tapHint) { tapHint.style.display = 'none'; }
       }
     }
   });
@@ -885,10 +941,13 @@ function sanitizar(txt) {
 }
 
 window.addEventListener('load', function() {
+  // 1) Mostrar cerrado INMEDIATAMENTE (sin flash de abierto)
+  mostrarWebCerrada();
+  // 2) Consultar servidor y actualizar estado
   verificarEstadoWeb();
-  aplicarEstadoGlobal();
+  // 3) Stock y horarios (independientes del estado global)
   cargarStock();
-  aplicarHorarioPanaderia();
+  // 4) Auth
   if (typeof google !== 'undefined') initGoogleAuth();
   else {
     var s = document.querySelector('script[src*="gsi"]');
@@ -907,6 +966,8 @@ window.addEventListener('load', function() {
   });
   // Restaurar badge del carrito si venía de redirect de Google
   if (Object.keys(carrito).length > 0) actualizarCarrito();
+  // 5) Polling: refrescar estado cada 60s
+  setInterval(function() { verificarEstadoWeb(); }, 60000);
 });
 function parsePrecio(p) {
   if (!p) return 0;
@@ -924,6 +985,10 @@ function agregarDesdeCard(btn) {
     mostrarAlertaPasteleria();
   }
   agregarAlCarrito(id, nombre, precio, catReal);
+  // Actualizar botón para mostrar cantidad
+  if (carrito[id]) {
+    btn.innerHTML = '&#10003; ' + carrito[id].cantidad;
+  }
 }
 function agregarAlCarrito(id, nombre, precio, categoria) {
   if (!carrito[id]) carrito[id] = {nombre:nombre, cantidad:0, precio:parsePrecio(precio), categoria:categoria||''};
@@ -934,13 +999,37 @@ function sumarDesdeCarrito(id) {
   if (!carrito[id]) return;
   carrito[id].cantidad++;
   actualizarCarrito();
+  // Actualizar botón del card
+  var card = document.querySelector('.card[data-id="' + id + '"]');
+  if (card) {
+    var btn = card.querySelector('.card-add-btn');
+    if (btn) { btn.innerHTML = '&#10003; ' + carrito[id].cantidad; }
+  }
 }
 function quitarDelCarrito(id) {
-  if (!carrito[id] || carrito[id].cantidad <= 1) return;
+  if (!carrito[id] || carrito[id].cantidad <= 1) {
+    removerProducto(id);
+    return;
+  }
   carrito[id].cantidad--;
   actualizarCarrito();
+  // Actualizar botón del card
+  var card = document.querySelector('.card[data-id="' + id + '"]');
+  if (card) {
+    var btn = card.querySelector('.card-add-btn');
+    if (btn) { btn.innerHTML = '&#10003; ' + carrito[id].cantidad; }
+  }
 }
-function removerProducto(id) { delete carrito[id]; actualizarCarrito(); }
+function removerProducto(id) { 
+  delete carrito[id]; 
+  actualizarCarrito(); 
+  // Resetear el botón del card
+  var card = document.querySelector('.card[data-id="' + id + '"]');
+  if (card) {
+    var btn = card.querySelector('.card-add-btn');
+    if (btn) { btn.innerHTML = '+'; }
+  }
+}
 function actualizarCarrito() {
   var ids   = Object.keys(carrito);
   var badge = document.getElementById('carrioBadge');
@@ -974,6 +1063,10 @@ function vaciarCarrito() {
   Object.keys(carrito).forEach(function(id){ delete carrito[id]; });
   window._pasteleriaAlertado = false;
   actualizarCarrito();
+  // Resetear todos los botones de agregar
+  document.querySelectorAll('.card-add-btn').forEach(function(btn) {
+    btn.innerHTML = '+';
+  });
   try { sessionStorage.removeItem('carta_carrito'); } catch(e) {}
 }
 function abrirCarrito() {
@@ -1187,7 +1280,7 @@ function mostrarErrorHorario(mensaje) {
   panel.style.borderColor = 'rgba(255,107,107,.3)';
   panel.innerHTML =
     '<div style="font-size:64px;margin-bottom:16px;animation:none">\u23F0</div>'
-    + '<div style="font-family:\'Playfair Display\',serif;font-size:1.8rem;font-weight:700;color:#ff6b6b;margin-bottom:8px">Fuera de horario</div>'
+    + '<div style="font-family:\'Playfair Display\',serif;font-size:1.8rem;font-weight:700;color:#ff6b6b;margin-bottom:8px">Local cerrado</div>'
     + '<div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px">Pedido no disponible</div>'
     + '<div style="font-size:.9rem;color:var(--text-muted);background:var(--bg-card2);border:1px solid rgba(255,107,107,.2);border-radius:10px;padding:14px 16px;margin-bottom:24px;line-height:1.7;text-align:center">'
     + mensaje
@@ -1225,15 +1318,21 @@ function verificarEstadoWeb() {
      .then(function(r) {return r.json(); })
      .then(function(data) {
        if(!data.abierta) { _webAbierta = false; mostrarWebCerrada(); }
-       else { _webAbierta = true; aplicarHorarioPanaderia(); cargarStock(); }
+       else {
+         _webAbierta = true;
+         mostrarWebAbierta();
+         aplicarHorarioPanaderia(); cargarStock();
+       }
    })
    .catch(function() { _webAbierta = false; mostrarWebCerrada(); });
 }
 function mostrarWebCerrada() {
   document.querySelectorAll('.card-add-btn').forEach(function(btn) {
+    btn.style.display = 'none';
     btn.disabled = true;
-    btn.style.opacity = '0';
-    btn.style.cursor = 'not-allowed';
+   });
+   document.querySelectorAll('.card-tap-hint').forEach(function(hint) {
+    hint.style.display = 'none';
    });
    document.querySelectorAll('.card-badge, .card-stock-badge, .card-panaderia-badge')
     .forEach(function(badge) {
@@ -1252,9 +1351,27 @@ function mostrarWebCerrada() {
    var banner = document.createElement('div');
    banner.id = 'bannerCerrado';
    banner.style.cssText = 'margin:16px auto 0;max-width:420px;padding:14px 20px;background:rgba(220,50,50,.15);border:1px solid rgba(220,50,50,.4);border-radius:12px;color:#ff8080;font-size:.9rem;font-weight:500;text-align:center';
-   banner.textContent = '\u26D4 Pedidos cerrados por hoy — vuelve pronto';
+   banner.textContent = '\u26D4 Local cerrado \u2014 vuelve pronto';
    hero.appendChild(banner);
    }
+}
+function mostrarWebAbierta() {
+  // Quitar banner cerrado
+  var b = document.getElementById('bannerCerrado');
+  if (b) b.remove();
+  // Restaurar btn Pedir
+  var btnPedir = document.querySelector('.btn-pedir');
+  if (btnPedir) {
+    btnPedir.disabled = false;
+    btnPedir.textContent = 'Hacer Pedido \u2192';
+    btnPedir.style.background = '';
+    btnPedir.style.cursor = '';
+  }
+  // Resetear badges agotado a '...'
+  document.querySelectorAll('.card-badge-agotado').forEach(function(badge) {
+    badge.textContent = '...';
+    badge.className = 'card-badge card-stock-badge';
+  });
 }
 var _armaConfig = null;
 var _armaSeleccion = [];
@@ -1312,7 +1429,13 @@ function confirmarArma() {
     carrito[key] = { nombre: nombre, detalle: detalle, precio: _armaPrecio, cantidad: 1 };
   }
   sessionStorage.setItem('carta_carrito', JSON.stringify(carrito));
-  renderCarrito();
+  actualizarCarrito();
+  // Actualizar botón del card para mostrar cantidad
+  var card = document.querySelector('.card[data-id="' + key + '"]');
+  if (card) {
+    var btn = card.querySelector('.card-add-btn');
+    if (btn) { btn.innerHTML = '&#10003; ' + carrito[key].cantidad; }
+  }
   cerrarArmaModal();
 }
 </script>
