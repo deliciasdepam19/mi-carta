@@ -66,11 +66,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .card-price{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--gold-light)}
 .card-price-consult{font-size:.8rem;color:var(--text-muted);font-style:italic}
 .card-badge{font-size:10px;font-weight:600;letter-spacing:1px;padding:4px 10px;border-radius:20px;text-transform:uppercase;position:absolute;top:10px;right:10px;z-index:1}
-.card-add-btn{position:absolute;bottom:12px;right:12px;background:var(--gold);border:none;color:var(--bg);width:36px;height:36px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:16px;transition:all .2s;opacity:0}
+.card-add-btn{background:var(--gold);border:none;color:var(--bg);width:32px;height:32px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:16px;transition:all .2s;opacity:0;flex-shrink:0}
 .card:hover .card-add-btn{opacity:1;transform:scale(1.1)}
 .card-add-btn:hover{background:var(--gold-light)}
-.card-tap-hint{font-size:11px;color:#4a6f75;display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none}
-.card-tap-hint:hover{color:#40cee0}
 .empty{text-align:center;padding:48px 20px;border:2px dashed var(--border);border-radius:var(--radius);color:var(--text-muted);font-style:italic;font-size:.9rem}
 .carrito-flotante{position:fixed;bottom:30px;right:30px;z-index:1000;background:var(--gold);border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 24px rgba(64,206,224,.4);transition:all .3s}
 .carrito-flotante:hover{transform:scale(1.1);box-shadow:0 12px 32px rgba(64,206,224,.5)}
@@ -254,7 +252,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-panaderia-badge'>Cargando...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -262,7 +259,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -271,7 +268,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-panaderia-badge'>Cargando...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -279,7 +275,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -288,7 +284,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-panaderia-badge'>Cargando...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -296,7 +291,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$200</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -305,7 +300,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-panaderia-badge'>Cargando...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -313,7 +307,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$250</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -322,7 +316,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-panaderia-badge'>Cargando...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -330,7 +323,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$300</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -339,7 +332,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥖</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-panaderia-badge'>Cargando...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Panadería</div>
@@ -347,7 +339,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$250</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -360,12 +352,11 @@ var _catalogoNombres = {
     <div class='section-title'>Empanadas</div>
   </div>
   <div class='grid'>
-    <div class='card' data-id="prod_Arma_tu_empanada" data-precio="2000" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="arma_tu_empanada" data-arma='{&quot;grupos&quot;:[{&quot;titulo&quot;:&quot;Proteína&quot;,&quot;opciones&quot;:[&quot;Mechada&quot;,&quot;Pino&quot;,&quot;Pollo&quot;,&quot;Camarón&quot;]},{&quot;titulo&quot;:&quot;Opción 1&quot;,&quot;opciones&quot;:[&quot;Jamón&quot;,&quot;Cebollín&quot;,&quot;Aceituna&quot;,&quot;Choclo&quot;]},{&quot;titulo&quot;:&quot;Opción 2&quot;,&quot;opciones&quot;:[&quot;Tomate&quot;,&quot;Palmito&quot;,&quot;Champiñón&quot;,&quot;Cebolla Morada&quot;]}]}'>
+    <div class='card' data-id="prod_Arma_tu_empanada" data-precio="2000" data-cat="Empanada" data-cat-real="empanadas" data-tiene-stock="true" data-nombre-bd="arma_tu_empanada">
       <div class='card-img-wrap'>
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Arma_tu_empanada'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();abrirArmaModal(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -373,7 +364,7 @@ var _catalogoNombres = {
         <div class='card-desc'>El queso viene incluido</div>
         <div class='card-footer'>
           <span class='card-price'>$2.000</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -382,7 +373,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Camar_n_Queso'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -390,7 +380,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.800</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -399,7 +389,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Carne_Queso'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -407,7 +396,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.500</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -416,7 +405,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Mariscos'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -424,7 +412,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.700</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -433,7 +421,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Mechada'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -441,7 +428,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$2.000</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -450,7 +437,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Mechada_Queso'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -458,7 +444,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$2.200</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -467,7 +453,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Napolitana'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -475,7 +460,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.500</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -484,7 +469,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Pino_Carne'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -492,7 +476,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.400</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -501,7 +485,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Pino_Pollo'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -509,7 +492,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.700</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -518,7 +501,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Pollo_Queso'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -526,7 +508,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.800</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -535,7 +517,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Queso'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -543,7 +524,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.300</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
@@ -552,7 +533,6 @@ var _catalogoNombres = {
 <div class='card-img-emoji'>🥟</div>
         <div class='card-img-overlay'></div>
         <span class='card-badge card-stock-badge' id='badge_prod_Queso_Champi_on_Cebollin'>...</span>
-        <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
       </div>
       <div class='card-body'>
         <div class='card-cat'>Empanadas</div>
@@ -560,7 +540,7 @@ var _catalogoNombres = {
         <div class='card-desc'></div>
         <div class='card-footer'>
           <span class='card-price'>$1.700</span>
-          <span class='card-tap-hint' onclick='event.stopPropagation();expandirCard(this)'>Tocá para ver opciones &#9662;</span>
+          <button class='card-add-btn' onclick='event.stopPropagation();agregarDesdeCard(this)'>+</button>
         </div>
       </div>
     </div>
