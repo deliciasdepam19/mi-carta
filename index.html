@@ -1154,7 +1154,7 @@ function enviarPedido() {
   document.getElementById('inputTelefono').style.borderColor = '';
   telefono = telefono || '-';
   var ids      = Object.keys(carrito);
-  var detalle  = ids.map(function(id){ var it = carrito[id]; var s = it.cantidad + 'x ' + it.nombre; if (it.detalle) s += ' (-' + it.detalle + ')'; return s; }).join(' + ');
+  var detalle  = ids.map(function(id){ var it = carrito[id]; var s = it.cantidad + ' ' + it.nombre; if (it.detalle) s += ' (-' + it.detalle + ')'; return s; }).join(' | ');
   var total    = ids.reduce(function(s,id){ return s + carrito[id].cantidad * carrito[id].precio; }, 0);
   var hora     = getHoraSantiago();
   console.log('Hora Santiago:', hora);
