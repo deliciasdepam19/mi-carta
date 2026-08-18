@@ -1421,13 +1421,26 @@ function enviarPedido() {
 
 function mostrarExito(numero, nombre, telefono, detalle, total, fechaEntrega) {
   document.getElementById('exitoNum').style.display = 'none';
-  var detalleHtml = detalle.replace(/\(([^)]+)\)/g, '<br>&nbsp;&nbsp;└ $1');
+  var partes = detalle.split(' | ');
+  var detalleHtml = '';
+  for (var i = 0; i < partes.length; i++) {
+    var item = partes[i].trim();
+    if (!item) continue;
+    // Extraer nombre y opciones de '(opciones)'
+    var idx = item.indexOf(' (-');
+    var nombreItem = idx >= 0 ? item.substring(0, idx) : item;
+    var opciones = idx >= 0 ? item.substring(idx + 2) : '';
+    detalleHtml += '<div style=\'margin-bottom:4px\'>' + nombreItem + '</div>';
+    if (opciones) {
+      detalleHtml += '<div style=\'font-size:.8em;color:var(--text-muted);margin-left:12px\'>&#9500; ' + opciones.replace(/^\(|\)$/g, '') + '</div>';
+    }
+  }
   document.getElementById('exitoDetalle').innerHTML =
     '<strong>Cliente:</strong> ' + nombre + '<br>' +
     (telefono !== '-' ? '<strong>Tel:</strong> ' + telefono + '<br>' : '') +
-    '<strong>Pedido:</strong> ' + detalleHtml + '<br>' +
-    (fechaEntrega ? '<strong>Entrega:</strong> ' + fechaEntrega + '<br>' : '') +
-    (total > 0 ? '<strong>Total:</strong> $' + total.toLocaleString('es-CL') : '');
+    '<strong>Pedido:</strong><div style=\'margin-top:4px\'>' + detalleHtml + '</div>' +
+    (fechaEntrega ? '<br><strong>Entrega:</strong> ' + fechaEntrega : '') +
+    (total > 0 ? '<br><strong>Total:</strong> $' + total.toLocaleString('es-CL') : '');
   var msg = '*Hola! Acabo de hacer un pedido:*\n\n'
     + '*Nombre:* ' + nombre + '\n'
     + (telefono !== '-' ? '*Tel:* ' + telefono + '\n' : '')
